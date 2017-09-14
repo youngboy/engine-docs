@@ -80,7 +80,7 @@ import {
   TraceCollector,
   instrumentSchemaForTracing,
   formatTraceData
-} from 'apollo-tracing'
+} from 'apollo-tracing';
 
 ...
 
