@@ -3,13 +3,13 @@ title: Configure Engine for Node Servers
 order: 1
 ---
 
-We provide an NPM package that includes a pre-built copy of the Engine proxy. It spawns an Engine process side-by-side with the Graphql server process. Incoming graphql operations get routed through the proxy and then into your server.
+We provide an NPM package that includes a pre-built copy of the Engine proxy. It spawns an Engine process side-by-side with your GraphQL server process. Incoming GraphQL operations get routed through the Engine proxy and then into your server.
 
-These are the set of steps you'll follow to configure Engine:
+The steps you'll follow to configure Engine are:
 
-* Install the NPM Engine package.
-* Install Apollo tracing for your GraphQL server
-* Deploy your server - you are then all set up!
+1. Install the NPM Engine package.
+2. Install Apollo tracing for your GraphQL server
+3. Deploy your server - you are then all set up!
 
 ## Install the NPM Engine agent
 
@@ -20,7 +20,7 @@ npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apoll
 ```
 
 The Engine proxy uses a JSON object to get configuration information. 
-Instrument your server code with Engine:
+Instrument your Node server code to support Engine by adding the following to the top of your server script:
 
 ```
 import { Engine } from 'apollo-engine';
@@ -32,7 +32,8 @@ const engine = new Engine({ engineConfig: { "apiKey": "<ENGINE_API_KEY>" } });
 const engine = new Engine({ engineConfig: 'path/to/config.json' });
 
 await engine.start();
-// Invoke the function that corresponds to your Node Middleware. Choose from expressMiddleware(), connectMiddleware(), instrumentHapiServer() or koaMiddleware()
+// Invoke the function that corresponds to your Node Middleware. 
+// Choose from expressMiddleware(), connectMiddleware(), instrumentHapiServer() or koaMiddleware()
 // For example, when using Express:
 app.use(engine.expressMiddleware());
 
@@ -60,7 +61,7 @@ Install Apollo tracing in your GraphQL server to enable Engine to receive perfor
 
 Apollo Server includes built-in support for tracing from version 1.1.0 onwards.
 
-The only code change required is to add tracing: true to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
+The only code change required is to add "tracing: true" to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
 ```
 app.use('/graphql', bodyParser.json(), graphqlExpress({
@@ -72,7 +73,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 
 ### Using express-graphql
 
-Using Apollo Tracing with express-graphql requires these additions to your server code:
+Using Apollo Tracing with Express GraphQL requires these additions to your server code:
 
 ```
 import {
@@ -109,13 +110,13 @@ app.use('/graphql',
 
 For more information, see the Github project: https://github.com/apollographql/apollo-tracing-js
 
-### Enable gzip compression
+### Enable gzip compression [Optional]
 
 We recommend that you enable gzip compression in your GraphQL server, because the tracing format adds to the response size but compresses well.
 
 **Express**
 
-Install the compression middleware (https://github.com/expressjs/compression) package into your app with npm install compression --save and add it to your server's middleware stack:
+Install the compression middleware (https://github.com/expressjs/compression) package into your app with "npm install compression --save" and add it to your server's middleware stack as follows:
 
 ```
 var compression = require('compression')
@@ -125,7 +126,7 @@ app.use(compression());
 
 **Koa**
 
-Install the compress middleware (https://github.com/koajs/compress) package into your app with npm install koa-compress --save and add it to your server's middleware stack:
+Install the compress middleware (https://github.com/koajs/compress) package into your app with "npm install koa-compress --save" and add it to your server's middleware stack as follows:
 
 ```
 var compress = require('koa-compress')
