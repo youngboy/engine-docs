@@ -1,0 +1,3 @@
+export AWS_BUCKET=apea3456.apollographql.com
+export AWS_KEY=AKIAJC74TDFOQIKM4W5A
+export AWS_SECRET=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
