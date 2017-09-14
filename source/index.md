@@ -22,6 +22,15 @@ Engine currently supports the following GraphQL Servers:
 
 The Engine Proxy can be deployed through either of two deployment options: **Side-loader package** or **Standalone Docker container**.
 
+| Server Runtime | Side-loader package | Standalone Docker container |
+| -------------- | ------------------- | --------------------------- |
+| | | |
+| Apollo Server and Express-GraphQL (Node) | Supported | Supported | 
+| GraphQL-Ruby | Not available | Supported |
+| GraphQL-Java | Not available | Supported |
+| Sangria (Scala) | Not available | Supported | 
+| Absinthe (Elixir) | Not available | Supported | 
+
 ### Side-loader package
 
 Available for: Node servers
