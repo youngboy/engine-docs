@@ -13,6 +13,10 @@ These are the set of steps you'll follow to configure Engine:
 
 Get an API Key by creating a service on http://engine.apollographql.com/.
 
+The proxy uses a JSON object to get configuration information. If the configuration is provided as a filename, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.
+
+Create a JSON configuration file:
+
 ```
 {
   "origins": [
@@ -33,13 +37,14 @@ Get an API Key by creating a service on http://engine.apollographql.com/.
   }
 }
 ```
+Where:
 
 1. origin.URL : The URL for your GraphQL server
 2. frontend.host : The hostname the proxy should be available on
 3. frontend.port : The port the proxy should bind to
 4. frontend.endpoint : The path for the GraphQL server . This is usually /graphql.
 
-To run the proxy:
+Run the proxy Docker container:
 
 ```
 engine_config_path=/path/to/engine.json
