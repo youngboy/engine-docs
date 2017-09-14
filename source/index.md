@@ -7,6 +7,8 @@ order: 0
 
 Engine runs as a proxy layer in front of GraphQL, provides performance telemetry (Optics functionality) and caches whole responses.
 
+Engine is in private Early Access. Please email rohit@apollodata.com with requests to join the Early Access program.
+
 Engine currently supports the following GraphQL Servers:
 
 - Apollo Server - Express, Hapi, Koa, Restify and Lambda
