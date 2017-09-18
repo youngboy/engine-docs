@@ -20,11 +20,11 @@ sidebar_categories:
     - setup-java
     - setup-ruby
     - caching
-github_repo: apollographql/engine-docs
+    - setup-lambda
+github_repo: mdg-private/engine-docs
 content_root: source
 
 social_links:
-  github: 'https://github.com/apollographql'
   twitter: '@apollographql'
 
 # API keys
@@ -45,7 +45,7 @@ nav_links:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://engine-docs.apollodata.com
+url: /
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
