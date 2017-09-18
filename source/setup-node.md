@@ -16,7 +16,7 @@ The steps you'll follow to configure Engine are:
 Install the npm package:
 
 ```
-npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apollo-engine-0.3.0.tgz
+npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apollo-engine-0.3.5.tgz
 ```
 
 The Engine proxy uses a JSON object to get configuration information. 
