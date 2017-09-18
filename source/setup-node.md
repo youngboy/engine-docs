@@ -16,7 +16,7 @@ The steps you'll follow to configure Engine are:
 Install the npm package:
 
 ```
-npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apollo-engine-0.3.0.tgz
+npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apollo-engine-0.3.5.tgz
 ```
 
 The Engine proxy uses a JSON object to get configuration information. 
@@ -33,6 +33,9 @@ const engine = new Engine({ engineConfig: 'path/to/config.json' });
 
 await engine.start();
 // Invoke the function that corresponds to your Node Middleware. 
+// It does not matter when you call engine.start, but it's important that app.use(engine middleware) 
+// is your first middleware. Since apollo-engine acts as a proxy, it must be added to the middleware 
+// that actually processes the query.
 // Choose from expressMiddleware(), connectMiddleware(), instrumentHapiServer() or koaMiddleware()
 // For example, when using Express:
 app.use(engine.expressMiddleware());
@@ -71,9 +74,9 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 }));
 ```
 
-### Using express-graphql
+### Using Express-Graphql
 
-Using Apollo Tracing with Express GraphQL requires these additions to your server code:
+Using Apollo Tracing with Express-GraphQL requires these additions to your server code:
 
 ```
 import {
