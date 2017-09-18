@@ -33,13 +33,13 @@ Here's an example configuration entry for cache stores:
 
 where:
 
-* name: user given id for the cache store
-* timeout: the timeout for the Proxy to connect to Memcached
-* memcaches: list of Memcache instances to be used for this cache store. Each Memcached configuration contains a Memcached URL. If this is omitted, an in-memory cache is created.
+* name: user-given id for the cache store
+* timeout: the timeout, with units, for the Proxy to connect to Memcached
+* [optional] memcaches: list of Memcache instances to be used for this cache store. Each Memcached configuration contains a Memcached URL. If this is omitted, an in-memory cache is created.
 
 ### Set TTL for a operation signature
 
-Here's an example configuration entry for configuring TTL and a cache store for each operation signature:
+Here's an example configuration entry for configuring TTL (in seconds) and a cache store for each operation signature:
 
 ```
 "operations": [
