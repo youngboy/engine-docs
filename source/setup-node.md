@@ -17,52 +17,67 @@ There are two options for configuring and deploying the Engine proxy with Node s
 
 We provide an NPM package that includes a pre-built copy of the Engine proxy. It spawns an Engine process side-by-side with your GraphQL server process. Incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
-Install the npm package:
+#### Install the npm package:
 
 ```
 npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apollo-engine-0.3.5.tgz
 ```
 
+#### Add Engine to the Node.js Server
+
 The Engine proxy uses a JSON object to get configuration information. You can instrument your Node server code to support Engine by adding the following to the **top** of your server's code:
+
+##### Import Engine
 
 ```
 import { Engine } from 'apollo-engine';
-
-// create a new engine instance from a JS config object
-const engine = new Engine({ engineConfig: { "apiKey": "<ENGINE_API_KEY>" } });
-
-// OR import your engine config object from a file
-const engine = new Engine({ engineConfig: 'path/to/config.json' });
-
-// tell engine to start running
-engine.start();
-
-// Invoke the function that corresponds to your Node Middleware. 
-// It's important that app.use(engine middleware) is your first middleware.
-// Since apollo-engine acts as a proxy, it must be added to the middleware that actually processes 
-// the query.
-// Choose from expressMiddleware(), connectMiddleware(), instrumentHapiServer() or koaMiddleware()
-// For example, when using Express:
-
-app.use(engine.expressMiddleware());
-
-// ...
-// other middleware / handlers
-// ...
 ```
 
-It's important that `app.use([engine middleware])` is called first, before your other middleware. Since `apollo-engine` acts as a proxy, it must be added before the middleware that actually processes the query.
+##### Create a new Engine instance
 
-It does not matter where you call `engine.start()` in your server, but the earlier engine is started the better. Your server will start normally and handle requests without the engine proxy until engine is ready.
+When you instantiate Engine, you have two options for referencing configuration fields.
+
+1. You can set the engine configuration directly with a json object. See “JSON Object”.
+2. Or, create a new engine instance that uses a config.json file. See “Config.json”.
+
+###### JSON OBJECT
+```
+const engine = new Engine({ engineConfig: { "apiKey": "<ENGINE_API_KEY>" } });
+```
+###### CONFIG.JSON
+```
+const engine = new Engine({ engineConfig: 'path/to/config.json' });
+```
+
+##### Optional Configurations
 
 If you want to change the endoint or port that the Engine proxy is available at, you can set these optional configurations:
 
 ```
 {
     engineConfig: string | EngineConfig, // Engine Configuration filename or object
-    endpoint?: string,                   // GraphQL endpoint - '/graphql' by default
+    endpoint?: string,                   // GraphQL endpoint suffix - '/graphql' by default
     graphqlPort?: number                 // GraphQL port - 'process.env.PORT' by default
 }
+```
+
+##### Add engine.start();
+```
+engine.start();
+```
+##### Invoke your Node.js middleware function
+
+**Important**: This must be first middleware call. Besides this requirement, it does not matter when you call engine.start in your server file, **as long as it is before the other middleware**. The earlier Engine is started the better. Since [in-line code block] `apollo-engine` acts as a proxy, it must be added to the middleware that actually processes the query. Your server will start normally and handle requests without the engine proxy until engine is ready.
+
+Choose from expressMiddleware(), connectMiddleware(), instrumentHapiServer() or koaMiddleware()
+
+For example, when using Express:
+```
+app.use(engine.expressMiddleware());
+
+// ...
+// other middleware / handlers
+// ...
 ```
 
 ### Standalone Docker Container
