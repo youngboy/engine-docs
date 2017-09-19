@@ -39,6 +39,7 @@ What are those things?
 2. `frontend.host` : The hostname the proxy should be available on
 3. `frontend.port` : The port the proxy should bind to
 4. `frontend.endpoint` : The path for the GraphQL server . This is usually /graphql.
+5. `logcfg/level` : Logging level for the proxy. Supported values are DEBUG, INFO, WARN, ERROR .
 
 ## Run the proxy Docker container:
 
@@ -47,7 +48,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine-ea-confidential:2017.08-54-gaae01ac9
+  gcr.io/mdg-public/engine-ea-confidential:2017.09-17-g4679f9a4
 ```
 
 
