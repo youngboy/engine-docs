@@ -37,9 +37,13 @@ const engine = new Engine({ engineConfig: 'path/to/config.json' });
 // tell engine to start running
 engine.start();
 
-// call the function that corresponds to your node middleware
-// choose from expressMiddleware(), connectMiddleware(), instrumentHapiServer(), or koaMiddleware()
-// for example, when using Express:
+// Invoke the function that corresponds to your Node Middleware. 
+// It's important that app.use(engine middleware) is your first middleware.
+// Since apollo-engine acts as a proxy, it must be added to the middleware that actually processes 
+// the query.
+// Choose from expressMiddleware(), connectMiddleware(), instrumentHapiServer() or koaMiddleware()
+// For example, when using Express:
+
 app.use(engine.expressMiddleware());
 
 // ...
