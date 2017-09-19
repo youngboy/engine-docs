@@ -31,7 +31,7 @@ const engine = new Engine({ engineConfig: { "apiKey": "<ENGINE_API_KEY>" } });
 // OR create new engine instance from file
 const engine = new Engine({ engineConfig: 'path/to/config.json' });
 
-await engine.start();
+engine.start();
 // Invoke the function that corresponds to your Node Middleware. 
 // It does not matter when you call engine.start, but it's important that app.use(engine middleware) 
 // is your first middleware. Since apollo-engine acts as a proxy, it must be added to the middleware 
