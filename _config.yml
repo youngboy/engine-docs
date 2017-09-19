@@ -19,8 +19,9 @@ sidebar_categories:
     - setup-scala
     - setup-java
     - setup-ruby
-    - caching
     - setup-lambda
+    - standalone-proxy
+    - caching
 github_repo: mdg-private/engine-docs
 content_root: source
 

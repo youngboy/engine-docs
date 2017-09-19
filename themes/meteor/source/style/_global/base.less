@@ -48,9 +48,21 @@ sup { top: -.2em; }
 b { .type-bold; }
 
 em {
-  .type-semibold;
-  font-style: normal;
+  .type-italic;
 }
+
+table {
+  td,
+  th {
+    padding: 0 1.875em 0 0;
+
+    &.gutter,
+    &.code {
+      padding: 0;
+    }
+  }
+}
+
 
 hr {
   border: none;
