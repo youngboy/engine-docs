@@ -65,7 +65,7 @@ If you want to change the endoint or port that the Engine proxy is available at,
 ```
 engine.start();
 ```
-##### Step : Invoke your Node.js middleware function
+##### Step 5: Invoke your Node.js middleware function
 
 **Important**: This must be first middleware call. Besides this requirement, it does not matter when you call engine.start in your server file, **as long as it is before the other middleware**. The earlier Engine is started the better. Since [in-line code block] `apollo-engine` acts as a proxy, it must be added to the middleware that actually processes the query. Your server will start normally and handle requests without the engine proxy until engine is ready.
 
