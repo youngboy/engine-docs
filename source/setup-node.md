@@ -17,23 +17,23 @@ There are two options for configuring and deploying the Engine proxy with Node s
 
 We provide an NPM package that includes a pre-built copy of the Engine proxy. It spawns an Engine process side-by-side with your GraphQL server process. Incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
-#### Install the npm package:
+#### Step 1: Install the npm package
 
 ```
 npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apollo-engine-0.3.5.tgz
 ```
 
-#### Add Engine to the Node.js Server
+#### Step 2: Add Engine to the Node.js Server
 
 The Engine proxy uses a JSON object to get configuration information. You can instrument your Node server code to support Engine by adding the following to the **top** of your server's code:
 
-##### Import Engine
+##### Step 3: Import Engine
 
 ```
 import { Engine } from 'apollo-engine';
 ```
 
-##### Create a new Engine instance
+##### Step 4: Create a new Engine instance
 
 When you instantiate Engine, you have two options for referencing configuration fields.
 
@@ -49,7 +49,7 @@ const engine = new Engine({ engineConfig: { "apiKey": "<ENGINE_API_KEY>" } });
 const engine = new Engine({ engineConfig: 'path/to/config.json' });
 ```
 
-##### Optional Configurations
+##### Step 5 (Optional): Configure Endpoint and Port
 
 If you want to change the endoint or port that the Engine proxy is available at, you can set these optional configurations:
 
@@ -61,11 +61,11 @@ If you want to change the endoint or port that the Engine proxy is available at,
 }
 ```
 
-##### Add engine.start();
+##### Step 6: Add engine.start();
 ```
 engine.start();
 ```
-##### Invoke your Node.js middleware function
+##### Step 7: Invoke your Node.js middleware function
 
 **Important**: This must be first middleware call. Besides this requirement, it does not matter when you call engine.start in your server file, **as long as it is before the other middleware**. The earlier Engine is started the better. Since [in-line code block] `apollo-engine` acts as a proxy, it must be added to the middleware that actually processes the query. Your server will start normally and handle requests without the engine proxy until engine is ready.
 
