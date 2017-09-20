@@ -22,7 +22,7 @@ Engine currently supports the following GraphQL Servers:
 
 There are two options for deploying the Engine proxy. You can deploy it either as a **side-loader package** that runs next to your server, or as a **standalone docker container**.
 
-_Server compatability chart:_
+_Server compatibility chart:_
 
 | Server  | Side-Loader Package  | Docker Container |
 | :------ | :------------------- | :--------------------------- |
