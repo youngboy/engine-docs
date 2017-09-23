@@ -21,7 +21,6 @@ sidebar_categories:
     - setup-ruby
     - setup-lambda
     - standalone-proxy
-    - caching
 github_repo: mdg-private/engine-docs
 content_root: source
 
