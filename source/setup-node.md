@@ -71,6 +71,7 @@ import { Engine } from 'apollo-engine';
 ```
 
 **Step 2: Create a new Engine instance**
+
 When you instantiate Engine, you have two options for referencing configuration fields.
 
 1. You can set the engine configuration directly with a json object. See “JSON Object”.
@@ -178,10 +179,6 @@ docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
 ```
 
 It does not matter where you choose to deploy and manage your Engine proxy. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
-
-// TODO: maybe write a sentence or two more here about how to deploy the docker container, if we have recommendations
-
-// TODO: maybe add information about proxy release notes
 
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
 
