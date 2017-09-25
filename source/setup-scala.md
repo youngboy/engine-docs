@@ -5,24 +5,83 @@ order: 2
 
 **Supported Scala servers:** [Sangria](https://github.com/sangria-graphql/sangria)
 
-To get started with Engine, take the following steps:
+To get started with Engine, you will need to:
+1. Instrument your server with a Scala tracing agent that uses the Apollo Tracing format.
+2. Configure and deploy the Engine proxy docker container.
+3. Send requests to your service – you're all set up!
 
-1. Configure and deploy the Engine proxy docker container
-2. Install Apollo tracing for your GraphQL server
-3. Deploy your server - you're all set up!
+## 1. Instrument Scala Agent with Apollo Tracing
 
-## 1. Install the Proxy
+You will need to instrument your Scala server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
-At this time, the only available option for running Engine with Scala is to use the standalone docker proxy.
+This is our recommended Scala extension: https://gist.github.com/OlegIlyenko/124b55e58609ad45fcec276f15158d16
 
-Skip to [the instructions](/standalone-proxy.html) for installing the standalone docker container, which are the same regardless of which language your server is written in.
+## 2. Configure the Proxy
 
-## 2. Instrument Apollo Tracing
+At this time, the only available option for running the Engine proxy with a Scala server is to run the proxy in a standalone docker container.
 
-Install Apollo tracing in your GraphQL server to enable Engine to receive performance traces for your GraphQL requests.
+_Interested in writing a sideloader Scala extension? [Get in touch](mailto:support@apollodata.com) with us!_
 
-Use the Scala tracing package, with instructions here: https://gist.github.com/OlegIlyenko/124b55e58609ad45fcec276f15158d16
+### 2.1 Get your API Key
+First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
+
+### 2.2 Create your Proxy's Config.json
+The proxy uses a JSON object to get configuration information. If the configuration is passed the path to your file, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.
+
+**Create a JSON configuration file:**
+
+```
+{
+  "apiKey": "<ENGINE_API_KEY>",
+  "logcfg": {
+    "level": "INFO"
+  },
+  "origins": [
+    {
+      "url": "http://localhost:3000/graphql"
+    }
+  ],
+  "frontends": [
+    {
+      "host": "127.0.0.1",
+      "port": 3001,
+      "endpoint": "/graphql"
+    }
+  ]
+}
+```
+
+**Configuration options:**
+1. `apiKey`: The API key for the Engine service you want to report data to.
+2. `logcfg/level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
+3. `origin.url` : The URL for your GraphQL server.
+4. `frontend.host` : The hostname the proxy should be available on.
+5. `frontend.port` : The port the proxy should bind to.
+6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
+
+For advanced configuration options, see the our full proxy documentation. //TODO: find link
+
+### 2.3 Run the Proxy (Docker Container)
+
+The Engine proxy is a docker image that you will deploy and manage separate from your server.
+
+If you have a working [docker installation](https://docs.docker.com/engine/installation/), type the following lines in your shell (variables replaced with the correct values for your environment) to run the Engine proxy:
+```
+engine_config_path=/path/to/engine.json
+proxy_frontend_port=3001
+docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
+  -p "${proxy_frontend_port}:${proxy_frontend_port}" \
+  gcr.io/mdg-public/engine-ea-confidential:2017.09-17-g4679f9a4
+```
+
+It does not matter where you choose to deploy and manage your Engine proxy. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
+
+// TODO: maybe write a sentence or two more here about how to deploy the docker container, if we have recommendations
+
+// TODO: maybe add information about proxy release notes
+
+We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
 
 ## 3. View Metrics in Engine
 
-Once your server is set up, navigate to the endpoint in your Engine account - https://engine.apollographql.com. You'll then be able to see performance metrics!
+Once your server is set up, navigate your new Engine service on https://engine.apollographql.com. Start sending requests to your Scala server to start seeing performance metrics!

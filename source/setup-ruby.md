@@ -11,15 +11,17 @@ To get started with Engine, you will need to:
 3. Send requests to your service – you're all set up!
 
 
-## 1. Instrument Ruby Agent
+## 1. Instrument Ruby Agent with Apollo Tracing
 
-You will need to instrument your Ruby server with a tracing agent that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
+You will need to instrument your Ruby server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
-This is our recommended Ruby package: https://github.com/uniiverse/graphql-tracing. 
+This is our recommended Ruby gem: https://github.com/uniiverse/graphql-tracing. 
 
 ## 2. Configure the Proxy
 
-At this time, the only available option for running the Engine proxy with Ruby is to run it in a standalone docker container.
+At this time, the only available option for running the Engine proxy with a Ruby server is to run the proxy in a standalone docker container.
+
+_Interested in writing a sideloader Ruby gem? [Get in touch](mailto:support@apollodata.com) with us!_
 
 ### 2.1 Get your API Key
 First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
@@ -64,7 +66,7 @@ For advanced configuration options, see the our full proxy documentation. //TODO
 
 The Engine proxy is a docker image that you will deploy and manage separate from your server.
 
-If you have a working [docker installation](https://docs.docker.com/engine/installation/), typing the following lines in your shell (variables replaced with the correct values for your environment) will run the Engine proxy:
+If you have a working [docker installation](https://docs.docker.com/engine/installation/), type the following lines in your shell (variables replaced with the correct values for your environment) to run the Engine proxy:
 ```
 engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
@@ -77,12 +79,11 @@ It does not matter where you choose to deploy and manage your Engine proxy. We r
 
 // TODO: maybe write a sentence or two more here about how to deploy the docker container, if we have recommendations
 
-// TODO: make sure we have indeed run the proxy on EC2
-
 // TODO: maybe add information about proxy release notes
 
+We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
 
 ## 3. View Metrics in Engine
 
-Once your server is set up, navigate your new Engine service on https://engine.apollographql.com. Start sending requests to start seeing performance metrics!
+Once your server is set up, navigate your new Engine service on https://engine.apollographql.com. Start sending requests to your Ruby server to start seeing performance metrics!
 

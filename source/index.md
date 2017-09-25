@@ -10,18 +10,18 @@ Apollo Engine is an in-query-path tool that helps you understand what's happenin
 Engine runs as a proxy layer in front of your GraphQL server, providing server performance telemetry (the same functionality as [Apollo Optics](https://www.apollodata.com/optics/)) and is able to cache entire query responses from your server.
 
 Instrumenting your app with Engine is twofold.
-1. Add an [Apollo Tracing agent](#Apollo-Tracing-Agent) (language-specific) to your GraphQL server.
+1. Add an [Apollo Tracing package](#Apollo-Tracing-Package) (language-specific) to your GraphQL server.
 2. Host [Engine's proxy](#Engine-Proxy-Deployment-Options) in front of your GraphQL server.
 
 **Engine is in private Early Access.** Please email [rohit@apollodata.com](mailto:rohit@apollodata.com) with requests to join the Early Access program.
 
-## Apollo Tracing Agent
+## Apollo Tracing Package
 
 [Apollo Tracing](https://github.com/apollographql/apollo-tracing) is a GraphQL response format extension to expose trace data for GraphQL requests.
 
-Apollo Tracing agents are language-specific agents that, once installed on a server, augment that server's GraphQL responses with the specified trace data format.
+Apollo Tracing packages are language-specific packages that, once installed on a server, augment that server's GraphQL responses with the specified trace data format.
 
-Engine relies on receiving data in the Apollo Tracing format to create its performance telemetry reports. There are currently tracing agents using the Apollo Tracing format for the following GraphQL servers:
+Engine relies on receiving data in the Apollo Tracing format to create its performance telemetry reports. There are currently tracing packages using the Apollo Tracing format for the following GraphQL servers:
 1. **Node:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
 2. **Ruby:** [GraphQL-Ruby](https://github.com/rmosolgo/graphql-ruby)
 3. **Java:** [GraphQL-Java](https://github.com/graphql-java/graphql-javas)
@@ -44,7 +44,7 @@ _Server compatibility chart:_
 | Sangria | _Not available_ | Supported |
 | Absinthe | _Not available_ | Supported |
 
-### Side-Loader Package
+### [Option 1] Side-Loader Package
 
 **Available for:** Node servers (Apollo Server and Express-GraphQL)
 
@@ -52,11 +52,11 @@ The side-loader is a language-specific package that you add to your server. It r
 
 The side-loader package includes a pre-built copy of the Engine proxy binary. It spawns an Engine process side-by-side with the your GraphQL server's process and incoming GraphQL operations get routed through the proxy and then into your server.
 
-If you are already using [Apollo Optics](https://www.apollodata.com/optics/), the side-loader does not have to replace the [Optics agent](https://github.com/apollographql/optics-agent-js) (which is a tracing agent). You can run the Engine proxy and an Apollo Tracing agent in conjunction with the Optics agent, which uses a slightly different data format to report trace information.
+If you are already using [Apollo Optics](https://www.apollodata.com/optics/), the side-loader does not have to replace the [Optics agent](https://github.com/apollographql/optics-agent-js) (which is a tracing agent). You can run the Engine proxy and an Apollo Tracing package in conjunction with the Optics agent, which uses a slightly different data format to report trace information.
 
 _Choose this configuration in environments where you don't want to orchestrate and manage the proxy process separate from your GraphQL server._
 
-### Standalone Docker Container
+### [Option 2] Standalone Docker Container
 
 **Available for:** All servers (Node, Java, Scala, Ruby, and Elixir)
 
