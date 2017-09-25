@@ -163,8 +163,6 @@ You can get your `ENGINE_API_KEY` by creating a service on http://engine.apollog
 5. `frontend.port` : The port the proxy should bind to.
 6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
 
-For advanced configuration options, see the our full proxy documentation. //TODO: find link
-
 #### Run the Proxy (Docker Container)
 
 The Engine proxy is a docker image that you will deploy and manage separate from your server.

@@ -18,7 +18,7 @@ This is our recommended npm package: https://github.com/apollographql/apollo-tra
 
 ## 2. Configure the Proxy
 
-The only available option for running the Engine proxy with a Node server on Lambda is to run the proxy in a standalone docker container. // TODO: explain that this is because the proxy needs persistent state
+The only available option for running the Engine proxy with a Node server on Lambda is to run the proxy in a standalone docker container. The Proxy is required as it is responsible for capturing, aggregating and then sending to Engine the trace data from each Lambda instance Graphql response.
 
 ### 2.1 Get your API Key
 First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
@@ -64,8 +64,6 @@ The proxy uses a JSON object to get configuration information. If the configurat
 5. `frontend.port` : The port the proxy should bind to.
 6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
 
-For advanced configuration options, see the our full proxy documentation. //TODO: find link
-
 ### 2.3 Run the Proxy (Docker Container)
 
 The Engine proxy is a docker image that you will deploy and manage separate from your server.
@@ -80,10 +78,6 @@ docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
 ```
 
 It does not matter where you choose to deploy and manage your Engine proxy. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
-
-// TODO: maybe write a sentence or two more here about how to deploy the docker container, if we have recommendations
-
-// TODO: maybe add information about proxy release notes
 
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
 
