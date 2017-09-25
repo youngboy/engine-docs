@@ -1,11 +1,11 @@
 ---
-title: Setup for Lambda Node Servers
+title: Setup for AWS Lambda Node Servers
 order: 2
 ---
 
 **Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
 
-To get started with Engine for Lambda Node servers, you will need to:
+To get started with Engine for AWS Lambda Node servers, you will need to:
 1. Instrument your server with a Node tracing agent that uses the Apollo Tracing format.
 2. Configure and deploy the Engine proxy docker container.
 3. Send requests to your service – you're all set up!
@@ -57,12 +57,16 @@ The proxy uses a JSON object to get configuration information. If the configurat
 ```
 
 **Configuration options:**
-1. `apiKey`: The API key for the Engine service you want to report data to.
+1. `apiKey` : The API key for the Engine service you want to report data to.
 2. `logcfg/level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
-3. `origin.url` : The URL for your GraphQL server.
-4. `frontend.host` : The hostname the proxy should be available on.
-5. `frontend.port` : The port the proxy should bind to.
-6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
+3. `origin.url` : The URL for your GraphQL server. For Lambda, this takes the form of 
+                  arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx
+4.  `origin.id` : For Lambda, your Access Key ID
+5.  `origin.secret` : For Lambda, your Secret Access Key
+6.  `origin.originType` : Set to `Lambda` to specify a Lambda GraphQL server origin.
+7. `frontend.host` : The hostname the proxy should be available on.
+8. `frontend.port` : The port the proxy should bind to.
+9. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
 
 ### 2.3 Run the Proxy (Docker Container)
 
