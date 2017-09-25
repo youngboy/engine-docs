@@ -15,13 +15,11 @@ sidebar_categories:
   null:
     - index
     - setup-node
-    - setup-elixir
+    - setup-lambda
+    - setup-ruby
     - setup-scala
     - setup-java
-    - setup-ruby
-    - setup-lambda
-    - standalone-proxy
-    - caching
+    - setup-elixir
 github_repo: mdg-private/engine-docs
 content_root: source
 

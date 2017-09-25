@@ -3,21 +3,30 @@ title: Setup for Lambda Node Servers
 order: 2
 ---
 
-To get started with Engine for Lambda Node servers, take the following steps:
+**Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
 
-1. Configure and deploy the Engine proxy docker container
-2. Install Apollo tracing for your GraphQL Node server code running on Lambda
-3. Deploy your server - you're all set up!
+To get started with Engine for Lambda Node servers, you will need to:
+1. Instrument your server with a Node tracing agent that uses the Apollo Tracing format.
+2. Configure and deploy the Engine proxy docker container.
+3. Send requests to your service – you're all set up!
 
-## 1. Install the Proxy
+## 1. Instrument Node Agent with Apollo Tracing
 
-### Get your Engine API Key
-First, get an Engine API Key by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
+You will need to instrument your Node server running on Lambda with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
-### Create your Proxy's Config.json
+This is our recommended npm package: https://github.com/apollographql/apollo-tracing-js
+
+## 2. Configure the Proxy
+
+The only available option for running the Engine proxy with a Node server on Lambda is to run the proxy in a standalone docker container. // TODO: explain that this is because the proxy needs persistent state
+
+### 2.1 Get your API Key
+First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
+
+### 2.2 Create your Proxy's Config.json
 The proxy uses a JSON object to get configuration information. If the configuration is passed the path to your file, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.
 
-Create a JSON configuration file:
+**Create a JSON configuration file:**
 
 ```
 {
@@ -47,13 +56,21 @@ Create a JSON configuration file:
 }
 ```
 
-What are those things?
-1. `frontend.host` : The hostname the proxy should be available on
-2. `frontend.port` : The port the proxy should bind to
-3. `frontend.endpoint` : The path for the GraphQL server . This is usually /graphql.
+**Configuration options:**
+1. `apiKey`: The API key for the Engine service you want to report data to.
+2. `logcfg/level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
+3. `origin.url` : The URL for your GraphQL server.
+4. `frontend.host` : The hostname the proxy should be available on.
+5. `frontend.port` : The port the proxy should bind to.
+6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
 
-### Run the proxy Docker container:
+For advanced configuration options, see the our full proxy documentation. //TODO: find link
 
+### 2.3 Run the Proxy (Docker Container)
+
+The Engine proxy is a docker image that you will deploy and manage separate from your server.
+
+If you have a working [docker installation](https://docs.docker.com/engine/installation/), type the following lines in your shell (variables replaced with the correct values for your environment) to run the Engine proxy:
 ```
 engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
@@ -62,13 +79,14 @@ docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   gcr.io/mdg-public/engine-ea-confidential:2017.09-17-g4679f9a4
 ```
 
-## 2. Instrument Apollo Tracing
+It does not matter where you choose to deploy and manage your Engine proxy. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
 
-Install Apollo tracing in your GraphQL server code that runs on Lambda to enable Engine to receive performance traces for your GraphQL requests.
+// TODO: maybe write a sentence or two more here about how to deploy the docker container, if we have recommendations
 
-Use the Node.js tracing package, with instructions here: https://github.com/apollographql/apollo-tracing-js
+// TODO: maybe add information about proxy release notes
+
+We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
 
 ## 3. View Metrics in Engine
 
-Once your server is set up, navigate to the endpoint in your Engine account - https://engine.apollographql.com. You'll then be able to see performance metrics!
-
+Once your server is set up, navigate your new Engine service on https://engine.apollographql.com. Start sending requests to your Node server to start seeing performance metrics!
