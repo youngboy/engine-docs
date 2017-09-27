@@ -8,7 +8,7 @@ order: 1
 To get started with Engine, you will need to:
 1. Instrument your server with the Apollo Tracing NPM package.
 2. Configure the Engine proxy. You have two options here:
-  - Use the Engine proxy sideloader NPM package **or**
+  - Use the Engine proxy sidecar NPM package **or**
   - Deploy the Engine proxy in a standalone docker container.
 3. Send requests to your service – you're all set up!
 
@@ -47,9 +47,9 @@ app.use(compress())
 Hapi comes with support for compression enabled by default, unless it has been configured with `compression: false`.
 
 ## 2. Configure the Proxy
-There are two options for configuring and deploying the Engine proxy with Node servers. You can either install Engine's JavaScript side-loader package from NPM or run a standalone docker container.
+There are two options for configuring and deploying the Engine proxy with Node servers. You can either install Engine's JavaScript sidecar package from NPM or run a standalone docker container.
 
-### [Option 1] Side-Loader Package
+### [Option 1] Sidecar Package
 
 This option involves adding an NPM package to your server that will run an Engine proxy in the same container as your server.
 

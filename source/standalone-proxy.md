@@ -3,7 +3,7 @@ title: Configure a Standalone Docker Container
 order: 20
 ---
 
-This option is available to you if you want to run the Engine proxy process separately from your GraphQL server or if there is no language-specific Engine side-loader for your server. These instructions are for setting up a Docker container that will run the entinre Engine proxy process.
+This option is available to you if you want to run the Engine proxy process separately from your GraphQL server or if there is no language-specific Engine sidecar for your server. These instructions are for setting up a Docker container that will run the entire Engine proxy process.
 
 ## Get your Engine API Key
 First, get an Engine API Key by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.

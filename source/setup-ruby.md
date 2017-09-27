@@ -21,7 +21,7 @@ This is our recommended Ruby gem: https://github.com/uniiverse/graphql-tracing.
 
 At this time, the only available option for running the Engine proxy with a Ruby server is to run the proxy in a standalone docker container.
 
-_Interested in writing a sideloader Ruby gem? [Get in touch](mailto:support@apollodata.com) with us!_
+_Interested in writing a sidecar Ruby gem? [Get in touch](mailto:support@apollodata.com) with us!_
 
 ### 2.1 Get your API Key
 First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.

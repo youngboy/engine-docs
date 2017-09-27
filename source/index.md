@@ -11,7 +11,7 @@ Engine runs as a proxy layer in front of your GraphQL server, providing server p
 
 Instrumenting your app with Engine is twofold.
 1. Add an [Apollo Tracing package](#Apollo-Tracing-Package) (language-specific) to your GraphQL server.
-2. Host [Engine's proxy](#Engine-Proxy-Deployment-Options) in front of your GraphQL server.
+2. Host [Engine's proxy](#Engine-Proxy) in front of your GraphQL server.
 
 **Engine is in private Early Access.** Please email [rohit@apollodata.com](mailto:rohit@apollodata.com) with requests to join the Early Access program.
 
@@ -32,11 +32,11 @@ Using a different server? [Let us know](mailto:support@apollodata.com) – the d
 
 ## Engine Proxy
 
-There are two options for deploying the Engine proxy. You can deploy it either as a [side-loader package](/#Side-Loader-Package) that runs next to your server, or as a [standalone docker container](/#Standalone-Docker-Container).
+There are two options for deploying the Engine proxy. You can deploy it either as a [sidecar package](/#Option-1-Sidecar-Package) that runs next to your server, or as a [standalone docker container](/#Option-2-Standalone-Docker-Container).
 
 _Server compatibility chart:_
 
-| Server  | Side-Loader Package  | Docker Container |
+| Server  | Sidecar Package  | Docker Container |
 | :------ | :------------------- | :--------------------------- |
 | Apollo Server and Express-GraphQL | Supported | Supported | 
 | GraphQL-Ruby | _Not available_ | Supported |
@@ -44,15 +44,15 @@ _Server compatibility chart:_
 | Sangria | _Not available_ | Supported |
 | Absinthe | _Not available_ | Supported |
 
-### [Option 1] Side-Loader Package
+### [Option 1] Sidecar Package
 
 **Available for:** Node servers (Apollo Server and Express-GraphQL)
 
-The side-loader is a language-specific package that you add to your server. It runs a proxy next to your server in the same container as your server.
+The sidecar is a language-specific package that you add to your server. It runs a proxy next to your server in the same container as your server.
 
-The side-loader package includes a pre-built copy of the Engine proxy binary. It spawns an Engine process side-by-side with the your GraphQL server's process and incoming GraphQL operations get routed through the proxy and then into your server.
+The sidecar package includes a pre-built copy of the Engine proxy binary. It spawns an Engine process side-by-side with the your GraphQL server's process and incoming GraphQL operations get routed through the proxy and then into your server.
 
-If you are already using [Apollo Optics](https://www.apollodata.com/optics/), the side-loader does not have to replace the [Optics agent](https://github.com/apollographql/optics-agent-js) (which is a tracing agent). You can run the Engine proxy and an Apollo Tracing package in conjunction with the Optics agent, which uses a slightly different data format to report trace information.
+If you are already using [Apollo Optics](https://www.apollodata.com/optics/), the sidecar does not have to replace the [Optics agent](https://github.com/apollographql/optics-agent-js) (which is a tracing agent). You can run the Engine proxy and an Apollo Tracing package in conjunction with the Optics agent, which uses a slightly different data format to report trace information.
 
 _Choose this configuration in environments where you don't want to orchestrate and manage the proxy process separate from your GraphQL server._
 

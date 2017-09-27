@@ -20,7 +20,7 @@ This is our recommended Elixir package: https://github.com/sikanhe/apollo-tracin
 
 At this time, the only available option for running the Engine proxy with an Elixir server is to run the proxy in a standalone docker container.
 
-_Interested in writing a sideloader Elixir package? [Get in touch](mailto:support@apollodata.com) with us!_
+_Interested in writing a sidecar Elixir package? [Get in touch](mailto:support@apollodata.com) with us!_
 
 ### 2.1 Get your API Key
 First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
