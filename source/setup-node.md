@@ -16,7 +16,17 @@ To get started with Engine, you will need to:
 
 You will need to instrument your Node server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
-This is our recommended NPM package for instrumenting GraphQL requests with tracing data from a Node server: https://github.com/apollographql/apollo-tracing-js.
+If you are using Apollo Server, the only code change required is to add  `tracing: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
+
+```javascript
+app.use('/graphql', bodyParser.json(), graphqlExpress({
+  schema,
+  context: {},
+  tracing: true,
+}));
+```
+
+If you are using Express-GraphQL, follow the instructions on https://github.com/apollographql/apollo-tracing-js#express-graphql .
 
 #### Enabling Compression [Optional]
 
@@ -79,7 +89,7 @@ When you instantiate Engine, you have two options for referencing configuration 
 
 ```javascript
 // Option 1: JSON Object
-const engine = new Engine({ engineConfig: { "apiKey": "<ENGINE_API_KEY>" } });
+const engine = new Engine({ engineConfig: { apiKey: <ENGINE_API_KEY> } });
 
 // Option 2: Config.json
 const engine = new Engine({ engineConfig: 'path/to/config.json' });
@@ -87,14 +97,18 @@ const engine = new Engine({ engineConfig: 'path/to/config.json' });
 
 You can get your `ENGINE_API_KEY` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
 
-**Step 3: Configure Endpoint and Port**
-If you want to change the endoint or port that the Engine proxy is available at, you can set these optional configurations:
+**Step 3: Set Optional Configurations**
 
 ```javascript
 {
-    engineConfig: string | EngineConfig, // Engine Configuration filename or object
-    endpoint?: string,                   // GraphQL endpoint suffix - '/graphql' by default
-    graphqlPort?: number                 // GraphQL port - 'process.env.PORT' by default
+  engineConfig: {
+    apiKey: engineApiKey,
+    logcfg: {
+      level: 'DEBUG',   // Engine Proxy logging level. DEBUG, INFO, WARN or ERRROR    
+  },
+  graphqlPort: process.env.PORT || 8003,  // GraphQL port
+  endpoint: '/graphql',                   // GraphQL endpoint suffix - '/graphql' by default
+  dumpTraffic: true                       // Debug configuration that logs traffic between Proxy and GraphQL server
 }
 ```
 
