@@ -41,6 +41,8 @@ What are those things?
 4. `frontend.endpoint` : The path for the GraphQL server . This is usually /graphql.
 5. `logcfg/level` : Logging level for the proxy. Supported values are DEBUG, INFO, WARN, ERROR .
 
+For full configuration details see [Proxy config](/proto-doc.html).
+
 ## Run the proxy Docker container:
 
 ```

@@ -41,9 +41,9 @@ If you are configuring the Proxy via the apollo-engine npm package, this JSON ob
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| apiKey |  string | API key for the service. Get this from http://engine.apollographql.com This field is required. |
+| apiKey |  string | API key for the service. Get this from https://engine.apollographql.com This field is required. |
 | origins | repeated  [Config.Origin](#mdg.engine.config.proto.Config.Origin)  | Origins represent the GraphQL servers to which the Proxy will send requests. If you're using the apollo-engine npm package, you don't need to specify origins: the package will generate one automatically for you. |
-| frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of front-ends to listen to for GraphQL queries. If you're using the apollo-engine npm package, you don't need to specify frontends: the package will generate one automatically for you. |
+| frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of frontends to listen to for GraphQL queries. If you're using the apollo-engine npm package, you don't need to specify frontends: the package will generate one automatically for you. |
 | logcfg |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
 | reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
 
