@@ -58,7 +58,7 @@ The proxy uses a JSON object to get configuration information. If the configurat
 
 **Configuration options:**
 1. `apiKey` : The API key for the Engine service you want to report data to.
-2. `logcfg/level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
+2. `logcfg.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
 3. `origin.url` : The URL for your GraphQL server. For Lambda, this takes the form of 
                   arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx
 4. `origin.awsAccessKeyId` : Your Access Key ID. If not provided the proxy will attempt `AWS_ACCESS_KEY_ID`/`AWS_SECRET_KEY` environment variables, and EC2 instance profile.

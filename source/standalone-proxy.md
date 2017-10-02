@@ -39,7 +39,7 @@ What are those things?
 2. `frontend.host` : The hostname the proxy should be available on
 3. `frontend.port` : The port the proxy should bind to
 4. `frontend.endpoint` : The path for the GraphQL server . This is usually /graphql.
-5. `logcfg/level` : Logging level for the proxy. Supported values are DEBUG, INFO, WARN, ERROR .
+5. `logcfg.level` : Logging level for the proxy. Supported values are DEBUG, INFO, WARN, ERROR .
 
 For full configuration details see [Proxy config](/proto-doc.html).
 
