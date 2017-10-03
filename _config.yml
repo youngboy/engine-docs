@@ -28,7 +28,7 @@ social_links:
 
 # API keys
 apis:
-  segment: xxxxx
+  gtm: GTM-PNFDVBB
 
 logo:
   nav_mobile: images/logo-apollo-space-left.svg
