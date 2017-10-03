@@ -20,6 +20,8 @@ sidebar_categories:
     - setup-scala
     - setup-elixir
     - setup-lambda
+  Reference:
+    - proto-doc
 github_repo: mdg-private/engine-docs
 content_root: source
 

@@ -47,7 +47,7 @@ Here's an example configuration entry for configuring TTL (in seconds) and a cac
       "signature": "{hero{name}}",
       "caches": [
         {
-          "ttl": 600,
+          "ttl": "600s",
           "store": "standardCache"
         }
       ]
@@ -57,13 +57,13 @@ Here's an example configuration entry for configuring TTL (in seconds) and a cac
 
 ### Invalidate a cache store
 
-To invalidate a cache store, bump the epoch number on the cache store configuration.
+To invalidate a cache store, change the key prefix on the cache store configuration.
 
 ```
 "stores": [
     {
       "name": "standardCache",
-***      "epoch": 1,***
+***      "memcacheKeyPrefix": "1",***
       "timeout": "1s",
       "memcaches": [
         {
