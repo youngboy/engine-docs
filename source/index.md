@@ -24,7 +24,7 @@ Apollo Tracing packages are language-specific packages that, once installed on a
 Engine relies on receiving data in the Apollo Tracing format to create its performance telemetry reports. There are currently tracing packages using the Apollo Tracing format for the following GraphQL servers:
 1. **Node:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
 2. **Ruby:** [GraphQL-Ruby](https://github.com/rmosolgo/graphql-ruby)
-3. **Java:** [GraphQL-Java](https://github.com/graphql-java/graphql-javas)
+3. **Java:** [GraphQL-Java](https://github.com/graphql-java/graphql-java)
 4. **Scala:** [Sangria](https://github.com/sangria-graphql/sangria)
 5. **Elixir:** [Absinthe](https://github.com/absinthe-graphql/absinthe)
 
