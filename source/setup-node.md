@@ -67,7 +67,7 @@ We provide an NPM package that includes a pre-built copy of the Engine proxy. It
 
 #### Install the NPM package
 ```bash
-npm install --save https://s3.us-east-2.amazonaws.com/apollo-engine-deploy/apollo-engine-0.4.1.tgz
+npm install --save apollo-engine
 ```
 
 #### Adding Engine to your Node.js Server
