@@ -36,6 +36,8 @@ The "Config" message defines the type of Apollo Engine Proxy's JSON configuratio
 
 The proto3 JSON mapping is mostly straightforward, but you may want to pay attention to the rules for specifying a Duration.
 
+Note that proto3 JSON flattens "oneof" messages, such that: `oneof foobar { bool foo = 1; bool bar = 2; }` is represented as: `{ "foo": true }`.
+
 If you are configuring the Proxy via the apollo-engine npm package, this JSON object is passed as the `engineConfig` parameter to the `Engine` constructor.
 
 
@@ -88,7 +90,7 @@ An Origin is a backend GraphQL server that the Proxy can send GraphQL requests t
 | ----- | ---- | ----------- |
 | url |  string | For HTTP origins, this is the backend server's GraphQL URL. For Lambda origins, this is the AWS arn (formatted as "arn:aws:lambda:REGION:ACCOUNT-ID:function:FUNCTION-NAME"). Required. |
 | requestTimeout |  Duration | Amount of time to wait before timing out request to this origin. If this is left unspecified, it will default to 30 secs for HTTP or use the function's timeout for Lambda. |
-| maxConcurrentRequests |  int32 | Maximum number of concurrent requests to the origin. All requests beyond the maximum will return 503 errors. If not set, this will default to 9999. |
+| maxConcurrentRequests |  int32 | Maximum number of concurrent requests to the origin. All requests beyond the maximum will return 503 errors. If not specified, this will default to 9999. |
 | requestType |   [Config.Protocol](#mdg.engine.config.proto.Config.Protocol)  | The type of the body of a request to this origin. If not specified, will default to JSON. |
 | originType |   [Config.OriginType](#mdg.engine.config.proto.Config.OriginType)  | The type of origin in question. If not specified, will default to HTTP. |
 | awsAccessKeyId |  string | For Lambda origins: The AWS access key ID for an AWS IAM user with `lambda:Invoke` permissions. If this is left unspecified, it will fall back to environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, then to EC2 instance profile. |
@@ -107,11 +109,12 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | endpointUrl |  string | URL to send the reports to. By default, reports will be sent to "https://engine-report.apollodata.com". |
-| maxAttempts |  int32 | Reporting is retried with exponential backoff, up to this many times. This is inclusive of the original request. |
-| retryMinimum |  Duration | Minimum backoff for retries |
-| retryMaximum |  Duration | Maximum backoff for retries |
+| maxAttempts |  int32 | Reporting is retried with exponential backoff, up to this many times. This is inclusive of the original request. Must be at least zero. |
+| retryMinimum |  Duration | Minimum backoff for retries. If not specified this will default to 100ms. Must be greater than 0. |
+| retryMaximum |  Duration | Maximum backoff for retries. Must be greater than or equal to `retryMinimum`. |
 | debugReports |  bool | Dump reports as JSON to debug logs. |
 | hostname |  string | Override for hostname reported to backend. |
+| noTraceVariables |  bool | Don't include variables in query traces. |
 
 
 

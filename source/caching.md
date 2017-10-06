@@ -21,12 +21,12 @@ Here's an example configuration entry for cache stores:
 "stores": [
     {
       "name": "standardCache",
-      "timeout": "1s",
-      "memcaches": [
-        {
-          "url": "localhost:11211"
-        }
-      ]
+      "memcache": {
+        "urls": [
+          "localhost:11211"
+        ],
+        "timeout": "1s",
+      }
     }
   ],
 ```
@@ -63,14 +63,13 @@ To invalidate a cache store, change the key prefix on the cache store configurat
 "stores": [
     {
       "name": "standardCache",
-***      "memcacheKeyPrefix": "1",***
-      "timeout": "1s",
-      "memcaches": [
-        {
-          "url": "localhost:11211"
-        }
-      ]
+      "memcache": {
+        "urls": [
+          "localhost:11211"
+        ],
+***        "keyPrefix": "1:",***
+        "timeout": "1s",
+      }
     }
   ],
-
 ```
