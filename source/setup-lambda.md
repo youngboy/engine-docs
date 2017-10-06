@@ -1,27 +1,32 @@
 ---
-title: Setup for AWS Lambda Node Servers
+title: Setup for AWS Lambda
 order: 2
 ---
 
-**Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
-
-To get started with Engine for AWS Lambda Node servers, you will need to:
-1. Instrument your server with a Node tracing agent that uses the Apollo Tracing format.
+To get started with Engine for AWS Lambda, you will need to:
+1. Instrument your function with a tracing agent that uses the Apollo Tracing format.
 2. Configure and deploy the Engine proxy docker container.
 3. Send requests to your service – you're all set up!
 
-## 1. Instrument Node Agent with Apollo Tracing
+The Engine proxy will invoke the Lambda function as if it was called from [API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-simple-proxy-for-lambda-input-format), and the function should return a value suitable for [API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-simple-proxy-for-lambda-output-format).
 
-You will need to instrument your Node server running on Lambda with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
+We suggest using NodeJS, but any runtime supported by Lambda can be used.
 
-This is our recommended npm package: https://github.com/apollographql/apollo-tracing-js
+**Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
+
+
+## 1. Instrument Function with Apollo Tracing
+
+You will need to instrument your Lambda function with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
+
+For NodeJS, this is our recommended npm package: https://github.com/apollographql/apollo-tracing-js
 
 ## 2. Configure the Proxy
 
-The only available option for running the Engine proxy with a Node server on Lambda is to run the proxy in a standalone docker container. The Proxy is required as it is responsible for capturing, aggregating and then sending to Engine the trace data from each Lambda instance Graphql response.
+The only available option for running the Engine proxy with a function on Lambda is to run the proxy in a standalone docker container. The Proxy is required as it is responsible for capturing, aggregating and then sending to Engine the trace data from each Lambda instance GraphQL response.
 
 ### 2.1 Get your API Key
-First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
+First, get your `Engine_API_Key` by creating a service on https://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
 
 ### 2.2 Create your Proxy's Config.json
 The proxy uses a JSON object to get configuration information. If the configuration is passed the path to your file, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.
@@ -41,14 +46,10 @@ The proxy uses a JSON object to get configuration information. If the configurat
       "awsSecretAccessKey":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
       "originType": "Lambda"
     }
-  ],"origins": [
-    {
-      "url": "http://localhost:3000/graphql"
-    }
   ],
   "frontends": [
     {
-      "host": "127.0.0.1",
+      "host": "0.0.0.0",
       "port": 3001,
       "endpoint": "/graphql"
     }
@@ -59,7 +60,7 @@ The proxy uses a JSON object to get configuration information. If the configurat
 **Configuration options:**
 1. `apiKey` : The API key for the Engine service you want to report data to.
 2. `logcfg.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
-3. `origin.url` : The URL for your GraphQL server. For Lambda, this takes the form of 
+3. `origin.url` : The Lambda function to invoke, in the form:
                   arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx
 4. `origin.awsAccessKeyId` : Your Access Key ID. If not provided the proxy will attempt `AWS_ACCESS_KEY_ID`/`AWS_SECRET_KEY` environment variables, and EC2 instance profile.
 5. `origin.awsSecretAccessKey` : Your Secret Access Key.
