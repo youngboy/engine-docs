@@ -65,7 +65,7 @@ The proxy uses a JSON object to get configuration information. If the configurat
 4. `origin.awsAccessKeyId` : Your Access Key ID. If not provided the proxy will attempt `AWS_ACCESS_KEY_ID`/`AWS_SECRET_KEY` environment variables, and EC2 instance profile.
 5. `origin.awsSecretAccessKey` : Your Secret Access Key.
 6. `origin.originType` : Set to `Lambda` to specify a Lambda GraphQL server origin.
-7. `frontend.host` : The hostname the proxy should be available on.
+7. `frontend.host` : The hostname the proxy should be available on. For Docker, this should always be `0.0.0.0`.
 8. `frontend.port` : The port the proxy should bind to.
 9. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
 
@@ -83,6 +83,8 @@ docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
   gcr.io/mdg-public/engine-ea-confidential:2017.09-156-g04e5a4ab
 ```
+
+This will make the Engine proxy available at `http://localhost:3001`.
 
 It does not matter where you choose to deploy and manage your Engine proxy. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
 
