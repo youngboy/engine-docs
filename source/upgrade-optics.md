@@ -1,48 +1,56 @@
 ---
-title: Upgrade from Optics agent
+title: Upgrade from Optics Agent
 order: 11
 ---
 
-We introduced the Engine proxy architecture to enable support for more GraphQL server languages and unlock features like Error reporting. 
-There's an easy upgrade from your current Optics integration to Engine - it's just a few lines of code in your server.js and an NPM upgrade! If you are interested in using other languages, please see our documentation.
+We introduced the Engine proxy architecture to enable support for more GraphQL server languages and to unlock features like Error reporting. 
 
-**This **guide assumes you are starting with **a Node.js app **that has Optics instrumentation already in place.
+If you're already using Optics, there's an easy upgrade from your current Optics integration to Engine - it's just a few lines of code in your `server.js` and an NPM package upgrade! If you are interested in using other languages, please see our other documentation pages.
 
-We recommend you use Apollo Server. It's a much simpler integration.
+**This **guide assumes you are starting with **a Node.js app **that has Optics already instrumented.
 
 ## Remove Optics agent integration
 
-Remove the code added to the Node server.js/index.js file:
+You can remove the code added to your Node `server.js` file to instrument Optics.
+
+You no longer need to wrap your GraphQL schema in the Optics Agent instrumentation, so remove this line and remove your import of the `OpticsAgent`.
 
 ```javascript
-import OpticsAgent from 'optics-agent';
+// Remove your import of the OpticsAgent
+// import OpticsAgent from 'optics-agent';
 
 // Remove OPTICS_API_KEY reference
 
-// Before: graphqlExpress({ schema: schema })
 graphqlExpress((req) => {
+  // Change this line back to this:
+  // schema: OpticsAgent.instrumentSchema(schema)
+  schema: schema
+
   // other options...
-  schema: OpticsAgent.instrumentSchema(schema)
 })
 ```
 
-Remove the HTTP middleware that is located before your GraphQL middleware:
+Remove the Optics Agent HTTP middleware:
 
 ```javascript
-expressServer.use(OpticsAgent.middleware());
+// Remove this line:
+// expressServer.use(OpticsAgent.middleware());
+```
 
-Remove the opticsContext field from your GraphQL context:
+Remove the `opticsContext` field from your GraphQL context.
 
+```javascript
 graphqlExpress((req) => {
-  // other options...
   context: {
+    // Remove the opticsContext field from your GraphQL context:
+    // opticsContext: OpticsAgent.context(req),
+
     // other context fields...
-    opticsContext: OpticsAgent.context(req),
   }
 })
 ```
 
-Remove the Optics agent js NPM package:
+Remove the Optics Agent NPM package:
 
 ```javascript
 npm remove optics-agent
@@ -50,29 +58,32 @@ npm remove optics-agent
 
 ## Install and configure Engine
 
-### Get an API key from engine.apollographql.com
+We recommend that you use Apollo Server. It's a much simpler integration.
 
-Click “Add Service” in the upper right-hand corner of engine.apollographql.com once logged in.
+### Get an API key from Engine
 
-Name your endpoint, and be sure to save your API key.
+Log in to [engine.apollographql.com](https://engine.apollographql.com) and click "Add Service" in the upper right-hand corner.
+
+Name your endpoint and save your **API key**.
 
 ### Enable Apollo Tracing
 
 **If using Apollo Server**
 
-The only code change required is to add tracing: true to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
+The only code change required is to add `tracing: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
 ```javascript
 app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema,
   context: {},
+  // Enable tracing:
   tracing: true,
 }));
 ```
 
 **If using Express-GraphQL**
 
-Using Apollo Tracing with express-graphql requires more manual configuration - https://github.com/apollographql/apollo-tracing-js#express-graphql .
+Using Apollo Tracing with express-graphql requires more manual configuration. See [this section](https://github.com/apollographql/apollo-tracing-js#express-graphql) of the docs for details.
 
 ### Add Engine middleware code to your server
 
@@ -85,15 +96,12 @@ import { Engine } from 'apollo-engine';
 Create a new Engine instance. Set the engine configuration through a JSON object.
 
 ```javascript
-const engine = new Engine({ engineConfig: { apiKey: <ENGINE_API_KEY> } });
-```
+const engine = new Engine({ engineConfig: { apiKey: '<ENGINE_API_KEY>' } });
 
-Optionally, set these configurations.
-
-```javascript
+// Optionally, you can set these other configuration variables:
 const engine = new Engine({
   engineConfig: {
-    apiKey: engineApiKey,
+    apiKey: '<ENGINE_API_KEY>',
     logcfg: {
       level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
     }
