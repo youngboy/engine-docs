@@ -115,6 +115,7 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 | debugReports |  bool | Dump reports as JSON to debug logs. |
 | hostname |  string | Override for hostname reported to backend. |
 | noTraceVariables |  bool | Don't include variables in query traces. |
+| privateHeaders | repeated string | Headers that should not be forwarded in traces. These are case-sensitive. |
 
 
 

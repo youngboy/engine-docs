@@ -50,7 +50,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine-ea-confidential:2017.09-156-g04e5a4ab
+  gcr.io/mdg-public/engine-ea-confidential:2017.10-19-gdc8304d2
 ```
 
 
