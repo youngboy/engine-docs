@@ -3,6 +3,8 @@ title: Setup for Node Servers
 order: 1
 ---
 
+If you are using servers other than Node - please choose the appropriate guide on the left.
+
 **Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
 
 To get started with Engine, you will need to:
