@@ -13,7 +13,7 @@ Instrumenting your app with Engine is twofold.
 1. Add an [Apollo Tracing package](#Apollo-Tracing-Package) (language-specific) to your GraphQL server.
 2. Host [Engine's proxy](#Engine-Proxy) in front of your GraphQL server.
 
-**Engine is in private Early Access.** Please email [rohit@apollodata.com](mailto:rohit@apollodata.com) with requests to join the Early Access program.
+Apollo Engine is in Preview.
 
 ## Apollo Tracing Package
 
