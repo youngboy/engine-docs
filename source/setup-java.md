@@ -16,7 +16,7 @@ You will need to instrument your Java server with a tracing package that follows
 
 This is our recommended Java package: https://github.com/graphql-java/graphql-java/pull/577
 
-<h2 id="configure-proxy" title="Configure the Proxy">Configure the Proxy</h2>
+<h2 id="configure-proxy" title="Configure the Proxy">2. Configure the Proxy</h2>
 
 At this time, the only available option for running the Engine proxy with a Java server is to run the proxy in a standalone docker container.
 

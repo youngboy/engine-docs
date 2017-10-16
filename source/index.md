@@ -3,7 +3,7 @@ title: Engine Overview
 order: 0
 ---
 
-## What is Apollo Engine?
+<h2 id="what-is-apollo-engine" title="What is Apollo Engine">What is Apollo Engine?</h2>
 
 Apollo Engine is an in-query-path tool that helps you understand what's happening inside your GraphQL layer and perform performance optimizations without changing any of your server's code.
 
@@ -15,7 +15,7 @@ Instrumenting your app with Engine is twofold.
 
 Apollo Engine is in Preview.
 
-## Apollo Tracing Package
+<h2 id="apollo-tracing-package" title="Apollo Tracing Package">Apollo Tracing Package</h2>
 
 [Apollo Tracing](https://github.com/apollographql/apollo-tracing) is a GraphQL response format extension to expose trace data for GraphQL requests.
 
@@ -30,7 +30,7 @@ Engine relies on receiving data in the Apollo Tracing format to create its perfo
 
 Using a different server? [Let us know](mailto:support@apollodata.com) – the development of our tracing agents is community driven and we would love to start a conversation with you!
 
-## Engine Proxy
+<h2 id="engine-proxy" title="Engine Proxy">Engine Proxy</h2>
 
 There are two options for deploying the Engine proxy. You can deploy it either as a [sidecar package](/#Option-1-Sidecar-Package) that runs next to your server, or as a [standalone docker container](/#Option-2-Standalone-Docker-Container).
 
@@ -44,7 +44,7 @@ _Server compatibility chart:_
 | Sangria | _Not available_ | Supported |
 | Absinthe | _Not available_ | Supported |
 
-### [Option 1] Sidecar Package
+<h3 id="sidecar-package" title="Sidecar Package">Option 1: Install using a Sidecar Package</h3>
 
 **Available for:** Node servers (Apollo Server and Express-GraphQL)
 
@@ -56,7 +56,7 @@ If you are already using [Apollo Optics](https://www.apollodata.com/optics/), th
 
 _Choose this configuration in environments where you don't want to orchestrate and manage the proxy process separate from your GraphQL server._
 
-### [Option 2] Standalone Docker Container
+<h3 id="standalone-docker-container" title="Standalone Docker Container">Option 2: Standalone Docker Container</h3>
 
 **Available for:** All servers (Node, Java, Scala, Ruby, and Elixir)
 
