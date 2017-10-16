@@ -1,1 +1,0 @@
-AWS_BUCKET=apea3456.apollographql.com AWS_KEY=AKIAJC74TDFOQIKM4W5A AWS_SECRET=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 npm run deploy

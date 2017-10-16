@@ -3,3 +3,4 @@ db.json
 keys.json
 .DS_Store
 /public
+!/public/_redirects
