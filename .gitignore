@@ -1,6 +1,6 @@
-/node_modules
+node_modules
 db.json
 keys.json
 .DS_Store
-/public
-!/public/_redirects
+public/*
+!public/_redirects
