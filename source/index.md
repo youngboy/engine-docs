@@ -56,7 +56,7 @@ If you are already using [Apollo Optics](https://www.apollodata.com/optics/), th
 
 _Choose this configuration in environments where you don't want to orchestrate and manage the proxy process separate from your GraphQL server._
 
-<h3 id="standalone-docker-container" title="Standalone Docker Container">Option 2: Standalone Docker Container</h3>
+<h3 id="standalone-docker-container" title="Docker Container">Option 2: Standalone Docker Container</h3>
 
 **Available for:** All servers (Node, Java, Scala, Ruby, and Elixir)
 
