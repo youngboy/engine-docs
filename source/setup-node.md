@@ -140,7 +140,7 @@ app.use(engine.expressMiddleware());
 // ...
 ```
 
-<h3 id="standalone-docker-container" title="Standalone Docker Container">Option 2: Standalone Docker Container</h3>
+<h3 id="standalone-docker-container" title="Docker Container">Option 2: Standalone Docker Container</h3>
 
 This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server.
 
