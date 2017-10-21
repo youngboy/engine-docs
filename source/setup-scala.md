@@ -36,7 +36,9 @@ The proxy uses a JSON object to get configuration information. If the configurat
   },
   "origins": [
     {
-      "url": "http://localhost:3000/graphql"
+      "http": {
+        "url": "http://localhost:3000/graphql"
+      }
     }
   ],
   "frontends": [
@@ -52,7 +54,7 @@ The proxy uses a JSON object to get configuration information. If the configurat
 **Configuration options:**
 1. `apiKey`: The API key for the Engine service you want to report data to.
 2. `logging.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
-3. `origin.url` : The URL for your GraphQL server.
+3. `origin.http.url` : The URL for your GraphQL server.
 4. `frontend.host` : The hostname the proxy should be available on.
 5. `frontend.port` : The port the proxy should bind to.
 6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.

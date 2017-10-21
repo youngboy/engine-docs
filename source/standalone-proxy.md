@@ -21,7 +21,9 @@ Create a JSON configuration file:
   },
   "origins": [
     {
-      "url": "http://localhost:3000/graphql"
+      "http": {
+        "url": "http://localhost:3000/graphql"
+      }
     }
   ],
   "frontends": [
@@ -35,7 +37,7 @@ Create a JSON configuration file:
 ```
 
 What are those things?
-1. `origin.url` : The URL for your GraphQL server
+1. `origin.http.url` : The URL for your GraphQL server
 2. `frontend.host` : The hostname the proxy should be available on
 3. `frontend.port` : The port the proxy should bind to
 4. `frontend.endpoint` : The path for the GraphQL server . This is usually /graphql.
