@@ -101,7 +101,7 @@ You can get your `ENGINE_API_KEY` by creating a service on http://engine.apollog
 const engine = new Engine({
   engineConfig: {
     apiKey: engineApiKey,
-    logcfg: {
+    logging: {
       level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
     }
   },
@@ -147,7 +147,7 @@ The proxy uses a JSON object to get configuration information. If the configurat
 ```
 {
   "apiKey": "<ENGINE_API_KEY>",
-  "logcfg": {
+  "logging": {
     "level": "INFO"
   },
   "origins": [
@@ -169,7 +169,7 @@ You can get your `ENGINE_API_KEY` by creating a service on http://engine.apollog
 
 **Configuration options:**
 1. `apiKey`: The API key for the Engine service you want to report data to.
-2. `logcfg.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
+2. `logging.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
 3. `origin.url` : The URL for your GraphQL server.
 4. `frontend.host` : The hostname the proxy should be available on.
 5. `frontend.port` : The port the proxy should bind to.
