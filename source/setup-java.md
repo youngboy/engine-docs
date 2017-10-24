@@ -1,5 +1,5 @@
 ---
-title: Java with GraphQL-Java
+title: GraphQL-Java
 order: 2
 ---
 

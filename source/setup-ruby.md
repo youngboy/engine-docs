@@ -1,5 +1,5 @@
 ---
-title: Ruby with GraphQL-Ruby
+title: GraphQL-Ruby
 order: 2
 ---
 
