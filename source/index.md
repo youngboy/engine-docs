@@ -5,11 +5,11 @@ order: 0
 
 <h2 id="what-is-apollo-engine" title="What is Apollo Engine">What is Apollo Engine?</h2>
 
-Apollo Engine is an in-query-path tool that helps you understand what's happening inside your GraphQL layer and perform performance optimizations without changing any of your server's code.
+[Apollo Engine](https://www.apollographql.com/engine/) is turnkey infrastructure that helps you take GraphQL services into production with confidence. The successor to Apollo Optics, Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, and execution tracing on top of any spec-compliant GraphQL server including Apollo Server, GraphQL-Ruby, Sangria, and Absinthe.
 
-Engine runs as a proxy layer in front of your GraphQL server, providing server performance telemetry (the same functionality as [Apollo Optics](https://www.apollodata.com/optics/)) and is able to cache entire query responses from your server.
+Engine consists of a thin proxy that is deployed into your own cloud or datacenter, sitting in the request path right next to your GraphQL services. The Engine service runs in our cloud, is centrally managed, monitored, and automatically scaled for you.
 
-Instrumenting your app with Engine is twofold.
+Enabling your app with Engine is twofold.
 1. Enable [Apollo Tracing](#apollo-tracing) for your GraphQL server.
 2. Host [Engine's proxy](#engine-proxy) in front of your GraphQL server.
 
