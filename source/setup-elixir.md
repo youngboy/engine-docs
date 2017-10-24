@@ -14,7 +14,7 @@ At this time, the only available option for running the Engine proxy with an Eli
 
 _Interested in writing a sidecar Elixir package? [Get in touch](mailto:support@apollodata.com) with us!_
 
-<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Instrument Elixir Agent with Apollo Tracing</h3>
+<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Instrument Elixir Agent with Apollo Tracing</h2>
 You will need to instrument your Elixir server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
 This is our recommended Elixir package: https://github.com/sikanhe/apollo-tracing-elixir
