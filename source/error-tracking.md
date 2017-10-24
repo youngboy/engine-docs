@@ -17,7 +17,7 @@ Each operation can have multiple requests that return errors over the timeframe 
 
 Each trace is assigned a unique id and each trace represents one request. Click on the trace id to show when the trace occurred, the timeline, variables, errors, response time and response time percentile.
 
-![Traces](./img/waterfallTrace.png)
+![Traces](./img/traceWaterfall.png)
 
 Each trace will show the service time, and can expand to show the resolvers that were processed during the server's handling of the response. The query created by your schema shown by the trace expands as a tree. You can see, collapsed, the first resolver asked to query the data. Expanded, you can see the children resolvers called by the initial resolver, and so on, until all fields are returned.
 
