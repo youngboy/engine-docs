@@ -28,7 +28,7 @@ If you are configuring the Proxy via the `apollo-engine` npm package, this JSON 
 | apiKey |  string | API key for the service. Get this from your [Engine home](https://engine.apollographql.com). This field is required. |
 | origins | repeated  [Config.Origin](#mdg.engine.config.proto.Config.Origin)  | Origins represent the GraphQL servers to which the Proxy will send requests. If you're using the `apollo-engine` npm package, you don't need to specify origins: the package will generate one automatically for you. |
 | frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of frontends to listen to for GraphQL queries. If you're using the `apollo-engine` npm package, you don't need to specify frontends: the package will generate one automatically for you. |
-| logcfg |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
+| logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
 | reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
 
 
@@ -58,6 +58,23 @@ The logging configuration.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | level |  string | Log level for the Proxy. Defaults to "INFO". Set to "DEBUG" for more verbose logging or "ERROR" for less verbose logging. |
+| request |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for request logging, which logs every HTTP request (including non-GraphQL). |
+| query |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for query logging, which logs only GraphQL queries. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.Logging.AccessLogging"/>
+
+### Config.Logging.AccessLogging
+Configuration for access logging.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| destination |  string | Path for JSON access logs of all proxy traffic. Can be a file path, `STDOUT` or `STDERR`. |
+| requestHeaders | repeated string | Request headers to include in access logs. |
+| responseHeaders | repeated string | Response headers to include in access logs. |
 
 
 
@@ -65,19 +82,49 @@ The logging configuration.
 <a name="mdg.engine.config.proto.Config.Origin"/>
 
 ### Config.Origin
-An Origin is a backend GraphQL server that the Proxy can send GraphQL requests to.
+An Origin is a backend that the Proxy can send GraphQL requests to. Can use one of:
+
+1. HTTP / HTTPS
+
+1. AWS Lambda
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| url |  string | For HTTP origins, this is the backend server's GraphQL URL. For Lambda origins, this is the AWS arn (formatted as "arn:aws:lambda:REGION:ACCOUNT-ID:function:FUNCTION-NAME"). Required. |
 | requestTimeout |  Duration | Amount of time to wait before timing out request to this origin. If this is left unspecified, it will default to 30 secs for HTTP or use the function's `timeout` for Lambda. |
-| maxConcurrentRequests |  int32 | Maximum number of concurrent requests to the origin. All requests beyond the maximum will return 503 errors. If not specified, this will default to 9999. |
+| maxConcurrentRequests |   [uint64](#uint64)  | Maximum number of concurrent requests to the origin. All requests beyond the maximum will return 503 errors. If not specified, this will default to 9999. |
 | requestType |   [Config.Protocol](#mdg.engine.config.proto.Config.Protocol)  | The type of the body of a request to this origin. If not specified, will default to JSON. |
-| originType |   [Config.OriginType](#mdg.engine.config.proto.Config.OriginType)  | The type of origin in question. If not specified, will default to HTTP. |
-| awsAccessKeyId |  string | For Lambda origins: The AWS access key ID for an AWS IAM user with `lambda:Invoke` permissions. If this is left unspecified, it will fall back to environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, then to EC2 instance profile. |
-| awsSecretAccessKey |  string | For Lambda origins: The AWS secret access key for the AWS IAM access key ID specified in the ID field. |
-| headerSecret |  string | For HTTP origins: If set, all requests to this origin will contain this value in the X-ENGINE-FROM header.	 This is intended for "sidecar" configurations where the origin proxies requests to the Proxy which then proxies back to the origin. This field is set automatically by the `apollo-engine` npm package. |
+| http |   [Config.Origin.HTTP](#mdg.engine.config.proto.Config.Origin.HTTP)  | Configuration if this is an HTTP origin. |
+| lambda |   [Config.Origin.Lambda](#mdg.engine.config.proto.Config.Origin.Lambda)  | Configuration if this is a Lambda origin. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.Origin.HTTP"/>
+
+### Config.Origin.HTTP
+Configuration for forwarding GraphQL queries to an HTTP endpoint.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| url |  string | The backend server's GraphQL URL. Required. |
+| headerSecret |  string | If set, all requests to this origin will contain this value in the X-ENGINE-FROM header. This is intended for "sidecar" configurations where the origin proxies requests to the Proxy which then proxies back to the origin. This field is set automatically by the `apollo-engine` npm package. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.Origin.Lambda"/>
+
+### Config.Origin.Lambda
+Configuration for proccessing GraphQL queries in an AWS Lambda function.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| functionArn |  string | The handler function's ARN (formatted as "arn:aws:lambda:REGION:ACCOUNT-ID:function:FUNCTION-NAME"). Required. |
+| awsAccessKeyId |  string | The AWS access key ID for an AWS IAM user with `lambda:Invoke` permissions. If this is left unspecified, it will fall back to environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, then to EC2 instance profile. |
+| awsSecretAccessKey |  string | The AWS secret access key for the AWS IAM access key ID specified in the `awsAccessKeyId` field. |
 
 
 
@@ -94,7 +141,7 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 | maxAttempts |  int32 | Reporting is retried with exponential backoff, up to this many times. This is inclusive of the original request. Must be at least zero. |
 | retryMinimum |  Duration | Minimum backoff for retries. If not specified this will default to 100ms. Must be greater than 0. |
 | retryMaximum |  Duration | Maximum backoff for retries. Must be greater than or equal to `retryMinimum`. |
-| debugReports |  bool | Dump reports as JSON to debug logs. |
+| debugReports |  bool | Dump reports as JSON to debug logs. This is usually only used by Apollo support. |
 | hostname |  string | Override for hostname reported to backend. |
 | noTraceVariables |  bool | Don't include variables in query traces. |
 | privateHeaders | repeated string | Headers that should not be forwarded in traces. These are case-sensitive. |
@@ -102,17 +149,6 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 
 
 
-
-
-<a name="mdg.engine.config.proto.Config.OriginType"/>
-
-### Config.OriginType
-The OriginType enum defines a kind of GraphQL backend. If not specified, defaults to HTTP.
-
-| Value | Description |
-| ----- | ----------- |
-| HTTP | A server which provides GraphQL over standard HTTP. |
-| Lambda | A server which provides GraphQL by invoking an AWS Lambda function. |
 
 
 <a name="mdg.engine.config.proto.Config.Protocol"/>

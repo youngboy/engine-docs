@@ -102,7 +102,7 @@ const engine = new Engine({ engineConfig: { apiKey: '<ENGINE_API_KEY>' } });
 const engine = new Engine({
   engineConfig: {
     apiKey: '<ENGINE_API_KEY>',
-    logcfg: {
+    logging: {
       level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
     }
   },
