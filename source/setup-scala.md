@@ -10,7 +10,7 @@ To get started with Engine, you will need to:
 2. Configure and deploy the Engine proxy docker container.
 3. Send requests to your service – you're all set up!
 
-<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">Instrument Scala Agent with Apollo Tracing</h2>
+<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Instrument Scala Agent with Apollo Tracing</h2>
 You will need to instrument your Scala server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
 This is our recommended Scala extension: https://gist.github.com/OlegIlyenko/124b55e58609ad45fcec276f15158d16
