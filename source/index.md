@@ -5,24 +5,22 @@ order: 0
 
 <h2 id="what-is-apollo-engine" title="What is Apollo Engine">What is Apollo Engine?</h2>
 
-Apollo Engine is an in-query-path tool that helps you understand what's happening inside your GraphQL layer and perform performance optimizations without changing any of your server's code.
+[Apollo Engine](https://www.apollographql.com/engine/) is turnkey infrastructure that helps you take GraphQL services into production with confidence. The successor to Apollo Optics, Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, and execution tracing on top of any spec-compliant GraphQL server including Apollo Server, GraphQL-Ruby, Sangria, and Absinthe.
 
-Engine runs as a proxy layer in front of your GraphQL server, providing server performance telemetry (the same functionality as [Apollo Optics](https://www.apollodata.com/optics/)) and is able to cache entire query responses from your server.
+Engine consists of a thin proxy that is deployed into your own cloud or datacenter, sitting in the request path right next to your GraphQL services. The Engine service runs in our cloud, is centrally managed, monitored, and automatically scaled for you.
 
-Instrumenting your app with Engine is twofold.
-1. Add an [Apollo Tracing package](#Apollo-Tracing-Package) (language-specific) to your GraphQL server.
-2. Host [Engine's proxy](#Engine-Proxy) in front of your GraphQL server.
+Enabling your app with Engine is twofold.
+1. Enable [Apollo Tracing](#apollo-tracing) for your GraphQL server.
+2. Host [Engine's proxy](#engine-proxy) in front of your GraphQL server.
 
-Apollo Engine is in Preview.
+<h2 id="apollo-tracing" title="Apollo Tracing">Apollo Tracing</h2>
 
-<h2 id="apollo-tracing-package" title="Apollo Tracing Package">Apollo Tracing Package</h2>
-
-[Apollo Tracing](https://github.com/apollographql/apollo-tracing) is a GraphQL response format extension to expose trace data for GraphQL requests.
+[Apollo Tracing](https://github.com/apollographql/apollo-tracing) is a GraphQL extension to expose trace data for GraphQL requests.
 
 Apollo Tracing packages are language-specific packages that, once installed on a server, augment that server's GraphQL responses with the specified trace data format.
 
 Engine relies on receiving data in the Apollo Tracing format to create its performance telemetry reports. There are currently tracing packages using the Apollo Tracing format for the following GraphQL servers:
-1. **Node:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
+1. **Node:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda)
 2. **Ruby:** [GraphQL-Ruby](https://github.com/rmosolgo/graphql-ruby)
 3. **Java:** [GraphQL-Java](https://github.com/graphql-java/graphql-java)
 4. **Scala:** [Sangria](https://github.com/sangria-graphql/sangria)
@@ -38,7 +36,7 @@ _Server compatibility chart:_
 
 | Server  | Sidecar Package  | Docker Container |
 | :------ | :------------------- | :--------------------------- |
-| Apollo Server and Express-GraphQL | Supported | Supported | 
+| Apollo Server | Supported | Supported |
 | GraphQL-Ruby | _Not available_ | Supported |
 | GraphQL-Java | _Not available_ | Supported |
 | Sangria | _Not available_ | Supported |

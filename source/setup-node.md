@@ -1,11 +1,11 @@
 ---
-title: Setup for Node Servers
+title: Node with Apollo Server
 order: 1
 ---
 
 If you are using servers other than Node - please choose the appropriate guide on the left.
 
-**Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
+**Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda)
 
 To get started with Engine, you will need to:
 1. Instrument your server with the Apollo Tracing NPM package.
@@ -14,20 +14,20 @@ To get started with Engine, you will need to:
   - Deploy the Engine proxy in a standalone docker container.
 3. Send requests to your service – you're all set up!
 
-<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Instrument Node Agent with Apollo Tracing</h2>
-You will need to instrument your Node server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
+<h2 id="enable-apollo-tracing-and-cache-control" title="Enable Apollo Tracing and Cache Control">1. Enable Apollo Tracing and Cache Control</h2>
 
-If you are using Apollo Server, the only code change required is to add  `tracing: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
+If you are using Apollo Server, the only code change required is to add  `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
 ```javascript
 app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema,
   context: {},
   tracing: true,
+  cacheControl: true
 }));
 ```
 
-If you are using Express-GraphQL, follow the instructions on https://github.com/apollographql/apollo-tracing-js#express-graphql.
+> If you are using Express-GraphQL, we recommend you switch to Apollo Server. Both Express-GraphQL and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code.
 
 <h4 id="enabling-compression" title="Enabling Compression">Enabling Compression [Optional]</h4>
 Once instrumented, the tracing package will increase the size of GraphQL requests traveling between your GraphQL and the Engine proxy, because the requests will be augmented with additional tracing data.
