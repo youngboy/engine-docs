@@ -14,15 +14,18 @@ versions:
 sidebar_categories:
   null:
     - index
+  Setup:
     - setup-node
     - setup-ruby
     - setup-java
     - setup-scala
     - setup-elixir
     - setup-lambda
-    - upgrade-optics
+  Guides:
     - error-tracking
+    - caching
     - troubleshooting
+    - upgrade-optics
   Reference:
     - proto-doc
 github_repo: apollographql/engine-docs

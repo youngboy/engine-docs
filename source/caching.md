@@ -1,5 +1,5 @@
 ---
-title: Whole Query Caching
+title: Response Caching
 order: 3
 ---
 
@@ -36,40 +36,3 @@ where:
 * name: user-given id for the cache store
 * timeout: the timeout, with units, for the Proxy to connect to Memcached
 * [optional] memcaches: list of Memcache instances to be used for this cache store. Each Memcached configuration contains a Memcached URL. If this is omitted, an in-memory cache is created.
-
-### Set TTL for a operation signature
-
-Here's an example configuration entry for configuring TTL (in seconds) and a cache store for each operation signature:
-
-```
-"operations": [
-    {
-      "signature": "{hero{name}}",
-      "caches": [
-        {
-          "ttl": "600s",
-          "store": "standardCache"
-        }
-      ]
-    }
-  ],
-```
-
-### Invalidate a cache store
-
-To invalidate a cache store, change the key prefix on the cache store configuration.
-
-```
-"stores": [
-    {
-      "name": "standardCache",
-      "memcache": {
-        "urls": [
-          "localhost:11211"
-        ],
-***        "keyPrefix": "1:",***
-        "timeout": "1s",
-      }
-    }
-  ],
-```
