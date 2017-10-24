@@ -14,21 +14,19 @@ We suggest using NodeJS, but any runtime supported by Lambda can be used.
 
 **Supported Node servers:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda); [Express-GraphQL](https://github.com/graphql/express-graphql)
 
+The only available option for running the Engine proxy with a function on Lambda is to run the proxy in a standalone docker container. The Proxy is required as it is responsible for capturing, aggregating and then sending to Engine the trace data from each Lambda instance GraphQL response.
 
-## 1. Instrument Function with Apollo Tracing
+<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">Instrument Function with Apollo Tracing</h2>
 
 You will need to instrument your Lambda function with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
 For NodeJS, this is our recommended npm package: https://github.com/apollographql/apollo-tracing-js
 
-## 2. Configure the Proxy
-
-The only available option for running the Engine proxy with a function on Lambda is to run the proxy in a standalone docker container. The Proxy is required as it is responsible for capturing, aggregating and then sending to Engine the trace data from each Lambda instance GraphQL response.
-
-### 2.1 Get your API Key
+<h2 id="configure-proxy" title="Configure the Proxy">2. Configure the Proxy</h2>
+<h3 id="get-api-key" title="Get your API Key">2.1 Get your API Key</h3>
 First, get your `Engine_API_Key` by creating a service on https://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
 
-### 2.2 Create your Proxy's Config.json
+<h3 id="create-config-json" title="Create your Config.json">2.2 Create your Proxy's Config.json</h3>
 The proxy uses a JSON object to get configuration information. If the configuration is passed the path to your file, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.
 
 **Create a JSON configuration file:**
@@ -71,7 +69,7 @@ The proxy uses a JSON object to get configuration information. If the configurat
 
 For full configuration details see [Proxy config](/proto-doc.html).
 
-### 2.3 Run the Proxy (Docker Container)
+<h3 id="run-the-proxy" title="Run the Proxy">2.3 Run the Proxy (Docker Container)</h3>
 
 The Engine proxy is a docker image that you will deploy and manage separate from your server.
 
@@ -90,6 +88,6 @@ It does not matter where you choose to deploy and manage your Engine proxy. We r
 
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
 
-## 3. View Metrics in Engine
+<h2 id="view-metrics-in-engine" title="View Metrics in Engine">3. View Metrics in Engine</h2>
 
 Once your server is set up, navigate your new Engine service on https://engine.apollographql.com. Start sending requests to your Node server to start seeing performance metrics!

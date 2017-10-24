@@ -14,8 +14,7 @@ To get started with Engine, you will need to:
   - Deploy the Engine proxy in a standalone docker container.
 3. Send requests to your service – you're all set up!
 
-<h2 id="node-with-apollo-tracing" title="Node with Apollo Tracing">1. Instrument Node Agent with Apollo Tracing</h2>
-
+<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Instrument Node Agent with Apollo Tracing</h2>
 You will need to instrument your Node server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
 If you are using Apollo Server, the only code change required is to add  `tracing: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
@@ -28,10 +27,9 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 }));
 ```
 
-If you are using Express-GraphQL, follow the instructions on https://github.com/apollographql/apollo-tracing-js#express-graphql .
+If you are using Express-GraphQL, follow the instructions on https://github.com/apollographql/apollo-tracing-js#express-graphql.
 
 <h4 id="enabling-compression" title="Enabling Compression">Enabling Compression [Optional]</h4>
-
 Once instrumented, the tracing package will increase the size of GraphQL requests traveling between your GraphQL and the Engine proxy, because the requests will be augmented with additional tracing data.
 
 Because of this, we recommend that you enable gzip compression in your GraphQL server – the added volume from the tracing format compresses well.
@@ -62,7 +60,6 @@ Hapi comes with support for compression enabled by default, unless it has been c
 There are two options for configuring and deploying the Engine proxy with Node servers. You can either install Engine's JavaScript sidecar package from NPM or run a standalone docker container.
 
 <h3 id="sidecar-package" title="Sidecar Package">Option 1: Sidecar Package</h3>
-
 This option involves adding an NPM package to your server that will run an Engine proxy in the same container as your server.
 
 We provide an NPM package that includes a pre-built copy of the Engine proxy. It spawns an Engine process side-by-side with your GraphQL server process and incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
@@ -73,7 +70,6 @@ npm install --save apollo-engine
 ```
 
 <h4 id="adding-engine-to-nodejs-server" title="Add Engine to your Node.js Server">Add Engine to your Node.js Server</h4>
-
 The Engine proxy uses a JSON object to get configuration information. You can instrument your Node server code to support Engine by adding the following steps to the **top** of your server's code:
 
 **Step 1: Import Engine**
@@ -141,7 +137,6 @@ app.use(engine.expressMiddleware());
 ```
 
 <h3 id="standalone-docker-container" title="Docker Container">Option 2: Standalone Docker Container</h3>
-
 This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server.
 
 <h4 id="create-config-json" title="Create the Config.json">Create the proxy's Config.json</h4>
@@ -181,7 +176,6 @@ You can get your `ENGINE_API_KEY` by creating a service on http://engine.apollog
 6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
 
 <h4 id="run-proxy" title="Run the Docker Proxy">Run the Proxy (Docker Container)</h4>
-
 The Engine proxy is a Docker image that you will deploy and manage separate from your server.
 
 If you have a working [Docker installation](https://docs.docker.com/engine/installation/), type the following lines in your shell (variables replaced with the correct values for your environment) to run the Engine proxy:
@@ -198,5 +192,4 @@ It does not matter where you choose to deploy and manage your Engine proxy. We r
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
 
 <h2 id="view-metrics-in-engine" title="View Metrics">3. View Metrics in Engine</h2>
-
 Once your server is set up, navigate your new Engine service on https://engine.apollographql.com. Start sending requests to your Node server to start seeing performance metrics!

@@ -7,9 +7,9 @@ We introduced the Engine proxy architecture to enable support for more GraphQL s
 
 If you're already using Optics, there's an easy upgrade from your current Optics integration to Engine - it's just a few lines of code in your `server.js` and an NPM package upgrade! If you are interested in using other languages, please see our other documentation pages.
 
-**This **guide assumes you are starting with **a Node.js app **that has Optics already instrumented.
+**This** guide assumes you are starting with **a Node.js app **that has Optics already instrumented.
 
-## Remove Optics agent integration
+<h2 id="remove-optics-agent-instrumentation" title="Remove Optics Agent integration">Remove Optics agent integration</h2>
 
 You can remove the code added to your Node `server.js` file to instrument Optics.
 
@@ -56,17 +56,17 @@ Remove the Optics Agent NPM package:
 npm remove optics-agent
 ```
 
-## Install and configure Engine
+<h2 id="install-and-configure-engine" title="Install and Configure Engine">Install and Configure Engine</h2>
 
 We recommend that you use Apollo Server. It's a much simpler integration.
 
-### Get an API key from Engine
+<h3 id="get-api-key" title="Get your API Key">Get an API key from Engine</h3>
 
 Log in to [engine.apollographql.com](https://engine.apollographql.com) and click "Add Service" in the upper right-hand corner.
 
 Name your endpoint and save your **API key**.
 
-### Enable Apollo Tracing
+<h3 id="enable-apollo-tracing" title="Enable Apollo Tracing">Enable Apollo Tracing</h3>
 
 **If using Apollo Server**
 
@@ -85,7 +85,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 
 Using Apollo Tracing with express-graphql requires more manual configuration. See [this section](https://github.com/apollographql/apollo-tracing-js#express-graphql) of the docs for details.
 
-### Add Engine middleware code to your server
+<h3 id="add-engine-middleware" title="Add Engine Middleware">Add Engine Middleware Code to your Server</h3>
 
 Import the Engine constructor from the apollo-engine NPM package.
 
@@ -135,14 +135,14 @@ app.use(engine.expressMiddleware());
 // ...
 ```
 
-## [Optional] Enabling Compression
+<h2 id="enabling-compression" title="Enabling Compression">[Optional] Enabling Compression</h2>
 
 Once instrumented, the tracing package will increase the size of GraphQL requests traveling between your GraphQL and the Engine proxy, because the requests will be augmented with additional tracing data.
 Because of this, we recommend that you enable gzip compression in your GraphQL server – the added volume from the tracing format compresses well.
 
 See [Node compression](/setup-node.html#\31 -Instrument-Node-Agent-with-Apollo-Tracing) for instructions.
 
-## Run in localhost to test
+<h2 id="test" title="Test">Run in localhost to test</h2>
 
 Start the server in your localhost development environment.
 
@@ -150,6 +150,6 @@ Run your GraphQL queries and check that they provide the results you expect.
 
 Check that they show up in your service report on engine.apollographql.com (http://engine.apollographql.com/).
 
-## Deploy to staging and production
+<h2 id="deploy" title="Deploy"> Deploy to Staging and Production</h2>
 
 Deploy the Node server to staging and then production!
