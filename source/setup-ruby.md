@@ -1,5 +1,5 @@
 ---
-title: Setup for Ruby Servers
+title: Ruby with GraphQL-Ruby
 order: 2
 ---
 
@@ -14,7 +14,7 @@ At this time, the only available option for running the Engine proxy with a Ruby
 
 _Interested in writing a sidecar Ruby gem? [Get in touch](mailto:support@apollodata.com) with us!_
 
-<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Instrument Ruby Agent with Apollo Tracing</h2>
+<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Enable Apollo Tracing</h2>
 You will need to instrument your Ruby server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
 This is our recommended Ruby gem: https://github.com/uniiverse/graphql-tracing. 

@@ -1,5 +1,5 @@
 ---
-title: Setup for Node Servers
+title: Node with Apollo Server
 order: 1
 ---
 

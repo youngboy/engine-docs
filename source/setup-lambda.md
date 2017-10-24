@@ -1,5 +1,5 @@
 ---
-title: Setup for AWS Lambda
+title: AWS Lambda
 order: 2
 ---
 
@@ -16,7 +16,7 @@ We suggest using NodeJS, but any runtime supported by Lambda can be used.
 
 The only available option for running the Engine proxy with a function on Lambda is to run the proxy in a standalone docker container. The Proxy is required as it is responsible for capturing, aggregating and then sending to Engine the trace data from each Lambda instance GraphQL response.
 
-<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">Instrument Function with Apollo Tracing</h2>
+<h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">Enable Apollo Tracing</h2>
 
 You will need to instrument your Lambda function with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
