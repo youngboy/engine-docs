@@ -31,12 +31,14 @@ The proxy uses a JSON object to get configuration information. If the configurat
 ```
 {
   "apiKey": "<ENGINE_API_KEY>",
-  "logcfg": {
+  "logging": {
     "level": "INFO"
   },
   "origins": [
     {
-      "url": "http://localhost:3000/graphql"
+      "http": {
+        "url": "http://localhost:3000/graphql"
+      }
     }
   ],
   "frontends": [
@@ -51,8 +53,8 @@ The proxy uses a JSON object to get configuration information. If the configurat
 
 **Configuration options:**
 1. `apiKey`: The API key for the Engine service you want to report data to.
-2. `logcfg.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
-3. `origin.url` : The URL for your GraphQL server.
+2. `logging.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
+3. `origin.http.url` : The URL for your GraphQL server.
 4. `frontend.host` : The hostname the proxy should be available on.
 5. `frontend.port` : The port the proxy should bind to.
 6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
@@ -68,7 +70,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:2017.10-376-g0e29d5d5
+  gcr.io/mdg-public/engine:2017.10-408-g497e1410
 ```
 
 It does not matter where you choose to deploy and manage your Engine proxy. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).

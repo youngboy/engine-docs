@@ -16,12 +16,14 @@ Create a JSON configuration file:
 ```
 {
   "apiKey": "<ENGINE_API_KEY>",
-  "logcfg": {
+  "logging": {
     "level": "INFO"
   },
   "origins": [
     {
-      "url": "http://localhost:3000/graphql"
+      "http": {
+        "url": "http://localhost:3000/graphql"
+      }
     }
   ],
   "frontends": [
@@ -35,11 +37,11 @@ Create a JSON configuration file:
 ```
 
 What are those things?
-1. `origin.url` : The URL for your GraphQL server
+1. `origin.http.url` : The URL for your GraphQL server
 2. `frontend.host` : The hostname the proxy should be available on
 3. `frontend.port` : The port the proxy should bind to
 4. `frontend.endpoint` : The path for the GraphQL server . This is usually /graphql.
-5. `logcfg.level` : Logging level for the proxy. Supported values are DEBUG, INFO, WARN, ERROR .
+5. `logging.level` : Logging level for the proxy. Supported values are DEBUG, INFO, WARN, ERROR .
 
 For full configuration details see [Proxy config](/proto-doc.html).
 
@@ -50,7 +52,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:2017.10-376-g0e29d5d5
+  gcr.io/mdg-public/engine:2017.10-408-g497e1410
 ```
 
 

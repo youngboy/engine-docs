@@ -34,15 +34,16 @@ The proxy uses a JSON object to get configuration information. If the configurat
 ```
 {
   "apiKey": "<ENGINE_API_KEY>",
-  "logcfg": {
+  "logging": {
     "level": "INFO"
   },
   "origins": [
     {
-      "url":"arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx",
-      "awsAccessKeyId":"xxxxxxxxxxxxxxxxxxxx",
-      "awsSecretAccessKey":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-      "originType": "Lambda"
+      "lambda": {
+          "functionArn":"arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx",
+          "awsAccessKeyId":"xxxxxxxxxxxxxxxxxxxx",
+          "awsSecretAccessKey":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
     }
   ],
   "frontends": [
@@ -57,12 +58,11 @@ The proxy uses a JSON object to get configuration information. If the configurat
 
 **Configuration options:**
 1. `apiKey` : The API key for the Engine service you want to report data to.
-2. `logcfg.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
-3. `origin.url` : The Lambda function to invoke, in the form:
+2. `logging.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
+3. `origin.lambda.functionArn` : The Lambda function to invoke, in the form:
                   arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx
-4. `origin.awsAccessKeyId` : Your Access Key ID. If not provided the proxy will attempt `AWS_ACCESS_KEY_ID`/`AWS_SECRET_KEY` environment variables, and EC2 instance profile.
-5. `origin.awsSecretAccessKey` : Your Secret Access Key.
-6. `origin.originType` : Set to `Lambda` to specify a Lambda GraphQL server origin.
+4. `origin.lambda.awsAccessKeyId` : Your Access Key ID. If not provided the proxy will attempt `AWS_ACCESS_KEY_ID`/`AWS_SECRET_KEY` environment variables, and EC2 instance profile.
+5. `origin.lambda.awsSecretAccessKey` : Your Secret Access Key.
 7. `frontend.host` : The hostname the proxy should be available on. For Docker, this should always be `0.0.0.0`.
 8. `frontend.port` : The port the proxy should bind to.
 9. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
@@ -79,7 +79,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:2017.10-376-g0e29d5d5
+  gcr.io/mdg-public/engine:2017.10-408-g497e1410
 ```
 
 This will make the Engine proxy available at `http://localhost:3001`.

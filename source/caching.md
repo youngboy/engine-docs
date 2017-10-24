@@ -3,36 +3,143 @@ title: Response Caching
 order: 3
 ---
 
-Engine allows you to cache whole GraphQL query responses. You can use Memcached as the cache store. You can set TTLs per query signature.
+API caching is a standard best practice, both to reduce the load on your servers, and to accelerate API responses and decrease page render times. But because GraphQL requests are POSTed to a single endpoint, existing HTTP caching solutions don’t work well for GraphQL APIs.
 
-These are the the steps to configure whole query caching:
+To bring caching to GraphQL, we first developed [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), a new open standard that allows servers to specify exactly what parts of a response can be cached, and for how long. Apollo Engine implements Apollo Cache Control, caching whole query responses based on a computed cacheability of each new query type, without requiring any manual configuration. Engine also includes a really nice way to see how cache policies impact each query type, making it easy to optimize your queries for cacheability, refine field-level cache policies, and pinpoint slow components on screen that could benefit from caching.
 
-1. Configure cache stores
-2. Configure caching policies for operation signatures
-3. Add the caching configuration to the Engine config JSON
+These are the the steps to configure response caching:
 
-### Configure cache stores
+1. Enable cache control in your server and schema
+1. Add the caching configuration to the Engine config file
 
-Engine supports one or more cache stores. Each cache store can consist of one or more Memcached instances or in-process caches.
+> The initial preview of caching only supports Apollo Server, but we're working with the community to add support for Apollo Cache Control to other server libraries.
 
-Here's an example configuration entry for cache stores:
+## Enable cache control in Apollo Server
+
+Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards.
+
+The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
 ```
-"stores": [
+app.use('/graphql', bodyParser.json(), graphqlExpress({
+  schema,
+  context: {},
+  tracing: true,
+  cacheControl: true
+}));
+```
+
+### Add cache hints to your schema
+
+Cache hints can be added to your schema using directives on your types and fields. When executing your query, these hints will be added to the response and interpreted by Engine to compute a cache policy for the response. Hints on fields override hints specified on the target type.
+
+```
+type Post @cacheControl(maxAge: 240) {
+  id: Int!
+  title: String
+  author: Author
+  votes: Int @cacheControl(maxAge: 30)
+  readByCurrentUser: Boolean! @cacheControl(scope: PRIVATE)
+}
+```
+
+If you need to add cache hints dynamically, you can use a programmatic API from within your resolvers.
+
+```
+const resolvers = {
+  Query: {
+    post: (_, { id }, _, { cacheControl }) => {
+      cacheControl.setCacheHint({ maxAge: 60 });
+      return find(posts, { id });
+    }
+  }
+}
+```
+
+If set up correctly, for this query:
+
+```
+query {
+  post(id: 1) {
+    title
+    votes
+    readByCurrentUser
+  }
+}
+```
+
+You should receive cache control data in the `extensions` field of your response:
+
+```
+"cacheControl": {
+  "version": 1,
+  "hints": [
     {
-      "name": "standardCache",
-      "memcache": {
-        "urls": [
-          "localhost:11211"
-        ],
-        "timeout": "1s",
+      "path": [
+        "post"
+      ],
+      "maxAge": 240
+    },
+    {
+      "path": [
+        "post",
+        "votes"
+      ],
+      "maxAge": 30
+    },
+    {
+      "path": [
+        "post",
+        "readByCurrentUser"
+      ],
+      "scope": "PRIVATE"
+    }
+  ]
+}
+```
+
+### Configure Engine for caching
+
+```
+{
+  "apiKey": "...",
+  "origins": [
+    {
+      "http": {
+        "url": "http://localhost:4001/graphql"
       }
     }
   ],
+  "stores": [
+    {
+      "name": "embeddedCache",
+      "inMemory": {
+        "cacheSize": 10485760
+      }
+    }
+  ],
+  "sessionAuth": {
+    "store": "embeddedCache",
+    "header": "Authorization"
+  },
+  "frontends": [
+    {
+      "host": "127.0.0.1",
+      "port": 4000,
+      "endpoint": "/graphql"
+    }
+  ],
+  "queryCache": {
+    "publicFullQueryStore": "embeddedCache",
+    "privateFullQueryStore": "embeddedCache"
+  },
+  "reporting": {
+    "endpointUrl": "https://engine-report.apollographql.com",
+    "debugReports": true
+  },
+  "logging": {
+    "level": "DEBUG"
+  }
+}
+
 ```
-
-where:
-
-* name: user-given id for the cache store
-* timeout: the timeout, with units, for the Proxy to connect to Memcached
-* [optional] memcaches: list of Memcache instances to be used for this cache store. Each Memcached configuration contains a Memcached URL. If this is omitted, an in-memory cache is created.

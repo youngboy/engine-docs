@@ -28,6 +28,7 @@ sidebar_categories:
     - upgrade-optics
   Reference:
     - proto-doc
+    - proxy-release-notes
 github_repo: apollographql/engine-docs
 content_root: source
 
