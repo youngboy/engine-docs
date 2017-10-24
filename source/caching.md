@@ -14,6 +14,8 @@ These are the the steps to configure response caching:
 
 > The initial preview of caching only supports Apollo Server, but we're working with the community to add support for Apollo Cache Control to other server libraries.
 
+> If you are using `express-graphql`, we recommend you switch to Apollo Server. Both `express-graphql` and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code.
+
 ## Enable cache control in Apollo Server
 
 Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards.
