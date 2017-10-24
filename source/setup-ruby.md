@@ -17,7 +17,7 @@ _Interested in writing a sidecar Ruby gem? [Get in touch](mailto:support@apollod
 <h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Enable Apollo Tracing</h2>
 You will need to instrument your Ruby server with a tracing package that follows the [Apollo Tracing](https://github.com/apollographql/apollo-tracing) format. Engine relies on receiving data in this format to create its performance telemetry reports.
 
-This is our recommended Ruby gem: https://github.com/uniiverse/graphql-tracing. 
+This is our recommended Ruby gem: https://github.com/uniiverse/apollo-tracing-ruby.
 
 <h2 id="configure-proxy" title="Configure the Proxy">2. Configure the Proxy</h2>
 <h3 id="get-api-key" title="Get your API Key">2.1 Get your API Key</h3>
