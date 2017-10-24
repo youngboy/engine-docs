@@ -101,23 +101,15 @@ const engine = new Engine({
   dumpTraffic: true                       
 });
 ```
-<h2 id="validate-each-step" title="Validate Each Step">Let's go through the installation once more, validating each step as correct.</h2>
+<h3 id="validate-each-step" title="Validate Each Step">Let's go through the installation once more, validating each step as correct.</h2>
 
-**Print or console.log your Engine API Key**
-
-This is key - make sure your Engine API key is passing through to your server. Just do it! 
-
-**Did you integrate Apollo Tracing?**
+<h4 id="test=tracing" title="Test Apollo Tracing">Did you integrate Apollo Tracing?</h3>
 
 Test it! if your GraphQL server returns trace extensions in GraphQL responses, it's is a sign that Apollo Tracing is properly configured.
 
-**Sidecar** 
+(If using sidecar) Did you integrate the Engine middleware into your server? Is it called Before all other middleware calls?
 
-Did you integrate the Engine middleware into your server? Is it called Before all other middleware calls?
-
-**Docker container** 
-
-Start the standalone Docker proxy container.
+<h4 id="start-container" title="Start Docker Container">(If using standalone) Start the standalone Docker proxy container.</h3>
 
 If you are still seeing the issue, please email [support@apollodata.com](mailto:support@apollodata.com). 
 
