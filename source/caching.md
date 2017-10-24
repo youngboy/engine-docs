@@ -20,7 +20,7 @@ Apollo Server includes built-in support for Apollo Cache Control from version 1.
 
 The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
-```javascript
+```
 app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema,
   context: {},
@@ -33,9 +33,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 
 Cache hints can be added to your schema using directives on your types and fields. When executing your query, these hints will be added to the response and interpreted by Engine to compute a cache policy for the response. Hints on fields override hints specified on the target type.
 
-
-
-```graphql
+```
 type Post @cacheControl(maxAge: 240) {
   id: Int!
   title: String
@@ -47,7 +45,7 @@ type Post @cacheControl(maxAge: 240) {
 
 If you need to add cache hints dynamically, you can use a programmatic API from within your resolvers.
 
-```javascript
+```
 const resolvers = {
   Query: {
     post: (_, { id }, _, { cacheControl }) => {
@@ -60,7 +58,7 @@ const resolvers = {
 
 If set up correctly, for this query:
 
-```graphql
+```
 query {
   post(id: 1) {
     title
@@ -72,7 +70,7 @@ query {
 
 You should receive cache control data in the `extensions` field of your response:
 
-```json
+```
 "cacheControl": {
   "version": 1,
   "hints": [
@@ -102,7 +100,7 @@ You should receive cache control data in the `extensions` field of your response
 
 ### Configure Engine for caching
 
-```json
+```
 {
   "apiKey": "...",
   "origins": [
