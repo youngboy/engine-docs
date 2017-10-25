@@ -43,7 +43,7 @@ The standalone proxy uses a JSON file placed in your applications root folder to
   ],
   "frontends": [
     {
-      "host": "127.0.0.1",
+      "host": "0.0.0.0",
       "port": 3001,
       "endpoint": "/graphql"
     }
