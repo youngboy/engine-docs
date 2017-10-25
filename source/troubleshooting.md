@@ -1,36 +1,40 @@
 ---
-title: Engine Troubleshooting
+title: Setup Troubleshooting
 order: 3
 ---
 
-<h2 id="sanity-checks" title="Sanity checks">Sanity checks</h2>
+If you hit any issues in setting up Engine for your GraphQL service, we're here to help! First, follow these troubleshooting steps to check for any obvious issues. If these don't help, please submit a support ticket to [support@apollodata.com](mailto:support@apollodata.com) and we'll work with you to get you up and running!
 
-We've found that the following steps can help iron out many errors. Let's go through each level of setting up Engine properly. If you are still having an issue, you may have a unique use case or have found a bug that we'd like to hear about! Email us at [support@apollodata.com](mailto:support@apollodata.com).
+<h2 id="sanity-checks" title="First steps">First Troubleshooting steps</h2>
 
-Is your server is one of the supported GraphQL servers listed [here](http://engine-docs.apollographql.com/docs/engine/index.html#apollo-tracing)?
+<h3> Check that you are on a supported GraphQL server </h3>
 
-If so, please upgrade to the latest released versions of GraphQL Server, Engine and npm packages.
+Check that your server is one of the supported GraphQL servers listed [here](/index.html#apollo-tracing).
+
+If it is, please upgrade to the latest released versions of the GraphQL Server, Engine and Apollo packages.
+
 You can enter the following into the commandline to check the package version, or look in  `package.json`. 
 ```
 $ npm view <apollo-engine or npm package> version
 0.4.10
 ```
+
 **Supported package versions**
 
 graphql-js 0.10+
 apollo-engine 0.4.11+
 apollo-tracing 0.9+
 
-<h3 id="check-config" title="Check configuration">Check your Engine configuration</h3>
+<h3> Check for Engine configuration validity </h3>
 
-Try a `diff` between the relevant configuration options:
+These are sample configurations for Engine based on the server environment you are using. A comprehensive documentation on the configurations are available [here](/proto-doc.html)  Use these as a guide to validate your configuration.
 
-**Node**
+**Node sidecar**
 ```
 {
   engineConfig: {
     apiKey: engineApiKey,
-    logcfg: {
+    logging: {
       level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
     }
   },
@@ -39,16 +43,18 @@ Try a `diff` between the relevant configuration options:
   dumpTraffic: true                       // Debug configuration that logs traffic between Proxy and GraphQL server
 }
 ```
-**Ruby, Java, Elixir, Scala**
+**Ruby, Java, Elixir, Scala, or Node with Docker container**
 ```
 {
   "apiKey": "<ENGINE_API_KEY>",
-  "logcfg": {
+  "logging": {
     "level": "INFO"
   },
   "origins": [
     {
-      "url": "http://localhost:3000/graphql"
+      "http": {
+        "url": "http://localhost:3000/graphql"
+      }
     }
   ],
   "frontends": [
@@ -69,10 +75,12 @@ Try a `diff` between the relevant configuration options:
   },
   "origins": [
     {
-      "url":"arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx",
-      "awsAccessKeyId":"xxxxxxxxxxxxxxxxxxxx",
-      "awsSecretAccessKey":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-      "originType": "Lambda"
+      "lambda": {
+        "url":"arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx",
+        "awsAccessKeyId":"xxxxxxxxxxxxxxxxxxxx",
+        "awsSecretAccessKey":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "originType": "Lambda"
+      }
     }
   ],
   "frontends": [
@@ -85,7 +93,7 @@ Try a `diff` between the relevant configuration options:
 }
 ```
 
-<h4 id="up-logging-level" title="Up Logging Level">Up the logging level in your config file</h2>
+<h3> Set debug logging levels for the Proxy</h3>
 
 Set the Engine Proxy logging level to DEBUG or higher. These logs will be part of your GraphQL server logs (if Proxy is deployed as a sidecar) or in the Proxy process logs (if Proxy is deployed standalone).
 ```
@@ -101,19 +109,14 @@ const engine = new Engine({
   dumpTraffic: true                       
 });
 ```
-<h3 id="validate-each-step" title="Validate Each Step">Let's go through the installation once more, validating each step as correct.</h2>
 
-<h4 id="test=tracing" title="Test Apollo Tracing">Did you integrate Apollo Tracing?</h3>
+<h3> Ensure you enabled Apollo Tracing </h3>
 
-Test it! if your GraphQL server returns trace extensions in GraphQL responses, it's is a sign that Apollo Tracing is properly configured.
+Test that you enaled Apollo Tracing by checking if your GraphQL server returns trace extensions in GraphQL responses. If it does, it's is a sign that Apollo Tracing is properly configured.
 
-(If using sidecar) Did you integrate the Engine middleware into your server? Is it called Before all other middleware calls?
+If using the sidecar deployment configuration - check that you integrated the Engine middleware into your server. Is it called Before all other middleware calls?
 
-<h4 id="start-container" title="Start Docker Container">(If using standalone) Start the standalone Docker proxy container.</h3>
-
-If you are still seeing the issue, please email [support@apollodata.com](mailto:support@apollodata.com). 
-
-<h2 id="troubleshooting-faq" title="Troubleshooting FAQ">Troubleshooting FAQ</h2>
+<h2 id="">Troubleshooting FAQs</h2>
 
 **I'm getting an error saying “The query failed!”, how do I fix it?**
 
@@ -135,7 +138,7 @@ Second, check the ordering of your middleware calls. One of the most common reas
 
 Third, we currently support a certain range of language-specific GraphQL servers and middleware implementations in Node.js: Express, Hapi, Koa, Restify, and Lambda. If you are using a middleware like Restify, the proxy may not be supported. 
 
-**Why do my logs show urls like frontend, origin, and passthrough urls?**
+**What is shown on the Engine Proxy logs?**
 
 Each time the Engine proxy starts, you should see the following 4 lines in the logs indicating the Engine proxy is healthy: 
 
@@ -148,17 +151,7 @@ time="2017-10-16T14:34:48-07:00" level=info msg="Set passthrough url" url="http:
 
 These lines are internal to the Engine proxy: the endpoint url that you want will be the same as you configured your application to run without Engine. 
 
-**How do I find my GraphiQL endpoint on my application server?**
-
-Visit the domain in the browser where you are running your application. 
-
-such as http://localhost:3010 (http://localhot:3010/) or https://a-startup.com (https://mydomain.com/) + `/graphiql`. 
-
-**Will Engine show *all* errors that my application throws?**
-
-Engine only logs errors that occur as part of a GraphQL request. That would include things like throw new Error() in a resolver, but not in parts of your code that are not hit when serving a request.
-
-**I'm still having issues...**
+<h2 id="">Submit a support ticket</h2> 
 
 Please include the following when submitting an issue to our support team:
 
@@ -166,5 +159,4 @@ Please include the following when submitting an issue to our support team:
 * Type of GraphQL server and whether you are using a sidecar or standalone container
 * The query submitted and the full response
 
-Submit your issue to [support@apollodata.com](mailto:support@apollodata.com) or join our Apollo public slack channel here (https://apollographql.slack.com/).
-
+Submit your issue to [support@apollodata.com](mailto:support@apollodata.com) or join our Apollo public slack #engine channel here (https://apollographql.slack.com/).
