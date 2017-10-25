@@ -59,7 +59,7 @@ These are sample configurations for Engine based on the server environment you a
   ],
   "frontends": [
     {
-      "host": "127.0.0.1",
+      "host": "0.0.0.0",
       "port": 3001,
       "endpoint": "/graphql"
     }
