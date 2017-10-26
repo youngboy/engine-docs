@@ -187,7 +187,9 @@ SessionAuth describes how the Proxy identifies clients for `private` cache respo
 ### Config.Store
 Configures a cache for GraphQL and authentication responses. Can use one of:
 
-1. memcached 1. in-memory cache
+1. memcached
+
+1. in-memory cache
 
 
 | Field | Type | Description |
