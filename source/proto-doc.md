@@ -28,8 +28,11 @@ If you are configuring the Proxy via the `apollo-engine` npm package, this JSON 
 | apiKey |  string | API key for the service. Get this from your [Engine home](https://engine.apollographql.com). This field is required. |
 | origins | repeated  [Config.Origin](#mdg.engine.config.proto.Config.Origin)  | Origins represent the GraphQL servers to which the Proxy will send requests. If you're using the `apollo-engine` npm package, you don't need to specify origins: the package will generate one automatically for you. |
 | frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of frontends to listen to for GraphQL queries. If you're using the `apollo-engine` npm package, you don't need to specify frontends: the package will generate one automatically for you. |
+| stores | repeated  [Config.Store](#mdg.engine.config.proto.Config.Store)  | The list of configured stores to cache responses to. |
+| sessionAuth |   [Config.SessionAuth](#mdg.engine.config.proto.Config.SessionAuth)  | The session authorization configuration to use for per-session caching. |
 | logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
 | reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
+| queryCache |   [Config.QueryCache](#mdg.engine.config.proto.Config.QueryCache)  | The query cache configuration to use. |
 
 
 
@@ -129,6 +132,20 @@ Configuration for proccessing GraphQL queries in an AWS Lambda function.
 
 
 
+<a name="mdg.engine.config.proto.Config.QueryCache"/>
+
+### Config.QueryCache
+QueryCache defines the behaviour of the query cache.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| publicFullQueryStore |  string | The name of the store to use in caching full query responses containing only public/shared data. |
+| privateFullQueryStore |  string | The name of the store to use in caching full query responses containing only private/per-session data. |
+
+
+
+
 <a name="mdg.engine.config.proto.Config.Reporting"/>
 
 ### Config.Reporting
@@ -145,6 +162,67 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 | hostname |  string | Override for hostname reported to backend. |
 | noTraceVariables |  bool | Don't include variables in query traces. |
 | privateHeaders | repeated string | Headers that should not be forwarded in traces. These are case-sensitive. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.SessionAuth"/>
+
+### Config.SessionAuth
+SessionAuth describes how the Proxy identifies clients for `private` cache responses. Optionally, it can tell the Proxy how to authenticate sessions.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| header |  string | The header that contains an authentication token. Set either this field or "cookie". |
+| cookie |  string | The cookie that contains an authentication token. Set either this field or "header". |
+| tokenAuthUrl |  string | The URL to use in validating the session authentication token. The Proxy will submit an HTTP POST to this URL with a JSON body containing: `{"token": "AUTHENTICATION-TOKEN"}`. The response body should return an integer field "ttl" specifying the number of seconds to continue to consider the session to be valid, and an optional "id" field specifying a longer lived user identifier. This "id" allows the cache to span logins and/or user devices. `{"ttl": 300, "id": "user1"}` This url must respond with an HTTP 2xx for valid authentication tokens. If the returned "ttl" is 0, or no "ttl" is provided, the session is considered valid forever. If the response is an HTTP 401 or 403, or the returned "ttl" is < 0, the session is considered invalid and the request is rejected by the Proxy. |
+| store |  string | The name of the store to use for caching the sessionIDs that have been verified. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.Store"/>
+
+### Config.Store
+Configures a cache for GraphQL and authentication responses. Can use one of:
+
+1. memcached 1. in-memory cache
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| name |  string | The name of the store; used in other parts of the config file to reference the store. |
+| memcache |   [Config.Store.Memcache](#mdg.engine.config.proto.Config.Store.Memcache)  | Memcache configuration |
+| inMemory |   [Config.Store.InMemory](#mdg.engine.config.proto.Config.Store.InMemory)  | In-memory configuration |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.Store.InMemory"/>
+
+### Config.Store.InMemory
+Configures in-memory store.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 5MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if responses are overflowing this limit. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.Store.Memcache"/>
+
+### Config.Store.Memcache
+Configures memcached store
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| url | repeated string | The URLs for the memcached store. Currently does not support authentication. |
+| timeout |  Duration | Socket read/write timeout for the store. This will default to 1s if not specified. |
+| keyPrefix |  string | A prefix added to every memcached key. This allows you to share a single memcached cluster between multiple unrelated Apollo Engine Proxy configurations, or with other data. |
 
 
 
