@@ -3,7 +3,7 @@ title: Proxy release notes
 order: 20
 ---
 
-### 2017.10-408-g497e1410
+### 2017.10-425-gdd4873ae
 
 * Removed limit on HTTP responses from origin server.
 * Fixed issue where `apollo-engine-js` would fail to clean up sidecar processes.
@@ -61,7 +61,7 @@ Is updated to:
 ```
 
 
-### 2017.10-376-g0e29d5d5
+### 2017.10-425-gdd4873ae
 
 * Added (debug) log message to indicate if a query's trace was selected for reporting.
 * Fixed an issue where non-GraphQL errors (i.e. a `500` response with an HTML error page) would not be tracked as errors.

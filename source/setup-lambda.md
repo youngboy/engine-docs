@@ -79,7 +79,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:2017.10-408-g497e1410
+  gcr.io/mdg-public/engine:2017.10-425-gdd4873ae
 ```
 
 This will make the Engine proxy available at `http://localhost:3001`.
