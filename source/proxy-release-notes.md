@@ -3,6 +3,12 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.10-425-gdd4873ae
+
+* Removed empty values in the request to server: `operationName`, `extensions`.
+* Improved error message when handling a request with GraphQL batching. Batching is still not supported at this time.
+
+
 ### 2017.10-408-g497e1410
 
 * Removed limit on HTTP responses from origin server.
