@@ -58,8 +58,8 @@ The logging configuration.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | level |  string | Log level for the Proxy. Defaults to "INFO". Set to "DEBUG" for more verbose logging or "ERROR" for less verbose logging. |
-| request |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  |  |
-| query |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  |  |
+| request |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for request logging, which logs every HTTP request (including non-GraphQL). |
+| query |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for query logging, which logs only GraphQL queries. |
 
 
 

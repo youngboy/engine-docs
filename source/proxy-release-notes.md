@@ -5,6 +5,12 @@ order: 20
 
 ### 2017.10-425-gdd4873ae
 
+* Removed empty values in the request to server: `operationName`, `extensions`.
+* Improved error message when handling a request with GraphQL batching. Batching is still not supported at this time.
+
+
+### 2017.10-408-g497e1410
+
 * Removed limit on HTTP responses from origin server.
 * Fixed issue where `apollo-engine-js` would fail to clean up sidecar processes.
 * Switched query cache compression from LZ4 to Snappy.
@@ -61,7 +67,7 @@ Is updated to:
 ```
 
 
-### 2017.10-425-gdd4873ae
+### 2017.10-376-g0e29d5d5
 
 * Added (debug) log message to indicate if a query's trace was selected for reporting.
 * Fixed an issue where non-GraphQL errors (i.e. a `500` response with an HTML error page) would not be tracked as errors.
