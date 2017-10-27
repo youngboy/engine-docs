@@ -3,6 +3,10 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.10-431-gdc135a5d
+
+* Fixed an issue with per-type stats reporting.
+
 ### 2017.10-425-gdd4873ae
 
 * Removed empty values in the request to server: `operationName`, `extensions`.
