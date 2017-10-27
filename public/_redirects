@@ -1,4 +1,4 @@
-http://engine-docs.apollodata.com/* https://www.apollographql.com/:splat
-https://engine-docs.apollodata.com/* https://www.apollographql.com/:splat
+http://engine-docs.apollographql.com/* https://www.apollographql.com/:splat
+https://engine-docs.apollographql.com/* https://www.apollographql.com/:splat
 
 / /docs/engine/
