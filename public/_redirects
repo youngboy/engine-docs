@@ -1,4 +1,4 @@
-http://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com/docs/engine/:splat
-https://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com/docs/engine/:splat
+http://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com/docs/engine/:splat 301!
+https://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com/docs/engine/:splat 301!
 
 / /docs/engine/
