@@ -30,7 +30,7 @@ Using a different server? [Let us know](mailto:support@apollodata.com) – the d
 
 <h2 id="engine-proxy" title="Engine Proxy">Engine Proxy</h2>
 
-There are two options for deploying the Engine proxy. You can deploy it either as a [sidecar package](/#Option-1-Sidecar-Package) that runs next to your server, or as a [standalone docker container](/#Option-2-Standalone-Docker-Container).
+There are two options for deploying the Engine proxy. You can deploy it either as a [sidecar package](/#sidecar-package) that runs next to your server, or as a [standalone docker container](/#standalone-docker-container).
 
 _Server compatibility chart:_
 
