@@ -5,16 +5,9 @@ order: 4
 
 Apollo Engine is billed on a pay-as-you-go basis based on your GraphQL query volume. Each Engine account includes 1,000,000 free GraphQL queries per monthly billing period and no credit card is required to start using Engine.
 
-## Free vs. paid
+## Utility pricing
 
-Sending over 1 million queries in a month? Apollo Engine usage beyond the 1 million free queries is billed at a rate of $19 per million queries (rounded down to the nearest penny).
-
-* Less than 1 MM queries per month: free
-* Greater than 1 MM queries per month (rounded down to the nearest 1,000): $0.019 per 1,000 queries 
-
-### For example
-
-If you use 2,120,562 total queries during a monthly billing period, you will be billed for 1,120,000 queries or $21.28 for the month based on a rate of $0.019 per 1000 queries
+Sending over 1 million queries in a month? Apollo Engine usage beyond the 1 million free queries is billed at a rate of $9 per million queries (rounded down to the nearest penny).
 
 ## Other Billing Details
 
