@@ -48,6 +48,21 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 | host |  string | The address on which to listen. If left blank, this will default to all interfaces. |
 | port |  int32 | The port on which to listen. If left blank, this will select a random available port. |
 | endpoint |  string | URL path on which to listen; often "/graphql". |
+| extensions |   [Config.Frontend.Extensions](#mdg.engine.config.proto.Config.Frontend.Extensions)  | Configuration for GraphQL response extensions. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.Frontend.Extensions"/>
+
+### Config.Frontend.Extensions
+Configuration for GraphQL extensions. By default engine strips all GraphQL extensions from responses, but clients can request extensions be passed through.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| strip | repeated string | Extensions to strip from responses returned to clients. Clients may still request these extensions, use `blacklist` for stronger protection. If not specified, defaults to all apollo extensions: `["cacheControl","tracing"]` |
+| blacklist | repeated string | Extensions to always strip, even if the client requests them. If not specified, defaults to apollo tracing extension: `["tracing"]` |
 
 
 
@@ -97,6 +112,7 @@ An Origin is a backend that the Proxy can send GraphQL requests to. Can use one 
 | requestTimeout |  Duration | Amount of time to wait before timing out request to this origin. If this is left unspecified, it will default to 30 secs for HTTP or use the function's `timeout` for Lambda. |
 | maxConcurrentRequests |   [uint64](#uint64)  | Maximum number of concurrent requests to the origin. All requests beyond the maximum will return 503 errors. If not specified, this will default to 9999. |
 | requestType |   [Config.Protocol](#mdg.engine.config.proto.Config.Protocol)  | The type of the body of a request to this origin. If not specified, will default to JSON. |
+| supportsBatch |  bool | Does this origin support batched query requests, as defined by: https://github.com/apollographql/apollo-server/blob/213acbba/docs/source/requests.md#batching |
 | http |   [Config.Origin.HTTP](#mdg.engine.config.proto.Config.Origin.HTTP)  | Configuration if this is an HTTP origin. |
 | lambda |   [Config.Origin.Lambda](#mdg.engine.config.proto.Config.Origin.Lambda)  | Configuration if this is a Lambda origin. |
 
@@ -162,6 +178,7 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 | hostname |  string | Override for hostname reported to backend. |
 | noTraceVariables |  bool | Don't include variables in query traces. |
 | privateHeaders | repeated string | Headers that should not be forwarded in traces. These are case-sensitive. |
+| proxyUrl |  string | URL to proxy reporting requests through. `socks5://` and `http://` proxies are supported. |
 
 
 
