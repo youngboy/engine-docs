@@ -3,7 +3,7 @@ title: Upgrade from Optics Agent
 order: 11
 ---
 
-We introduced the Engine proxy architecture to enable support for more GraphQL server languages and to unlock features like Error reporting. 
+Apollo Engine is the next generation of Optics with new features like error reporting, query caching, and more. To enable support for more GraphQL server languages and unlock features like caching, Engine is built upon a proxy architecture. To upgrade from Optics to Engine you'll need to add the Engine proxy to your stack.
 
 If you're already using Optics, there's an easy upgrade from your current Optics integration to Engine - it's just a few lines of code in your `server.js` and an NPM package upgrade! If you are interested in using other languages, please see our other documentation pages.
 
