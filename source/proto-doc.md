@@ -56,13 +56,13 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 <a name="mdg.engine.config.proto.Config.Frontend.Extensions"/>
 
 ### Config.Frontend.Extensions
-Configuration for GraphQL extensions. By default engine strips all GraphQL extensions from responses, but clients can request extensions be passed through.
+Configuration for GraphQL response extensions.
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| strip | repeated string | Extensions to strip from responses returned to clients. Clients may still request these extensions, use `blacklist` for stronger protection. If not specified, defaults to all apollo extensions: `["cacheControl","tracing"]` |
-| blacklist | repeated string | Extensions to always strip, even if the client requests them. If not specified, defaults to apollo tracing extension: `["tracing"]` |
+| strip | repeated string | Extensions to strip from responses returned to clients. Clients may still request these extensions, use `blacklist` for stronger protection. If not specified, defaults to all Apollo extensions: `["cacheControl","tracing"]` |
+| blacklist | repeated string | Extensions to always strip, even if the client requests them. If not specified, defaults to Apollo tracing extension: `["tracing"]` |
 
 
 
