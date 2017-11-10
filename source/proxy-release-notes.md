@@ -3,6 +3,35 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.11-40-g9585bfc6
+
+* Fixed a bug where query parameters would be dropped from requests forwarded to origins.
+
+* Added the ability to send reports through an HTTP or SOCKS5 proxy.
+
+  To enable reporting through a proxy, set `"proxyUrl": "http://192.168.1.1:3128"` within the `reporting` section of the configuration.
+
+* Added support for transport level batching, like [apollo-link-batch-http](https://github.com/apollographql/apollo-link/tree/master/packages/apollo-link-batch-http).
+
+  By default, query batches are fractured by the proxy and individual queries are sent to origins, in parallel.
+  If your origin supports batching and you'd like to pass entire batches through, set `"supportsBatch": true` within the `origins` section of the configuration.
+
+* *BREAKING*: Changed behaviour when the proxy receives a non-GraphQL response from an origin server.
+  Previously the proxy would serve the non-GraphQL response, now it returns a valid GraphQL error indicating that the origin failed to respond.
+
+* Added support for the `includeInResponse` query extension. This allows clients to request GraphQL response extensions be forwarded through the proxy.
+
+  To instruct the proxy to strip extensions, set: `"extensions": { "strip": ["cacheControl", "tracing", "myAwesomeExtension"] }` within the `frontends` section of the configuration.
+  By default, Apollo extensions: `cacheControl` and `tracing` are stripped.
+
+  Stripped extensions may still be returned if the client requests them via the `includeInResponse` query extension.
+  To instruct the proxy to _never_ return extensions, set `"extensions": { "blacklist": ["tracing","mySecretExtension"] }` within the `frontends` section of the configuration.
+  By default, the Apollo tracing extension: `tracing` is blacklisted.
+
+* *BREAKING*: Fixed a bug where literals in a query were ignored by query cache lookup. This change invalidates the current query cache.
+
+* Fixed a bug where the `X-Engine-From` header was not set in non-GraphQL requests forwarded to origins. This could result in an infinite request loop in `apollo-engine-js`.
+
 ### 2017.10-431-gdc135a5d
 
 * Fixed an issue with per-type stats reporting.
