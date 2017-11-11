@@ -23,7 +23,7 @@ $ npm view <apollo-engine or npm package> version
 
 graphql-js 0.10+
 apollo-engine 0.4.11+
-apollo-tracing 0.9+
+apollo-tracing 0.0.9+
 
 <h3> Check for Engine configuration validity </h3>
 
