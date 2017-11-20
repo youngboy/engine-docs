@@ -3,6 +3,12 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.11-84-gb299b9188
+
+* Fixed GraphQL parsing bugs that prevented handling requests containing list literals and object literals.
+* Added the ability for the proxy to output JSON formatted logs.
+* Fixed a bug with reverse proxying to HTTPS origins.
+
 ### 2017.11-59-g4ff40ec30
 
 * Fixed passing through custom fields on GraphQL errors.
