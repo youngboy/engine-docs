@@ -140,7 +140,7 @@ app.use(engine.expressMiddleware());
 Once instrumented, the tracing package will increase the size of GraphQL requests traveling between your GraphQL and the Engine proxy, because the requests will be augmented with additional tracing data.
 Because of this, we recommend that you enable gzip compression in your GraphQL server – the added volume from the tracing format compresses well.
 
-See [Enabling Node compression](/setup-node.html#enabling-compression-optional) for instructions.
+See [Enabling Node compression](setup-node.html#enabling-compression-optional) for instructions.
 
 <h2 id="test" title="Test">Run in localhost to test</h2>
 
