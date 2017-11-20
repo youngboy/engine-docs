@@ -3,6 +3,10 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.11-59-g4ff40ec30
+
+* Fixed passing through custom fields on GraphQL errors.
+
 ### 2017.11-40-g9585bfc6
 
 * Fixed a bug where query parameters would be dropped from requests forwarded to origins.
