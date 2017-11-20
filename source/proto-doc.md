@@ -76,6 +76,7 @@ The logging configuration.
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | level |  string | Log level for the Proxy. Defaults to "INFO". Set to "DEBUG" for more verbose logging or "ERROR" for less verbose logging. |
+| format |   [Config.Logging.LogFormat](#mdg.engine.config.proto.Config.Logging.LogFormat)  | Log format for the proxy. Defaults to `TEXT`. |
 | request |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for request logging, which logs every HTTP request (including non-GraphQL). |
 | query |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for query logging, which logs only GraphQL queries. |
 
@@ -246,6 +247,17 @@ Configures memcached store
 
 
 
+
+
+<a name="mdg.engine.config.proto.Config.Logging.LogFormat"/>
+
+### Config.Logging.LogFormat
+Logging formats
+
+| Value | Description |
+| ----- | ----------- |
+| TEXT | Text formatting, with one log record on every line |
+| JSON | JSON formatting, with one log record in each JSON object. |
 
 
 <a name="mdg.engine.config.proto.Config.Protocol"/>
