@@ -3,6 +3,26 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.11-121-g2a0310e1b
+
+* Improved performance when reverse proxying non-GraphQL requests.
+* Removed `-restart=true` flag, which spawned and managed a child proxy process. This was only used by `apollo-engine-js`.
+* Added POSIX signal processing:
+  * On `SIGHUP`, reload configuration. Configurations provided through `STDIN` ignore `SIGHUP`.
+  * On `SIGTERM`, or `SIGINT`, attempt to send final stats and traces  before gracefully shutting down.
+* Added the ability to prevent certain GraphQL variables, by name, from being forwarded to Apollo Engine servers. The proxy replaces these variables with the string `(redacted)` in traces, so their presence can be verified but the value is not transmitted.
+
+  To blacklist GraphQL variables `password` and `secret`, add: `"privateVariables": ["password", "secret"]` within the `reporting` section of the configuration. There are no default private variables.
+* Added the option to disable reporting of stats and traces to Apollo servers, so that integration tests can run without polluting production data.
+
+ To disable reporting, add `"disabled": true` within the `reporting` section of the configuration. Reporting is enabled by default.
+* Added the ability to forward log output to `STDOUT`, `STDERR`, or a file path. Previously logging was always sent to `STDERR`.
+
+ To change log output, add `"destination": "stdout"` within the `logging` section of the configuration.
+ Like query/request loggings, rotation of file logs is out of scope.
+* Fixed an issue where `Content-Type` values with parameters (e.g. `application/json;charset=utf=8`) would bypass GraphQL instrumentation.
+
+
 ### 2017.11-84-gb299b9188
 
 * Fixed GraphQL parsing bugs that prevented handling requests containing list literals and object literals.
