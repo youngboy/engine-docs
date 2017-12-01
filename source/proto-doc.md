@@ -32,7 +32,8 @@ If you are configuring the Proxy via the `apollo-engine` npm package, this JSON 
 | sessionAuth |   [Config.SessionAuth](#mdg.engine.config.proto.Config.SessionAuth)  | The session authorization configuration to use for per-session caching. |
 | logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
 | reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
-| queryCache |   [Config.QueryCache](#mdg.engine.config.proto.Config.QueryCache)  | The query cache configuration to use. |
+| queryCache |   [Config.QueryResponseCache](#mdg.engine.config.proto.Config.QueryResponseCache)  | The query response cache configuration to use. |
+
 
 
 
@@ -77,6 +78,7 @@ The logging configuration.
 | ----- | ---- | ----------- |
 | level |  string | Log level for the Proxy. Defaults to "INFO". Set to "DEBUG" for more verbose logging or "ERROR" for less verbose logging. |
 | format |   [Config.Logging.LogFormat](#mdg.engine.config.proto.Config.Logging.LogFormat)  | Log format for the proxy. Defaults to `TEXT`. |
+| destination |  string | Path for logs. Can be a file path, `STDOUT` or `STDERR`. |
 | request |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for request logging, which logs every HTTP request (including non-GraphQL). |
 | query |   [Config.Logging.AccessLogging](#mdg.engine.config.proto.Config.Logging.AccessLogging)  | Configuration for query logging, which logs only GraphQL queries. |
 
@@ -149,10 +151,10 @@ Configuration for proccessing GraphQL queries in an AWS Lambda function.
 
 
 
-<a name="mdg.engine.config.proto.Config.QueryCache"/>
+<a name="mdg.engine.config.proto.Config.QueryResponseCache"/>
 
-### Config.QueryCache
-QueryCache defines the behaviour of the query cache.
+### Config.QueryResponseCache
+QueryResponseCache defines the behaviour of the query response cache.
 
 
 | Field | Type | Description |
@@ -178,8 +180,10 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 | debugReports |  bool | Dump reports as JSON to debug logs. This is usually only used by Apollo support. |
 | hostname |  string | Override for hostname reported to backend. |
 | noTraceVariables |  bool | Don't include variables in query traces. |
-| privateHeaders | repeated string | Headers that should not be forwarded in traces. These are case-sensitive. |
+| privateHeaders | repeated string | Headers that should not be sent to Apollo servers. These are case-sensitive. |
 | proxyUrl |  string | URL to proxy reporting requests through. `socks5://` and `http://` proxies are supported. |
+| privateVariables | repeated string | Names of variables whose values should not be sent to Apollo servers. These are case-sensitive. |
+| disabled |  bool | Disable sending reports to Apollo servers. |
 
 
 
@@ -269,9 +273,3 @@ Enum describing which GraphQL transport protocol is implemented by an origin. If
 | ----- | ----------- |
 | JSON | The standard JSON GraphQL transport is documented [here](http://graphql.org/learn/serving-over-http/#post-request) |
 | CBOR | GraphQL transport over CBOR is supported by Apollo Engine Proxy but not yet documented. |
-
-
-
-
-
-
