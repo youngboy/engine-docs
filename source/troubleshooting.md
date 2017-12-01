@@ -9,11 +9,11 @@ If you hit any issues in setting up Engine for your GraphQL service, we're here 
 
 <h3> Check that you are on a supported GraphQL server </h3>
 
-Check that your server is one of the supported GraphQL servers listed [here](/index.html#apollo-tracing).
+Check that your server is one of the supported GraphQL servers listed [here](index.html#apollo-tracing).
 
 If it is, please upgrade to the latest released versions of the GraphQL Server, Engine and Apollo packages.
 
-You can enter the following into the commandline to check the package version, or look in  `package.json`. 
+You can enter the following into the commandline to check the package version, or look in  `package.json`.
 ```
 $ npm view <apollo-engine or npm package> version
 0.4.10
@@ -27,7 +27,7 @@ apollo-tracing 0.0.9+
 
 <h3> Check for Engine configuration validity </h3>
 
-These are sample configurations for Engine based on the server environment you are using. A comprehensive documentation on the configurations are available [here](/proto-doc.html)  Use these as a guide to validate your configuration.
+These are sample configurations for Engine based on the server environment you are using. A comprehensive documentation on the configurations are available [here](proto-doc.html)  Use these as a guide to validate your configuration.
 
 **Node sidecar**
 ```
