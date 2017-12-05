@@ -32,7 +32,7 @@ If you are configuring the Proxy via the `apollo-engine` npm package, this JSON 
 | sessionAuth |   [Config.SessionAuth](#mdg.engine.config.proto.Config.SessionAuth)  | The session authorization configuration to use for per-session caching. |
 | logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
 | reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
-| queryCache |   [Config.QueryResponseCache](#mdg.engine.config.proto.Config.QueryResponseCache)  | The query response cache configuration to use. XXX: rename this for consistency; wait until "compressionThreshold" integration to minimize changes. |
+| queryCache |   [Config.QueryResponseCache](#mdg.engine.config.proto.Config.QueryResponseCache)  | The query response cache configuration to use. |
 | persistedQueries |   [Config.PersistedQueries](#mdg.engine.config.proto.Config.PersistedQueries)  | The persisted query configuration to use. |
 
 
@@ -287,9 +287,3 @@ Enum describing which GraphQL transport protocol is implemented by an origin. If
 | ----- | ----------- |
 | JSON | The standard JSON GraphQL transport is documented [here](http://graphql.org/learn/serving-over-http/#post-request) |
 | CBOR | GraphQL transport over CBOR is supported by Apollo Engine Proxy but not yet documented. |
-
-
-
-
-
-
