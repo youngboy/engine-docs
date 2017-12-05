@@ -59,7 +59,7 @@ The proxy uses a JSON object to get configuration information. If the configurat
 5. `frontend.port` : The port the proxy should bind to.
 6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
 
-For full configuration details see [Proxy config](/proto-doc.html).
+For full configuration details see [Proxy config](proto-doc.html).
 
 <h3 id="run-the-proxy" title="Run the Proxy">2.3 Run the Proxy (Docker Container)</h3>
 The Engine proxy is a docker image that you will deploy and manage separate from your server.
