@@ -11,7 +11,7 @@ The concept is simple: by sending a query ID or hash instead of an entire GraphQ
 1. Add the [Automatic Persisted Queries Link](https://github.com/apollographql/apollo-link-persisted-queries#installation) to your client codebase.
 2. Upgrade to a version of Apollo Engine > 0.6.0.
 3. Enable a caching store for persisted queries in your Engine config:
-```json
+```js
 "stores": [{
   "name": "pq",
   "inMemory": {
