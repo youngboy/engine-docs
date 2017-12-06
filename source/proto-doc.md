@@ -33,7 +33,7 @@ If you are configuring the Proxy via the `apollo-engine` npm package, this JSON 
 | logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
 | reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
 | queryCache |   [Config.QueryResponseCache](#mdg.engine.config.proto.Config.QueryResponseCache)  | The query response cache configuration to use. |
-
+| persistedQueries |   [Config.PersistedQueries](#mdg.engine.config.proto.Config.PersistedQueries)  | The persisted query configuration to use. |
 
 
 
@@ -147,6 +147,20 @@ Configuration for proccessing GraphQL queries in an AWS Lambda function.
 | functionArn |  string | The handler function's ARN (formatted as "arn:aws:lambda:REGION:ACCOUNT-ID:function:FUNCTION-NAME"). Required. |
 | awsAccessKeyId |  string | The AWS access key ID for an AWS IAM user with `lambda:Invoke` permissions. If this is left unspecified, it will fall back to environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`, then to EC2 instance profile. |
 | awsSecretAccessKey |  string | The AWS secret access key for the AWS IAM access key ID specified in the `awsAccessKeyId` field. |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.PersistedQueries"/>
+
+### Config.PersistedQueries
+PersistedQueries defines behaviour of the persistent query cache.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| store |  string | The name of the store to use in caching queries. |
+| compressionThreshold |  int64 | Minimum size in bytes to trigger compression. If not specified, defaults to 1024. Set to a negative number to disable compression. |
 
 
 
