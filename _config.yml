@@ -24,6 +24,7 @@ sidebar_categories:
   Guides:
     - error-tracking
     - caching
+    - auto-persisted-queries
     - troubleshooting
     - upgrade-optics
     - billing

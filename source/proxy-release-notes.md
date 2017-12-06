@@ -26,7 +26,7 @@ order: 20
  To change log output, add `"destination": "STDOUT"` within the `logging` section of the configuration.
  Like query/request loggings, rotation of file logs is out of scope.
 * Fixed an issue where `Content-Type` values with parameters (e.g. `application/json;charset=utf=8`) would bypass GraphQL instrumentation.
-
+* Added support for the Automatic Persisted Queries protocol.
 
 ### 2017.11-84-gb299b9188 - 2017-11-20
 
