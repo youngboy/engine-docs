@@ -5,7 +5,7 @@ order: 20
 
 ### 2017.11-137-g908dbec6f - 2017-12-05
 
-* Improved peristed query handling so that cache misses are not treated like other GraphQL errors.
+* Improved persisted query handling so that cache misses are not treated like other GraphQL errors.
 * Fixed an issue where GraphQL query extensions (like `persistedQuery`) would be forwarded to the origin server. This caused issues with origins other than Apollo Server.
 
 ### 2017.11-121-g2a0310e1b - 2017-11-30
