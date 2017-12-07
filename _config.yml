@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Engine Documentation
+title: Apollo Engine
 subtitle: Using Engine
 description:
 author:
@@ -36,6 +36,7 @@ content_root: source
 
 social_links:
   twitter: '@apollographql'
+  slackInvitePage: 'https://www.apollodata.com/#slack'
 
 # API keys
 apis:
