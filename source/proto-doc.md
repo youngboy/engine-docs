@@ -118,6 +118,7 @@ An Origin is a backend that the Proxy can send GraphQL requests to. Can use one 
 | supportsBatch |  bool | Does this origin support batched query requests, as defined by: https://github.com/apollographql/apollo-server/blob/213acbba/docs/source/requests.md#batching |
 | http |   [Config.Origin.HTTP](#mdg.engine.config.proto.Config.Origin.HTTP)  | Configuration if this is an HTTP origin. |
 | lambda |   [Config.Origin.Lambda](#mdg.engine.config.proto.Config.Origin.Lambda)  | Configuration if this is a Lambda origin. |
+| name |  string | The name of the origin; used in other parts of the config file to reference the origin. |
 
 
 

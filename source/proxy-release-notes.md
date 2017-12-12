@@ -3,6 +3,21 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.12-28-gcc16cbea7 - 2017-12-12
+
+* Added a flag to disable compression when communicating with HTTP origins.
+  To disable compression, set `disableCompression: true` within the `http` section of the origin's configuration.
+* Exposed the maximum number of idle connections to keep open between engine an an HTTP origin.
+  To tune the maximum number of idle connections, set `maxIdleConnections: 1234` within the `http` section of the origin's configuration.
+  If no value is provided, the default is 100.
+* Fixed an issue where Engine would return an empty query duration on internal error.
+* Fixed an issue where Engine would return an empty query duration on cache hit.
+* Fixed an issue where configuration reloading would not affect cache stores.
+* Reduced the overhead of reporting while it is disabled.
+* Added support for GraphQL ```"""block strings"""```.
+* *Breaking*: Added `name` field to origin configurations. Every defined origin must have a unique name (the empty string is OK).
+  This only affects configurations with multiple origins, which should be rare.
+
 ### 2017.11-137-g908dbec6f - 2017-12-05
 
 * Improved persisted query handling so that cache misses are not treated like other GraphQL errors.
