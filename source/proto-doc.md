@@ -5,15 +5,13 @@ order: 20
 
 # Config
 
+TOC
 
-
-
-
+Caching Configuration 
 
 
 <a name="mdg.engine.config.proto.Config"/>
-
-### Config
+<h3 id="Config" title="Config">Config</h3>
 The "Config" message defines the type of Apollo Engine Proxy's JSON configuration file. The JSON file encodes one instance of this message, using [standard proto3 JSON mapping](https://developers.google.com/protocol-buffers/docs/proto3#json).
 
 The proto3 JSON mapping is mostly straightforward, but you may want to pay attention to the rules for specifying a [Duration](https://developers.google.com/protocol-buffers/docs/proto3#json).
@@ -25,21 +23,21 @@ If you are configuring the Proxy via the `apollo-engine` npm package, this JSON 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| apiKey |  string | API key for the service. Get this from your [Engine home](https://engine.apollographql.com). This field is required. |
-| origins | repeated  [Config.Origin](#mdg.engine.config.proto.Config.Origin)  | Origins represent the GraphQL servers to which the Proxy will send requests. If you're using the `apollo-engine` npm package, you don't need to specify origins: the package will generate one automatically for you. |
-| frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of frontends to listen to for GraphQL queries. If you're using the `apollo-engine` npm package, you don't need to specify frontends: the package will generate one automatically for you. |
-| stores | repeated  [Config.Store](#mdg.engine.config.proto.Config.Store)  | The list of configured stores to cache responses to. |
-| sessionAuth |   [Config.SessionAuth](#mdg.engine.config.proto.Config.SessionAuth)  | The session authorization configuration to use for per-session caching. |
-| logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
-| reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
-| queryCache |   [Config.QueryCache](#mdg.engine.config.proto.Config.QueryCache)  | The query cache configuration to use. |
+| apiKey |  string | API key for the service. Get this from your [Engine home](https://engine.apollographql.com). This field is required for all implementations. |
+| origins | repeated  [Config.Origin](#mdg.engine.config.proto.Config.Origin)  | Origins represent the GraphQL servers to which the Proxy will send requests. Require for Engine running in the standalone Docker setup. If you're using the `apollo-engine` npm package, you don't need to specify origins: the package will generate one automatically for you. |
+| frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of frontends to listen to for GraphQL queries. Require for Engine running in the standalone Docker setup.  If you're using the `apollo-engine` npm package, you don't need to specify frontends: the package will generate one automatically for you. |
+| stores | repeated  [Config.Store](#mdg.engine.config.proto.Config.Store)  | Feature: Caching Require if caching query responses. The list of configured stores to cache responses to. |
+| sessionAuth |   [Config.SessionAuth](#mdg.engine.config.proto.Config.SessionAuth)  | Feature: Caching The session authorization configuration to use for per-session caching. **Required for secure private caching** |
+| logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | Default: Info. The logging configuration to use. |
+| reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. Optional. Recommended to keep as default or if using privateHeaders or privateVariables. |
+| queryCache |   [Config.QueryCache](#mdg.engine.config.proto.Config.QueryCache)  | Feature: Caching - RequiredThe query cache configuration to use. |
 
 
 
 
 <a name="mdg.engine.config.proto.Config.Frontend"/>
 
-### Config.Frontend
+<h3 id="Config.Frontend" title="Config.Frontend">Config.Frontend</h3>
 Frontend defines a web server run by the Proxy. The Proxy will listen on each frontend for incoming GraphQL requests.
 
 
@@ -54,7 +52,7 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 
 <a name="mdg.engine.config.proto.Config.Logging"/>
 
-### Config.Logging
+<h3 id="Config.Logging" title="Config.Logging">Config.Logging</h3>
 The logging configuration.
 
 
@@ -69,7 +67,7 @@ The logging configuration.
 
 <a name="mdg.engine.config.proto.Config.Logging.AccessLogging"/>
 
-### Config.Logging.AccessLogging
+<h3 id="Config.Logging.AccessLogging" title="Config.Logging.AccessLogging">Config.Logging.AccessLogging</h3>
 Configuration for access logging.
 
 
@@ -84,7 +82,7 @@ Configuration for access logging.
 
 <a name="mdg.engine.config.proto.Config.Origin"/>
 
-### Config.Origin
+<h3 id="Config.Origin" title="Config.Origin">Config.Origin</h3>
 An Origin is a backend that the Proxy can send GraphQL requests to. Can use one of:
 
 1. HTTP / HTTPS
@@ -105,7 +103,7 @@ An Origin is a backend that the Proxy can send GraphQL requests to. Can use one 
 
 <a name="mdg.engine.config.proto.Config.Origin.HTTP"/>
 
-### Config.Origin.HTTP
+<h3 id="Config.Origin.HTTP" title="Config.Origin.HTTP">Config.Origin.HTTP</h3>
 Configuration for forwarding GraphQL queries to an HTTP endpoint.
 
 
@@ -119,7 +117,7 @@ Configuration for forwarding GraphQL queries to an HTTP endpoint.
 
 <a name="mdg.engine.config.proto.Config.Origin.Lambda"/>
 
-### Config.Origin.Lambda
+<h3 id="Config.Config.Origin.Lambda" title="Config.Config.Origin.Lambda">Config.Origin.Lambda</h3>
 Configuration for proccessing GraphQL queries in an AWS Lambda function.
 
 
@@ -134,21 +132,21 @@ Configuration for proccessing GraphQL queries in an AWS Lambda function.
 
 <a name="mdg.engine.config.proto.Config.QueryCache"/>
 
-### Config.QueryCache
-QueryCache defines the behaviour of the query cache.
+<h3 id="Config.QueryResponseCache" title="Config.QueryResponseCache">Config.QueryResponseCache</h3>
+QueryResponseCache defines the behaviour of the query cache.
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| publicFullQueryStore |  string | The name of the store to use in caching full query responses containing only public/shared data. |
-| privateFullQueryStore |  string | The name of the store to use in caching full query responses containing only private/per-session data. |
+| publicFullQueryStore |  string | The name of the store to use in caching full query responses containing only public/shared data. Required |
+| privateFullQueryStore |  string | The name of the store to use in caching full query responses containing only private/per-session data. **Warning: If sessionAuth not set, privateFullQueryStore does not check Authentication, but will access privateFullQueryStore. If you are setting this, should set session auth or will expose data** |
 
 
 
 
 <a name="mdg.engine.config.proto.Config.Reporting"/>
 
-### Config.Reporting
+<h3 id="Config.Reporting" title="Config.Reporting">Config.Reporting</h3>
 The reporting configuration to use. Reports about the GraphQL queries and responses will be sent approximately every 5 seconds to the `endpointUrl`.
 
 
@@ -168,7 +166,7 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 
 <a name="mdg.engine.config.proto.Config.SessionAuth"/>
 
-### Config.SessionAuth
+<h3 id="Config.SessionAuth" title="Config.SessionAuth">Config.SessionAuth</h3>
 SessionAuth describes how the Proxy identifies clients for `private` cache responses. Optionally, it can tell the Proxy how to authenticate sessions.
 
 
@@ -184,29 +182,31 @@ SessionAuth describes how the Proxy identifies clients for `private` cache respo
 
 <a name="mdg.engine.config.proto.Config.Store"/>
 
-### Config.Store
+<h3 id="config.Store" title="Config.Store">Config.Store [Required]</h3>
+Must set up persisted queries block, query cache or sessionAuth. 
+
 Configures a cache for GraphQL and authentication responses. Can use one of:
 
-1. memcached
+1. memcached - For multiple instances of Engine running, this will cache to a shared cache, or if you'd like your cache to survive during Engine restarts (recommended for production environments, if able to run a memcache server) Stores values for keys in a separate server.
 
-1. in-memory cache
+1. in-memory cache - In-memory cache stores data as a persisted cache within the Engine process stores values for keys in an individual Engine process. Recommended for single applications, test environments or Galaxy users.
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | name |  string | The name of the store; used in other parts of the config file to reference the store. |
-| memcache |   [Config.Store.Memcache](#mdg.engine.config.proto.Config.Store.Memcache)  | Memcache configuration |
-| inMemory |   [Config.Store.InMemory](#mdg.engine.config.proto.Config.Store.InMemory)  | In-memory configuration |
+| memcache |   [Config.Store.Memcache](#mdg.engine.config.proto.Config.Store.Memcache)  | Memcache configuration Required if inmem not set |
+| inMemory |   [Config.Store.InMemory](#mdg.engine.config.proto.Config.Store.InMemory)  | In-memory configuration required if memcach|
 
 
 
 
 <a name="mdg.engine.config.proto.Config.Store.InMemory"/>
 
-### Config.Store.InMemory
+<h3 id="Config.Store.InMemory" title="Config.Store.InMemory">Config.Store.InMemory</h3>
 Configures in-memory store.
 
-
+**Required if inmem not set
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 5MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if responses are overflowing this limit. |
@@ -216,10 +216,10 @@ Configures in-memory store.
 
 <a name="mdg.engine.config.proto.Config.Store.Memcache"/>
 
-### Config.Store.Memcache
+<h3 id="Config.Store.Memcache" title="Config.Store.Memcache">Config.Store.Memcache</h3>
 Configures memcached store
 
-
+**Required if memcache not set
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | url | repeated string | The URLs for the memcached store. Currently does not support authentication. |
@@ -233,7 +233,7 @@ Configures memcached store
 
 <a name="mdg.engine.config.proto.Config.Protocol"/>
 
-### Config.Protocol
+<h3 id="Config.Protocol" title="Config.Protocol">Config.Protocol</h3>
 Enum describing which GraphQL transport protocol is implemented by an origin. If not specified, defaults to JSON.
 
 | Value | Description |

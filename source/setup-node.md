@@ -88,7 +88,7 @@ When you instantiate Engine, you have two options for referencing configuration 
 ```javascript
 // Option 1: JSON Object
 const engine = new Engine({ engineConfig: { apiKey: <ENGINE_API_KEY> } });
-
+// caching requires store and queryCache
 // Option 2: Config.json
 const engine = new Engine({ engineConfig: 'path/to/config.json' });
 ```
@@ -141,6 +141,10 @@ This option involves running a standalone docker container that contains the Eng
 
 <h4 id="create-config-json" title="Create the Config.json">Create the proxy's Config.json</h4>
 The proxy uses a JSON object to get configuration information. If the configuration is passed the path to your file, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.
+
+
+// talk about origins and frontends
+If using the standalone Engine go binary without the Javascript sidecar package, you'll need to set an origin listing where the queries from the Engine proxy will be sent to, along with the frontend where Engine listens for incoming queries. 
 
 **Create a JSON configuration file:**
 
