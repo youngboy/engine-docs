@@ -14,7 +14,7 @@ order: 20
 * Fixed an issue where Engine would return an empty query duration on cache hit.
 * Fixed an issue where configuration reloading would not affect cache stores.
 * Reduced the overhead of reporting while it is disabled.
-* Added support for GraphQL ```"""block strings"""```.
+* Added support for GraphQL `"""block strings"""`.
 * *Breaking*: Added `name` field to origin configurations. Every defined origin must have a unique name (the empty string is OK).
   This only affects configurations with multiple origins, which should be rare.
 
