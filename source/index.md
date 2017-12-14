@@ -13,22 +13,21 @@ Enabling your app with Engine is twofold.
 1. Enable [Apollo Tracing](#apollo-tracing) for your GraphQL server.
 2. Host [Engine's proxy](#engine-proxy) in front of your GraphQL server.
 
-<h2 id="apollo-tracing" title="Apollo Tracing">Apollo Tracing</h2>
+<h2 id="apollo-tracing">Apollo Tracing</h2>
 
-[Apollo Tracing](https://github.com/apollographql/apollo-tracing) is a GraphQL extension to expose trace data for GraphQL requests.
+[Apollo Tracing](https://github.com/apollographql/apollo-tracing) is a GraphQL extension to expose performance tracing data as part of your GraphQL responses. Engine relies on receiving data in the Apollo Tracing format to create its performance telemetry reports.
 
-Apollo Tracing packages are language-specific packages that, once installed on a server, augment that server's GraphQL responses with the specified trace data format.
+There are currently implementations that allow you to use the Apollo Tracing format with the following GraphQL servers:
 
-Engine relies on receiving data in the Apollo Tracing format to create its performance telemetry reports. There are currently tracing packages using the Apollo Tracing format for the following GraphQL servers:
-1. **Node:** [Apollo Server](https://github.com/apollographql/apollo-server) (Express, Hapi, Koa, Restify, and Lambda)
-2. **Ruby:** [GraphQL-Ruby](https://github.com/rmosolgo/graphql-ruby)
-3. **Java:** [GraphQL-Java](https://github.com/graphql-java/graphql-java)
-4. **Scala:** [Sangria](https://github.com/sangria-graphql/sangria)
-5. **Elixir:** [Absinthe](https://github.com/absinthe-graphql/absinthe)
+1. **Node** with [Apollo Server](https://www.apollographql.com/docs/apollo-server/): [apollo-tracing-js](https://github.com/apollographql/apollo-tracing-js). supports Express, Hapi, Koa, Restify, and Lambda.
+2. **Ruby** with [GraphQL-Ruby](http://graphql-ruby.org/): [apollo-tracing-ruby](https://github.com/uniiverse/apollo-tracing-ruby)
+3. **Java** with [GraphQL-Java](https://github.com/graphql-java/graphql-java): Built in! [Read the docs](http://graphql-java.readthedocs.io/en/v6/instrumentation.html#apollo-tracing-instrumentation)
+4. **Scala** with [Sangria](https://github.com/sangria-graphql/sangria): [Use this snippet](https://gist.github.com/OlegIlyenko/124b55e58609ad45fcec276f15158d16)
+5. **Elixir** with [Absinthe](https://github.com/absinthe-graphql/absinthe): [apollo-tracing-elixir](https://github.com/sikanhe/apollo-tracing-elixir)
 
 Using a different server? [Let us know](mailto:support@apollodata.com) – the development of our tracing agents is community driven and we would love to start a conversation with you!
 
-<h2 id="engine-proxy" title="Engine Proxy">Engine Proxy</h2>
+<h2 id="engine-proxy">Engine Proxy</h2>
 
 There are two options for deploying the Engine proxy. You can deploy it either as a [sidecar package](/docs/engine/#sidecar-package) that runs next to your server, or as a [standalone docker container](/docs/engine/#standalone-docker-container).
 
