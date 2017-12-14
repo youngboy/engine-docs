@@ -118,6 +118,7 @@ An Origin is a backend that the Proxy can send GraphQL requests to. Can use one 
 | supportsBatch |  bool | Does this origin support batched query requests, as defined by: https://github.com/apollographql/apollo-server/blob/213acbba/docs/source/requests.md#batching |
 | http |   [Config.Origin.HTTP](#mdg.engine.config.proto.Config.Origin.HTTP)  | Configuration if this is an HTTP origin. |
 | lambda |   [Config.Origin.Lambda](#mdg.engine.config.proto.Config.Origin.Lambda)  | Configuration if this is a Lambda origin. |
+| name |  string | The name of the origin; used in other parts of the config file to reference the origin. |
 
 
 
@@ -132,6 +133,8 @@ Configuration for forwarding GraphQL queries to an HTTP endpoint.
 | ----- | ---- | ----------- |
 | url |  string | The backend server's GraphQL URL. Required. |
 | headerSecret |  string | If set, all requests to this origin will contain this value in the X-ENGINE-FROM header. This is intended for "sidecar" configurations where the origin proxies requests to the Proxy which then proxies back to the origin. This field is set automatically by the `apollo-engine` npm package. |
+| disableCompression |  bool | If set, requests to this origin will not use compression (i.e. gzip, compress, deflate). This is usually a performance improvement if engine is running on the same server as the origin. |
+| maxIdleConnections |   [uint64](#uint64)  | Maximum number of idle connections to keep open. If not specified, this will default to 100. |
 
 
 
@@ -245,7 +248,7 @@ Configures in-memory store.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 5MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if responses are overflowing this limit. |
+| cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 5MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if values are overflowing this limit. Changing this value after the proxy has launched will invalidate the current cache*. |
 
 
 
@@ -287,3 +290,9 @@ Enum describing which GraphQL transport protocol is implemented by an origin. If
 | ----- | ----------- |
 | JSON | The standard JSON GraphQL transport is documented [here](http://graphql.org/learn/serving-over-http/#post-request) |
 | CBOR | GraphQL transport over CBOR is supported by Apollo Engine Proxy but not yet documented. |
+
+
+
+
+
+
