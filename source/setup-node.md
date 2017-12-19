@@ -4,7 +4,7 @@ sidebar_title: Node with Apollo Server
 description: Get Engine running with your Node.js GraphQL server.
 ---
 
-This guide will help you set up Engine with Node.js. Because Engine relies on some GraphQL response extensions like Tracing and Cache Control, the main supported server library is [Apollo Server](https://github.com/apollographql/apollo-server), which you can use with every popular Node.js server middleware such as Express, Hapi, Koa, Restify, and more.
+This guide will help you set up Engine with Node.js. Because Engine relies on some GraphQL response extensions like Tracing and Cache Control, the main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), which you can use with every popular Node.js server middleware such as Express, Hapi, Koa, Restify, and more.
 
 The guide below will get you up and running as fast as possible. For advanced functionality and other features check out the other articles in the docs.
 
