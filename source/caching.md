@@ -1,6 +1,6 @@
 ---
 title: Response Caching
-order: 3
+description: Speed up your GraphQL responses and reduce load on your backends by enabling caching in Engine.
 ---
 
 API caching is a standard best practice, both to reduce the load on your servers, and to accelerate API responses and decrease page render times. But because GraphQL requests are POSTed to a single endpoint, existing HTTP caching solutions don’t work well for GraphQL APIs.
@@ -16,13 +16,13 @@ These are the the steps to configure response caching:
 
 > If you are using `express-graphql`, we recommend you switch to Apollo Server. Both `express-graphql` and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code.
 
-## Enable cache control in Apollo Server
+<h2 id="enable-cache-control">Enabling cache control</h2>
 
 Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards.
 
 The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
-```
+```js
 app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema,
   context: {},
@@ -31,11 +31,11 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 }));
 ```
 
-### Add cache hints to your schema
+<h3 id="cache-hints">Adding cache hints</h3>
 
 Cache hints can be added to your schema using directives on your types and fields. When executing your query, these hints will be added to the response and interpreted by Engine to compute a cache policy for the response. Hints on fields override hints specified on the target type.
 
-```
+```graphql
 type Post @cacheControl(maxAge: 240) {
   id: Int!
   title: String
@@ -47,7 +47,7 @@ type Post @cacheControl(maxAge: 240) {
 
 If you need to add cache hints dynamically, you can use a programmatic API from within your resolvers.
 
-```
+```js
 const resolvers = {
   Query: {
     post: (_, { id }, _, { cacheControl }) => {
@@ -60,7 +60,7 @@ const resolvers = {
 
 If set up correctly, for this query:
 
-```
+```graphql
 query {
   post(id: 1) {
     title
@@ -72,7 +72,7 @@ query {
 
 You should receive cache control data in the `extensions` field of your response:
 
-```
+```js
 "cacheControl": {
   "version": 1,
   "hints": [
