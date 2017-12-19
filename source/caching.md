@@ -100,18 +100,12 @@ You should receive cache control data in the `extensions` field of your response
 }
 ```
 
-### Configure Engine for caching
+<h2 id="engine-cache-config">Configuring Engine</h2>
 
-```
+There are three fields in the Engine configuration that are particularly relevant when setting up response caching. Below is an example of a complete Engine config for caching, using the internal embedded cache. For production use, we suggest configuring Memcache so that you can share the cache across Engine instances.
+
+```js
 {
-  "apiKey": "...",
-  "origins": [
-    {
-      "http": {
-        "url": "http://localhost:4001/graphql"
-      }
-    }
-  ],
   "stores": [
     {
       "name": "embeddedCache",
@@ -124,24 +118,29 @@ You should receive cache control data in the `extensions` field of your response
     "store": "embeddedCache",
     "header": "Authorization"
   },
-  "frontends": [
-    {
-      "host": "127.0.0.1",
-      "port": 4000,
-      "endpoint": "/graphql"
-    }
-  ],
   "queryCache": {
     "publicFullQueryStore": "embeddedCache",
     "privateFullQueryStore": "embeddedCache"
   },
-  "reporting": {
-    "endpointUrl": "https://engine-report.apollographql.com",
-    "debugReports": true
-  },
-  "logging": {
-    "level": "DEBUG"
-  }
 }
-
 ```
+
+Here's an explanation of these config fields:
+
+<h3 id="config.stores">stores</h3>
+
+This is an array of stores where Engine can put cached data. TODO
+
+<h3 id="config.sessionAuth">sessionAuth</h3>
+
+This is useful when you want to do per-session caching with Engine. To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In this example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
+
+<h3 id="config.queryCache">queryCache</h3>
+
+This maps the types of result caching Engine performs to the stores you've defined in the `stores` field. In this case, we're using the same store for both public and private cached data.
+
+<h2 id="memcache">Using Memcache</h2>
+
+For production workloads, we suggest setting up Memcache instead of using the built-in embedded cache. This will give you much more control over memory usage and enable sharing the cache across multiple Engine proxy instances.
+
+TODO more detail, how to set up?
