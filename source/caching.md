@@ -100,6 +100,18 @@ You should receive cache control data in the `extensions` field of your response
 }
 ```
 
+<h2 id="how-it-works">How caching works</h2>
+
+Caching in Engine accepts cache control in a fine-grained way, but caches the entire result. Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides public.
+
+<h3 id="public-vs-private">Public vs. private scope</h3>
+
+TODO private data is cached per-user, watch out for memory
+
+<h3 id="splitting-queries">Splitting queries to improve caching</h3>
+
+TODO sometimes it makes sense to ask for public scoped data in a separate query so it can be cached, reducing load on your server
+
 <h2 id="engine-cache-config">Configuring Engine</h2>
 
 There are three fields in the Engine configuration that are particularly relevant when setting up response caching. Below is an example of a complete Engine config for caching, using the internal embedded cache. For production use, we suggest configuring Memcache so that you can share the cache across Engine instances.
@@ -143,4 +155,4 @@ This maps the types of result caching Engine performs to the stores you've defin
 
 For production workloads, we suggest setting up Memcache instead of using the built-in embedded cache. This will give you much more control over memory usage and enable sharing the cache across multiple Engine proxy instances.
 
-TODO more detail, how to set up?
+TODO more detail, how to set up Memcache and configure it?
