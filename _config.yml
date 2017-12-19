@@ -23,6 +23,7 @@ sidebar_categories:
     - setup-elixir
     - setup-lambda
   Guides:
+    - performance
     - error-tracking
     - caching
     - auto-persisted-queries
