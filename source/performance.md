@@ -28,11 +28,11 @@ This chart shows every GraphQL operation from your clients in your selected time
 
 ![Heat map](./img/heatmap.png)
 
+To read more about the ideas behind this chart, check out [the blog post where it was originally introduced](https://dev-blog.apollodata.com/new-in-optics-trends-over-time-3665692de2c7).
+
 <h3 id="histogram">Histogram</h3>
 
 This chart shows a distribution of how long every GraphQL operation took in your selected time range. The horizontal axis shows how long the operation took, and the height of the bars reflect how many requests fell into each duration range. Every bar represents the sum of a row in the heatmap chart above.
-
-To read more about the ideas behind this chart, check out [the blog post where it was originally introduced](https://dev-blog.apollodata.com/new-in-optics-trends-over-time-3665692de2c7).
 
 ![Histogram](./img/histogram.png)
 
