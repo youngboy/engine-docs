@@ -22,11 +22,12 @@ sidebar_categories:
     - setup-scala
     - setup-elixir
     - setup-lambda
-  Guides:
+  Features:
     - performance
     - error-tracking
     - caching
     - auto-persisted-queries
+  Guides:
     - troubleshooting
     - upgrade-optics
     - billing
