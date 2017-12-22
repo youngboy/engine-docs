@@ -48,7 +48,9 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 | ----- | ---- | ----------- |
 | host |  string | The address on which to listen. If left blank, this will default to all interfaces. |
 | port |  int32 | The port on which to listen. If left blank, this will select a random available port. |
-| endpoint |  string | URL path on which to listen; often "/graphql". |
+| endpoint |  string | URL path on which to listen; often "/graphql". *Deprecated:* use `endpoints`. |
+| endpoints | repeated string | URL paths on which to listen; often `["/graphql"]`. |
+| originName |  string | Name of origin to serve with this frontend. |
 | extensions |   [Config.Frontend.Extensions](#mdg.engine.config.proto.Config.Frontend.Extensions)  | Configuration for GraphQL response extensions. |
 
 
@@ -118,7 +120,7 @@ An Origin is a backend that the Proxy can send GraphQL requests to. Can use one 
 | supportsBatch |  bool | Does this origin support batched query requests, as defined by: https://github.com/apollographql/apollo-server/blob/213acbba/docs/source/requests.md#batching |
 | http |   [Config.Origin.HTTP](#mdg.engine.config.proto.Config.Origin.HTTP)  | Configuration if this is an HTTP origin. |
 | lambda |   [Config.Origin.Lambda](#mdg.engine.config.proto.Config.Origin.Lambda)  | Configuration if this is a Lambda origin. |
-| name |  string | The name of the origin; used in other parts of the config file to reference the origin. |
+| name |  string | The name of the origin; used in other parts of the config file to reference the origin. Empty strings are valid. If not defined, defaults to the empty string. |
 
 
 

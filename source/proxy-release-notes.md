@@ -3,6 +3,13 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2017.12-45-g12ba029f9 - 2017-12-20
+
+* Added support for multiple endpoints per origin through a new `endpoints` setting, deprecated the previous `endpoint` setting.
+* Added a health check URL at `/.well-known/apollo/engine-health`, currently returning HTTP status 200 unconditionally.
+* Fixed an issue where reports would always be sent on shut down, even when reporting was disabled.
+* Fixed issues with reloading of `frontend`s, and dependencies like logging and caches.
+
 ### 2017.12-28-gcc16cbea7 - 2017-12-12
 
 * Added a flag to disable compression when communicating with HTTP origins.
