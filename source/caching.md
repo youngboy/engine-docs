@@ -113,7 +113,7 @@ To determine the expiration time of a particular query, Engine looks at all of t
 
 The biggest benefit of collecting the cache hints on a per-field basis is that you can use the Engine UI to understand your cache hit rates and the overall `maxAge` for an operation. Here's what the caching view looks like:
 
-TODO cache trace
+![Cache trace](./img/cache-trace.png)
 
 <h3 id="public-vs-private">Public vs. private scope</h3>
 
@@ -133,10 +133,10 @@ It may optionally return a JSON body:
 
 In order for authentication checks with `ttl>0` to be cached, a `store` must be specified in `sessionAuth`.
 
-
+<!--
 <h3 id="splitting-queries">Splitting queries to improve caching</h3>
 
-TODO sometimes it makes sense to ask for public scoped data in a separate query so it can be cached, reducing load on your server
+TODO sometimes it makes sense to ask for public scoped data in a separate query so it can be cached, reducing load on your server -->
 
 <h2 id="visualizing">Visualizing caching</h2>
 
