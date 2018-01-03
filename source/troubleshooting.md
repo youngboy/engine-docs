@@ -11,7 +11,7 @@ If you hit any issues in setting up Engine for your GraphQL service, we're here 
 
 Check that your server is one of the supported GraphQL servers listed [here](index.html#apollo-tracing).
 
-If it is, please upgrade to the latest released versions of the GraphQL Server, Engine and Apollo packages.
+If it is, please make sure you're running the [currently tested version](https://github.com/apollographql/apollo-engine-js/blob/master/package.json) of Apollo Server and your Node HTTP server package (Express, Connect, Hapi, Koa, etc), and the latest released versions of the Engine and Apollo packages.
 
 You can enter the following into the commandline to check the package version, or look in  `package.json`.
 ```
