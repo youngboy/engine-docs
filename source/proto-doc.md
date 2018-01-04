@@ -137,6 +137,8 @@ Configuration for forwarding GraphQL queries to an HTTP endpoint.
 | headerSecret |  string | If set, all requests to this origin will contain this value in the X-ENGINE-FROM header. This is intended for "sidecar" configurations where the origin proxies requests to the Proxy which then proxies back to the origin. This field is set automatically by the `apollo-engine` npm package. |
 | disableCompression |  bool | If set, requests to this origin will not use compression (i.e. gzip, compress, deflate). This is usually a performance improvement if engine is running on the same server as the origin. |
 | maxIdleConnections |   [uint64](#uint64)  | Maximum number of idle connections to keep open. If not specified, this will default to 100. |
+| trustedCertificates |  string | File path to load trusted X509 CA certificates. Certificates must be PEM encoded, and multiple certificates can be concatenated into a single file. If specified, only servers with a trust chain to these certificates will be accepted. If not specified, this will default to a certificate bundle included with the proxy binary, which is extracted from Ubuntu Linux. This should not be required if your HTTPS origin works in modern browsers. |
+| disableCertificateCheck |  bool | If set, X509 certificate validity (issuer, hostname, expiration) are not verified. This is very insecure, and should only be used for testing. |
 
 
 
