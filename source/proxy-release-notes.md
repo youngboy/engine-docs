@@ -3,6 +3,16 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.01-1-gc024df504 - 2018-01-04
+
+* Added a flag to disable certificate validation when communicating with HTTPS origins.
+  To disable certificate validation, set `disableCertificateCheck: true` within the `http` section of the origin's configuration.
+  This is strongly discouraged, as it leaves Engine vulnerable to man-in-the-middle attacks. It is intended for testing only.
+
+* Added a flag to use custom certificate authorities when communicating with HTTPS origins.
+  To use custom certificate authorities, set: `trustedCertificates: /etc/ssl/cert.pem` (or another file path) within the `http` section of the origin's configuration.
+  CA certificates must be PEM encoded. Multiple certificates can be included in the same file.
+
 ### 2017.12-45-g12ba029f9 - 2017-12-20
 
 * Added support for multiple endpoints per origin through a new `endpoints` setting, deprecated the previous `endpoint` setting.
