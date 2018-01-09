@@ -100,7 +100,7 @@ Set the Engine Proxy logging level to DEBUG or higher. These logs will be part o
 const engine = new Engine({
   engineConfig: {
     apiKey: engineApiKey,
-    logcfg: {
+    logging: {
       level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
     }
   },
