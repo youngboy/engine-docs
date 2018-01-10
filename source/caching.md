@@ -158,56 +158,64 @@ Below is an example of an Engine config for caching `scope: PUBLIC` responses, u
 Since no `privateFullQueryStore` is provided, `scope: PRIVATE` responses will not be cached.
 
 ```js
-{
-  "stores": [
-    {
-      "name": "publicResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
+const engine = new Engine({
+  engineConfig: {
+    apiKey: 'XXXX',
+    stores: [
+      {
+        name: "publicResponseCache",
+        inMemory: {
+          cacheSize: 10485760
+        }
       }
+    ],
+    queryCache: {
+      publicFullQueryStore: "publicResponseCache"
     }
-  ],
-  "queryCache": {
-    "publicFullQueryStore": "publicResponseCache"
-  }
-}
+  },
+  graphqlPort: 'XXXX',
+});
 ```
 
 Below is an example of an Engine config for caching `scope: PUBLIC` and `scope: PRIVATE` responses, using two in memory caches.
 By using unique caches, we guarantee that a response affecting multiple users is never evicted for a response affecting only a single user.
 
 ```js
-{
-  "stores": [
-    {
-      "name": "publicResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
+const engine = new Engine({
+  engineConfig: {
+    apiKey: 'XXXX',
+    stores: [
+      {
+        name: "publicResponseCache",
+        inMemory: {
+          cacheSize: 10485760
+        }
+      },
+      {
+        name: "authCache",
+        inMemory: {
+          "cacheSize": 1048576
+        }
+      },
+      {
+        name: "privateResponseCache",
+        inMemory: {
+          cacheSize: 10485760
+        }
       }
+    ],
+    sessionAuth: {
+      header: "Authorization",
+      tokenAuthUrl: "https://auth.mycompany.com/engine-auth-check",
+      store: "authCache"
     },
-    {
-      "name": "authCache",
-      "inMemory": {
-        "cacheSize": 1048576
-      }
-    },
-    {
-      "name": "privateResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
-      }
+    queryCache: {
+      publicFullQueryStore: "publicResponseCache",
+      privateFullQueryStore: "privateResponseCache"
     }
-  ],
-  "sessionAuth": {
-    "header": "Authorization",
-    "tokenAuthUrl": "https://auth.mycompany.com/engine-auth-check",
-    "store": "authCache"
   },
-  "queryCache": {
-    "publicFullQueryStore": "publicResponseCache",
-    "privateFullQueryStore": "privateResponseCache"
-  }
-}
+  graphqlPort: 'XXXX',
+});
 ```
 
 
