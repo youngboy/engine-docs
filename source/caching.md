@@ -19,13 +19,14 @@ Apollo Engine Proxy reads Apollo Cache Control extensions, caching whole query r
 * refine field-level cache policies
 * pinpoint slow components that could benefit from caching.
 
+<h3 id="get-started">Get Started</h3>
 These are the the steps to configure response caching:
 
 1. Enable cache control in the Apollo Server\* options. 
 2. Enable cache control hints
 3. Choose store type, session authorization, and set queryCache options to the Engine config file
 
-<h2 id="enable-cache-control">Apollo Server: cacheControl</h2>
+<h2 id="enable-cache-control">1. Apollo Server: cacheControl</h2>
 
 The only server code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
@@ -39,7 +40,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 ```
 Next, set [hints in your schema](#schemaHints), or [dynamically in your resolvers](#resolverHints).
 
-<h2 id="cache-hints" name="cacheHints">Cache Hints</h2>
+<h2 id="cache-hints" name="cacheHints">2. Add Cache Hints</h2>
 
 There are two ways to add cache hints to your application - either dynamically on your resolvers, or statically on your schema types and fields. Each cacheControl hint has two parameters. 
 
@@ -77,7 +78,7 @@ In order for authentication checks with `ttl>0` to be cached, a `store` must be 
 <h3 id="splitting-queries">Splitting queries to improve caching</h3>
 
 TODO sometimes it makes sense to ask for public scoped data in a separate query so it can be cached, reducing load on your server -->
-<h3 id="hints-to-schema" name="schemaHints">Add Cache Hints to the Schema</h3>
+<h3 id="hints-to-schema" name="schemaHints">Cache Hints in the Schema</h3>
 
 Cache hints can be added to your schema using directives on your types and fields. When executing your query, these hints will be added to the response and interpreted by Engine to compute a cache policy for the response. 
 
@@ -165,8 +166,8 @@ query getVotesForPost {
 
 `getVotesForPost` will have `maxAge` of 240 seconds, even though the `votes` field has a higher `maxAge`.
 
-<h3 id="resolver-hints" name="resolverHints">Add Hints Dynamically</h3>
-If you need to add cache hints dynamically, you can use a programmatic API from within your resolvers.
+<h3 id="resolver-hints" name="resolverHints">Dynamic Cache Hints in the Resolvers</h3>
+If you'd like to add cache hints dynamically, you can use a programmatic API from within your resolvers.
 
 ```js
 const resolvers = {
@@ -179,7 +180,7 @@ const resolvers = {
 }
 ```
 
-<h2 id="engine-cache-config">Engine Config</h2>
+<h2 id="engine-cache-config">3. Add Required Caching Fields in the Engine Config</h2>
 
 There are three fields in the Engine configuration that are particularly relevant when setting up response caching.
 
