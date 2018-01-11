@@ -179,19 +179,7 @@ const resolvers = {
 }
 ```
 
-<h2 id="visualizing">Visualizing caching</h2>
-
-One of the best parts about caching with Engine is that you can easily see how it's working once you set it up. It deeply integrates into the [performance tracing](./performance.html) views, so that you can understand how caching is helping you decrease your server response times. Here are what the charts in the performance view look like when you've successfully enabled caching:
-
-![Cache rate on volume chart](./img/cache-rate.png)
-
-The volume chart now shows how many of your requests hit the cache instead of the underlying server.
-
-![Cache rate on heat map](./img/cache-histogram.png)
-
-The histogram uses differently-colored bars to represent cache vs. non-cache requests. So you can easily see that the cached requests are much much faster, with Engine responding to those requests in microseconds rather than the 50-100 milliseconds it would take to hit the underlying server.
-
-<h2 id="engine-cache-config">Engine Configuration file</h2>
+<h2 id="engine-cache-config">Engine Config</h2>
 
 There are three fields in the Engine configuration that are particularly relevant when setting up response caching.
 
@@ -288,6 +276,18 @@ This is useful when you want to do per-session caching with Engine. To be able t
 
 This maps the types of result caching Engine performs to the stores you've defined in the `stores` field.
 In this case, we're sending public and private cached data to unique stores, so that responses affecting multiple users will never be evicted for responses affecting a single user.
+
+<h2 id="visualizing">Visualizing caching</h2>
+
+One of the best parts about caching with Engine is that you can easily see how it's working once you set it up. It deeply integrates into the [performance tracing](./performance.html) views, so that you can understand how caching is helping you decrease your server response times. Here are what the charts in the performance view look like when you've successfully enabled caching:
+
+![Cache rate on volume chart](./img/cache-rate.png)
+
+The volume chart now shows how many of your requests hit the cache instead of the underlying server.
+
+![Cache rate on heat map](./img/cache-histogram.png)
+
+The histogram uses differently-colored bars to represent cache vs. non-cache requests. So you can easily see that the cached requests are much much faster, with Engine responding to those requests in microseconds rather than the 50-100 milliseconds it would take to hit the underlying server.
 
 <h3 id="footnotes" name="footnotes">Footnotes</h3>
 
