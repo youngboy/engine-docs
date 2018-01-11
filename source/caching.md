@@ -3,24 +3,32 @@ title: Response Caching
 description: Speed up your GraphQL responses and reduce load on your backends by enabling caching in Engine.
 ---
 
+<h2 id="notes-on-caching">Notes on Caching in Engine</h2>
+
+Caching in Engine accepts cache control hints in a fine-grained way, but caches the entire result. Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides public.
+
+To bring caching to GraphQL, we've developed [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), a new open standard that allows servers to specify exactly what parts of a response can be cached and for how long. 
+
+<h3 id="why-cache">Why Cache?</h3>
+
 API caching is a standard best practice, both to reduce the load on your servers, and to accelerate API responses and decrease page render times. But because GraphQL requests are often sent to a single endpoint with POST requests, existing HTTP caching solutions don’t work well for GraphQL APIs.
 
-To bring caching to GraphQL, we've developed [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), a new open standard that allows servers to specify exactly what parts of a response can be cached, and for how long. Apollo Engine Proxy reads Apollo Cache Control extensions, caching whole query responses based on a computed cacheability of each new query, without requiring any manual configuration. Engine also includes an intuitive way to see how cache policies impact each query type, making it easy to: optimize your queries for cacheability, refine field-level cache policies, and pinpoint slow components on screen that could benefit from caching.
+Apollo Engine Proxy reads Apollo Cache Control extensions, caching whole query responses based on a computed cacheability of each new query. Engine also includes an intuitive way to see how cache policies impact each query type, making it easy to: 
 
+* optimize your queries for cacheability
+* refine field-level cache policies
+* pinpoint slow components that could benefit from caching.
+
+<h3 id="get-started">Get Started</h3>
 These are the the steps to configure response caching:
 
-1. Enable cache control in your server and schema
-2. Add the caching configuration to the Engine config file
+1. Enable cache control in the Apollo Server\* options. 
+2. Enable cache control hints
+3. Choose store type, session authorization, and set queryCache options to the Engine config file
 
-> The initial preview of caching only supports Apollo Server, but we're working with the community to add support for Apollo Cache Control to other server libraries.
+<h2 id="enable-cache-control">1. Apollo Server: cacheControl</h2>
 
-> If you are using `express-graphql`, we recommend you switch to Apollo Server to use caching. Both `express-graphql` and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code.
-
-<h2 id="enable-cache-control">Enabling cache control</h2>
-
-Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards.
-
-The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
+The only server code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
 ```js
 app.use('/graphql', bodyParser.json(), graphqlExpress({
@@ -30,17 +38,51 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
   cacheControl: true
 }));
 ```
+Next, set [hints in your schema](#schemaHints), or [dynamically in your resolvers](#resolverHints).
 
-<h3 id="cache-hints">Adding cache hints</h3>
+<h2 id="cache-hints" name="cacheHints">2. Add Cache Hints</h2>
 
-Cache hints can be added to your schema using directives on your types and fields. When executing your query, these hints will be added to the response and interpreted by Engine to compute a cache policy for the response. Hints on fields override hints specified on the target type.
+There are two ways to add cache hints to your application - either dynamically on your resolvers, or statically on your schema types and fields. Each cacheControl hint has two parameters. 
 
 * The `maxAge` parameter defines the number of seconds that Engine Proxy should serve the cached response.
 * The `scope` parameter declares that a unique response should be cached for every user (`PRIVATE`) or a single response should be cached for all users (`PUBLIC`/default).
 
-Engine sets cache TTL as the lowest maxAge in the query path.
+<h3 id="max-age-combination">maxAge</h3>
 
-**Note** For example, if your query calls a type with a field referencing list of type objects, such as `[Post]` referencing `Author` in the `author` field, Engine will consider the maxAge of the `Author` type as well. 
+To determine the expiration time of a particular query, Engine looks at all of the `maxAge` hints returned by the server, and picks the shortest. For example, the above result indicates a `240` maxAge for one field, and `30` for another, which means that Engine will use `30` as the overall expiration time for the whole result.
+
+The biggest benefit of collecting the cache hints on a per-field basis is that you can use the Engine UI to understand your cache hit rates and the overall `maxAge` for an operation. Here's what the caching view looks like:
+
+![Cache trace](./img/cache-trace.png)
+**Note** For example, if your query calls a type with a field referencing list of type objects, such as `[Post]` referencing `Author` in the `author` field, Engine will consider the `maxAge` of the `Author` type as well. 
+
+<h3 id="public-vs-private">Public vs. private scope</h3>
+
+Apollo Engine supports caching of personalized responses using the `scope: PRIVATE` cache hint. Private caching requires Engine identify unique users, using the methods defined in the `sessionAuth` configuration section.
+
+Engine supports extracting users' identity from an HTTP header (specified in `header`), or an HTTP cookie (specified in `cookie`).
+
+For security, Engine can be configured to verify the extracted identity before serving a cached response. This allows your service to verify the session is still valid and avoid replay attacks.
+This verification is performed by HTTP request, to the URL specified in `tokenAuthUrl`.
+
+The token auth URL will receive an HTTP POST containing: `{"token": "AUTHENTICATION-TOKEN"}`.
+It should return an HTTP `200` response if the token is still considered valid.
+It may optionally return a JSON body:
+* `{"ttl": 300}` to indicate the session token check can be cached for 300 seconds.
+* `{"id": "alice"}` to indicate an internal user ID that should be used for identification. By returning a persistent identifier such as a database key, Engine's cache can follow a user across sessions and devices.
+* `{"ttl": 600, "id": "bob"}` to combine both.
+
+In order for authentication checks with `ttl>0` to be cached, a `store` must be specified in `sessionAuth`.
+
+<!--
+<h3 id="splitting-queries">Splitting queries to improve caching</h3>
+
+TODO sometimes it makes sense to ask for public scoped data in a separate query so it can be cached, reducing load on your server -->
+<h3 id="hints-to-schema" name="schemaHints">Cache Hints in the Schema</h3>
+
+Cache hints can be added to your schema using directives on your types and fields. When executing your query, these hints will be added to the response and interpreted by Engine to compute a cache policy for the response. 
+
+Engine sets cache TTL as the lowest `maxAge` in the query path.
 
 ```graphql
 type Post @cacheControl(maxAge: 240) {
@@ -56,35 +98,6 @@ type Author @cacheControl(maxAge: 60) {
   firstName: String
   lastName: String
   posts: [Post]
-}
-```
-
-For the above schema, there are a few ways to generate different TTLs depending on your query. Take the following examples:
-
-1. `query getPostsForAuthor{ Author { posts } }` will have `maxAge` of 60 seconds, even though the `Post` object has `maxAge` of 240 seconds.
-2. `query getTitleForPost{ Post { title } }` will have `maxAge` of 240 seconds (inherited from Post), even though the `title` field has no `maxAge` specified.
-3. `query getVotesForPost{ Post { votes } }` will have `maxAge` of 240 seconds, even though the `votes` field has a higher `maxAge`.
-```graphql
-query {
-  post(id: 1) {
-    title
-    author
-    votes
-    readByCurrentUser
-  }
-}
-```
-
-If you need to add cache hints dynamically, you can use a programmatic API from within your resolvers.
-
-```js
-const resolvers = {
-  Query: {
-    post: (_, { id }, _, { cacheControl }) => {
-      cacheControl.setCacheHint({ maxAge: 60 });
-      return find(posts, { id });
-    }
-  }
 }
 ```
 
@@ -118,54 +131,56 @@ You should receive cache control data in the `extensions` field of your response
 }
 ```
 
-<h2 id="how-it-works">How caching works</h2>
+For the above schema, there are a few ways to generate different TTLs depending on your query. Take the following examples:
 
-Caching in Engine accepts cache control hints in a fine-grained way, but caches the entire result. Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides public.
+*Example 1*
+```graphql
+query getPostsForAuthor { 
+    Author { 
+      posts 
+    } 
+  }
+```
 
-<h3 id="max-age-combination">maxAge aggregation</h3>
+`getPostsForAuthor` will have `maxAge` of 60 seconds, even though the `Post` object has `maxAge` of 240 seconds.
 
-To determine the expiration time of a particular query, Engine looks at all of the `maxAge` hints returned by the server, and picks the shortest. For example, the above result indicates a `240` maxAge for one field, and `30` for another, which means that Engine will use `30` as the overall expiration time for the whole result.
+*Example 2*
+```graphql
+query getTitleForPost { 
+  Post { 
+    title 
+  } 
+}
+```
 
-The biggest benefit of collecting the cache hints on a per-field basis is that you can use the Engine UI to understand your cache hit rates and the overall `maxAge` for an operation. Here's what the caching view looks like:
+`getTitleForPost` will have `maxAge` of 240 seconds (inherited from Post), even though the `title` field has no `maxAge` specified.
 
-![Cache trace](./img/cache-trace.png)
+*Example 3* 
+```graphql
+query getVotesForPost { 
+  Post { 
+    votes 
+    } 
+  }
+```
 
-<h3 id="public-vs-private">Public vs. private scope</h3>
+`getVotesForPost` will have `maxAge` of 240 seconds, even though the `votes` field has a higher `maxAge`.
 
-Apollo Engine supports caching of personalized responses using the `scope: PRIVATE` cache hint. Private caching requires Engine identify unique users, using the methods defined in the `sessionAuth` configuration section.
+<h3 id="resolver-hints" name="resolverHints">Dynamic Cache Hints in the Resolvers</h3>
+If you'd like to add cache hints dynamically, you can use a programmatic API from within your resolvers.
 
-Engine supports extracting users' identity from an HTTP header (specified in `header`), or an HTTP cookie (specified in `cookie`).
+```js
+const resolvers = {
+  Query: {
+    post: (_, { id }, _, { cacheControl }) => {
+      cacheControl.setCacheHint({ maxAge: 60 });
+      return find(posts, { id });
+    }
+  }
+}
+```
 
-For security, Engine can be configured to verify the extracted identity before serving a cached response. This allows your service to verify the session is still valid and avoid replay attacks.
-This verification is performed by HTTP request, to the URL specified in `tokenAuthUrl`.
-
-The token auth URL will receive an HTTP POST containing: `{"token": "AUTHENTICATION-TOKEN"}`.
-It should return an HTTP `200` response if the token is still considered valid.
-It may optionally return a JSON body:
-* `{"ttl": 300}` to indicate the session token check can be cached for 300 seconds.
-* `{"id": "alice"}` to indicate an internal user ID that should be used for identification. By returning a persistent identifier such as a database key, Engine's cache can follow a user across sessions and devices.
-* `{"ttl": 600, "id": "bob"}` to combine both.
-
-In order for authentication checks with `ttl>0` to be cached, a `store` must be specified in `sessionAuth`.
-
-<!--
-<h3 id="splitting-queries">Splitting queries to improve caching</h3>
-
-TODO sometimes it makes sense to ask for public scoped data in a separate query so it can be cached, reducing load on your server -->
-
-<h2 id="visualizing">Visualizing caching</h2>
-
-One of the best parts about caching with Engine is that you can easily see how it's working once you set it up. It deeply integrates into the [performance tracing](./performance.html) views, so that you can understand how caching is helping you decrease your server response times. Here are what the charts in the performance view look like when you've successfully enabled caching:
-
-![Cache rate on volume chart](./img/cache-rate.png)
-
-The volume chart now shows how many of your requests hit the cache instead of the underlying server.
-
-![Cache rate on heat map](./img/cache-histogram.png)
-
-The histogram uses differently-colored bars to represent cache vs. non-cache requests. So you can easily see that the cached requests are much much faster, with Engine responding to those requests in microseconds rather than the 50-100 milliseconds it would take to hit the underlying server.
-
-<h2 id="engine-cache-config">Configuring Engine</h2>
+<h2 id="engine-cache-config">3. Add Required Caching Fields in the Engine Config</h2>
 
 There are three fields in the Engine configuration that are particularly relevant when setting up response caching.
 
@@ -173,67 +188,58 @@ Below is an example of an Engine config for caching `scope: PUBLIC` responses, u
 Since no `privateFullQueryStore` is provided, `scope: PRIVATE` responses will not be cached.
 
 ```js
-const engine = new Engine({
-  engineConfig: {
-    ...
-    stores: [
-      {
-        name: "publicResponseCache",
-        inMemory: {
-          cacheSize: 10485760
-        }
+{
+  "stores": [
+    {
+      "name": "publicResponseCache",
+      "inMemory": {
+        "cacheSize": 10485760
       }
-    ],
-    queryCache: {
-      publicFullQueryStore: "publicResponseCache"
     }
-  },
-  ...
-});
+  ],
+  "queryCache": {
+    "publicFullQueryStore": "publicResponseCache"
+  }
+}
 ```
 
-
-Below is an example of an Engine config for caching `scope: PUBLIC` and `scope: PRIVATE` responses, using two in memory caches. For private caches, we also set a separate store, `authCache`, to store authorization headers used to access the private query cache. 
-
-By using unique caches, we guarantee that a response affecting multiple users is never evicted for a response affecting only a single user. 
+Below is an example of an Engine config for caching `scope: PUBLIC` and `scope: PRIVATE` responses, using two in memory caches.
+By using unique caches, we guarantee that a response affecting multiple users is never evicted for a response affecting only a single user.
 
 ```js
-const engine = new Engine({
-  engineConfig: {
-    apiKey: 'XXXX',
-    stores: [
-      {
-        name: "publicResponseCache",
-        inMemory: {
-          cacheSize: 10485760
-        }
-      },
-      {
-        name: "authCache",
-        inMemory: {
-          cacheSize: 1048576
-        }
-      },
-      {
-        name: "privateResponseCache",
-        inMemory: {
-          cacheSize: 10485760
-        }
+{
+  "stores": [
+    {
+      "name": "publicResponseCache",
+      "inMemory": {
+        "cacheSize": 10485760
       }
-    ],
-    sessionAuth: {
-      header: "Authorization",
-      tokenAuthUrl: "https://auth.mycompany.com/engine-auth-check",
-      store: "authCache"
     },
-    queryCache: {
-      publicFullQueryStore: "publicResponseCache",
-      privateFullQueryStore: "privateResponseCache"
+    {
+      "name": "authCache",
+      "inMemory": {
+        "cacheSize": 1048576
+      }
+    },
+    {
+      "name": "privateResponseCache",
+      "inMemory": {
+        "cacheSize": 10485760
+      }
     }
+  ],
+  "sessionAuth": {
+    "header": "Authorization",
+    "tokenAuthUrl": "https://auth.mycompany.com/engine-auth-check",
+    "store": "authCache"
   },
-  graphqlPort: 'XXXX',
-});
+  "queryCache": {
+    "publicFullQueryStore": "publicResponseCache",
+    "privateFullQueryStore": "privateResponseCache"
+  }
+}
 ```
+
 
 Here's an explanation of these config fields:
 
@@ -265,11 +271,27 @@ This will give you much more control over memory usage and enable sharing the ca
 
 <h3 id="config.sessionAuth">sessionAuth</h3>
 
-When you want to do per-session caching with Engine, you can set `sessionAuth` to point to a `tokenAuthUrl` that Engine will use to authenticate the user. Additionally, set `store` to point to the cache used to hold session tokens.
-
-To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In the above example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
+This is useful when you want to do per-session caching with Engine. To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In this example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
 
 <h3 id="config.queryCache">queryCache</h3>
 
 This maps the types of result caching Engine performs to the stores you've defined in the `stores` field.
 In this case, we're sending public and private cached data to unique stores, so that responses affecting multiple users will never be evicted for responses affecting a single user.
+
+<h2 id="visualizing">Visualizing caching</h2>
+
+One of the best parts about caching with Engine is that you can easily see how it's working once you set it up. It deeply integrates into the [performance tracing](./performance.html) views, so that you can understand how caching is helping you decrease your server response times. Here are what the charts in the performance view look like when you've successfully enabled caching:
+
+![Cache rate on volume chart](./img/cache-rate.png)
+
+The volume chart now shows how many of your requests hit the cache instead of the underlying server.
+
+![Cache rate on heat map](./img/cache-histogram.png)
+
+The histogram uses differently-colored bars to represent cache vs. non-cache requests. So you can easily see that the cached requests are much much faster, with Engine responding to those requests in microseconds rather than the 50-100 milliseconds it would take to hit the underlying server.
+
+<h3 id="footnotes" name="footnotes">Footnotes</h3>
+
+> \* Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards. If you are using `express-graphql`, we recommend you switch to Apollo Server to use caching. Both `express-graphql` and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code.
+
+> We're working with the community to add support for Apollo Cache Control to other server libraries. (Contact us)[mailto:support@apollographql.com] if you are interested in joining the community to work on support for `express-graphql`. 
