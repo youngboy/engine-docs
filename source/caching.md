@@ -10,7 +10,7 @@ To bring caching to GraphQL, we've developed [Apollo Cache Control](https://gith
 These are the the steps to configure response caching:
 
 1. Enable cache control in your server and schema
-1. Add the caching configuration to the Engine config file
+2. Add the caching configuration to the Engine config file
 
 > The initial preview of caching only supports Apollo Server, but we're working with the community to add support for Apollo Cache Control to other server libraries.
 
@@ -38,13 +38,40 @@ Cache hints can be added to your schema using directives on your types and field
 * The `maxAge` parameter defines the number of seconds that Engine Proxy should serve the cached response.
 * The `scope` parameter declares that a unique response should be cached for every user (`PRIVATE`) or a single response should be cached for all users (`PUBLIC`/default).
 
+Engine sets cache TTL as the lowest maxAge in the query path.
+
+**Note** For example, if your query calls a type with a field referencing list of type objects, such as `[Post]` referencing `Author` in the `author` field, Engine will consider the maxAge of the `Author` type as well. 
+
 ```graphql
 type Post @cacheControl(maxAge: 240) {
   id: Int!
   title: String
   author: Author
-  votes: Int @cacheControl(maxAge: 30)
+  votes: Int @cacheControl(maxAge: 500)
   readByCurrentUser: Boolean! @cacheControl(scope: PRIVATE)
+}
+
+type Author @cacheControl(maxAge: 60) {
+  id: Int
+  firstName: String
+  lastName: String
+  posts: [Post]
+}
+```
+
+For the above schema, there are a few ways to generate different TTLs depending on your query. Take the following examples:
+
+1. `query getPostsForAuthor{ Author { posts } }` will have `maxAge` of 60 seconds, even though the `Post` object has `maxAge` of 240 seconds.
+2. `query getTitleForPost{ Post { title } }` will have `maxAge` of 240 seconds (inherited from Post), even though the `title` field has no `maxAge` specified.
+3. `query getVotesForPost{ Post { votes } }` will have `maxAge` of 240 seconds, even though the `votes` field has a higher `maxAge`.
+```graphql
+query {
+  post(id: 1) {
+    title
+    author
+    votes
+    readByCurrentUser
+  }
 }
 ```
 
@@ -57,18 +84,6 @@ const resolvers = {
       cacheControl.setCacheHint({ maxAge: 60 });
       return find(posts, { id });
     }
-  }
-}
-```
-
-If set up correctly, for this query:
-
-```graphql
-query {
-  post(id: 1) {
-    title
-    votes
-    readByCurrentUser
   }
 }
 ```
@@ -158,58 +173,67 @@ Below is an example of an Engine config for caching `scope: PUBLIC` responses, u
 Since no `privateFullQueryStore` is provided, `scope: PRIVATE` responses will not be cached.
 
 ```js
-{
-  "stores": [
-    {
-      "name": "publicResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
+const engine = new Engine({
+  engineConfig: {
+    ...
+    stores: [
+      {
+        name: "publicResponseCache",
+        inMemory: {
+          cacheSize: 10485760
+        }
       }
+    ],
+    queryCache: {
+      publicFullQueryStore: "publicResponseCache"
     }
-  ],
-  "queryCache": {
-    "publicFullQueryStore": "publicResponseCache"
-  }
-}
+  },
+  ...
+});
 ```
 
-Below is an example of an Engine config for caching `scope: PUBLIC` and `scope: PRIVATE` responses, using two in memory caches.
-By using unique caches, we guarantee that a response affecting multiple users is never evicted for a response affecting only a single user.
+
+Below is an example of an Engine config for caching `scope: PUBLIC` and `scope: PRIVATE` responses, using two in memory caches. For private caches, we also set a separate store, `authCache`, to store authorization headers used to access the private query cache. 
+
+By using unique caches, we guarantee that a response affecting multiple users is never evicted for a response affecting only a single user. 
 
 ```js
-{
-  "stores": [
-    {
-      "name": "publicResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
+const engine = new Engine({
+  engineConfig: {
+    apiKey: 'XXXX',
+    stores: [
+      {
+        name: "publicResponseCache",
+        inMemory: {
+          cacheSize: 10485760
+        }
+      },
+      {
+        name: "authCache",
+        inMemory: {
+          cacheSize: 1048576
+        }
+      },
+      {
+        name: "privateResponseCache",
+        inMemory: {
+          cacheSize: 10485760
+        }
       }
+    ],
+    sessionAuth: {
+      header: "Authorization",
+      tokenAuthUrl: "https://auth.mycompany.com/engine-auth-check",
+      store: "authCache"
     },
-    {
-      "name": "authCache",
-      "inMemory": {
-        "cacheSize": 1048576
-      }
-    },
-    {
-      "name": "privateResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
-      }
+    queryCache: {
+      publicFullQueryStore: "publicResponseCache",
+      privateFullQueryStore: "privateResponseCache"
     }
-  ],
-  "sessionAuth": {
-    "header": "Authorization",
-    "tokenAuthUrl": "https://auth.mycompany.com/engine-auth-check",
-    "store": "authCache"
   },
-  "queryCache": {
-    "publicFullQueryStore": "publicResponseCache",
-    "privateFullQueryStore": "privateResponseCache"
-  }
-}
+  graphqlPort: 'XXXX',
+});
 ```
-
 
 Here's an explanation of these config fields:
 
@@ -241,7 +265,9 @@ This will give you much more control over memory usage and enable sharing the ca
 
 <h3 id="config.sessionAuth">sessionAuth</h3>
 
-This is useful when you want to do per-session caching with Engine. To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In this example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
+When you want to do per-session caching with Engine, you can set `sessionAuth` to point to a `tokenAuthUrl` that Engine will use to authenticate the user. Additionally, set `store` to point to the cache used to hold session tokens.
+
+To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In the above example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
 
 <h3 id="config.queryCache">queryCache</h3>
 
