@@ -133,18 +133,18 @@ You should receive cache control data in the `extensions` field of your response
 For the above schema, there are a few ways to generate different TTLs depending on your query. Take the following examples:
 
 *Example 1*
-```
+```graphql
 query getPostsForAuthor { 
     Author { 
       posts 
     } 
   }
-``` 
+```
 
 `getPostsForAuthor` will have `maxAge` of 60 seconds, even though the `Post` object has `maxAge` of 240 seconds.
 
 *Example 2*
-```
+```graphql
 query getTitleForPost { 
   Post { 
     title 
@@ -155,13 +155,13 @@ query getTitleForPost {
 `getTitleForPost` will have `maxAge` of 240 seconds (inherited from Post), even though the `title` field has no `maxAge` specified.
 
 *Example 3* 
-```
+```graphql
 query getVotesForPost { 
   Post { 
     votes 
     } 
   }
-``` 
+```
 
 `getVotesForPost` will have `maxAge` of 240 seconds, even though the `votes` field has a higher `maxAge`.
 
@@ -191,7 +191,7 @@ The volume chart now shows how many of your requests hit the cache instead of th
 
 The histogram uses differently-colored bars to represent cache vs. non-cache requests. So you can easily see that the cached requests are much much faster, with Engine responding to those requests in microseconds rather than the 50-100 milliseconds it would take to hit the underlying server.
 
-<h2 id="engine-cache-config">Engine Configuration</h2>
+<h2 id="engine-cache-config">Engine Configuration file</h2>
 
 There are three fields in the Engine configuration that are particularly relevant when setting up response caching.
 
