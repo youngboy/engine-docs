@@ -3,6 +3,10 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.01-17-g9c203510f - 2018-01-16
+
+* Fixed an issue where a data race could cause the proxy to crash.
+
 ### 2018.01-1-gc024df504 - 2018-01-04
 
 * Added a flag to disable certificate validation when communicating with HTTPS origins.
