@@ -33,7 +33,7 @@ We've designed it in this way so that your application data never leaves your in
 
 <h3 id="engine-proxy">Engine Proxy</h3>
 
-Engine uses a proxy component written in Go that you run inside your infrastructure. This component is designed to allow all of your requests and responses to pass through, while doing things like extracting trace data, caching results, and more. It's designed to handle large volumes of traffic, and dosen't rely on accessing the Engine cloud service to function.
+Engine uses a proxy component written in Go that you run inside your infrastructure. This component is designed to allow all of your requests and responses to pass through, while doing things like extracting trace data, caching results, and more. It's designed to handle large volumes of traffic, and doesn't rely on accessing the Engine cloud service to function.
 
 There are two options for running the Engine proxy:
 
