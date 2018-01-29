@@ -3,6 +3,22 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.01-43-g1747440e6 - 2018-01-29
+
+* Fixed an issue where Engine proxy would cache responses that set a cookie, causing cache hits to set the same cookie.
+  Engine proxy now skips cache for:
+    * Responses with a `Set-Cookie` header.
+    * Responses with a `WWW-Authenticate` header.
+    * Responses with a `Cache-Control` header value of: `no-cache` ,`no-store` or `private`.
+    * Responses with an `Expires` header of `0`, or any date in the past.
+* Fixed several issues with timestamps included in reports sent to engine backend.
+* Added the ability to dump stacktraces of all running threads when engineproxy receives a `SIGUSR2` signal.
+  When requested, traces are dumped to stderr. This should not be necessary unless requested by Apollo support.
+* Added the ability to collect performance data from engine proxy using [Go pprof profiler](https://golang.org/pkg/net/http/pprof/).
+  To enable the pprof server, add `"debugServer": {"port": 1234}` to your engine configuration.
+  Note that the pprof server offers no security, so a firewall etc is required if running in production.
+  Enabling the debug server should not be necessary unless requested by Apollo support.
+
 ### 2018.01-17-g9c203510f - 2018-01-16
 
 * Fixed an issue where a data race could cause the proxy to crash.
