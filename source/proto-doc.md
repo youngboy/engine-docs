@@ -34,6 +34,21 @@ If you are configuring the Proxy via the `apollo-engine` npm package, this JSON 
 | reporting |   [Config.Reporting](#mdg.engine.config.proto.Config.Reporting)  | The reporting configuration to use. |
 | queryCache |   [Config.QueryResponseCache](#mdg.engine.config.proto.Config.QueryResponseCache)  | The query response cache configuration to use. |
 | persistedQueries |   [Config.PersistedQueries](#mdg.engine.config.proto.Config.PersistedQueries)  | The persisted query configuration to use. |
+| debugServer |   [Config.DebugServer](#mdg.engine.config.proto.Config.DebugServer)  | Configuration for an HTTP server which can be used to debug the Proxy. __If you enable the debug server in production, you should ensure that its port is not publicly accessible, as it provides internal information about the Proxy.__ |
+
+
+
+
+<a name="mdg.engine.config.proto.Config.DebugServer"/>
+
+### Config.DebugServer
+DebugServer configures an HTTP server which can be used to debug the Proxy. If you enable the debug server in production, you should ensure that its port is not publicly accessible, as it provides internal information about the Proxy. The server includes the [Go pprof profiler](https://golang.org/pkg/net/http/pprof/). Apollo support may direct you to enable this server, and send them the files created by commands such as `wget http://127.0.0.1:4444/debug/pprof/profile`.
+
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| host |  string | The address on which to listen. If left blank, this will default to "127.0.0.1"; set to "0.0.0.0" to listen on all interfaces. |
+| port |  int32 | The port on which to listen. Required. |
 
 
 
@@ -252,7 +267,7 @@ Configures in-memory store.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 5MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if values are overflowing this limit. Changing this value after the proxy has launched will invalidate the current cache*. |
+| cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 5MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if values are overflowing this limit. __Changing this value after the proxy has launched will invalidate the current cache.__ |
 
 
 
