@@ -134,9 +134,42 @@ app.use(engine.expressMiddleware());
 
 Once your server is set up, navigate to your newly created Engine service in the [Engine UI](https://engine.apollographql.com). It should indicate that you've set everything up successfully. Start sending requests to your Node server to start seeing performance metrics!
 
+<h2 id="single-proxy-with-sidecar" title="Single proxy">Advanced: Single proxying sidecar configuration</h2>
+
+An alternative to using the middleware to selectively forward requests to Engine and then back to your application is to proxy all traffic via the Engine proxy. This is more performant for pure or close to pure GraphQL workloads but will result in the proxy being in the request path even for non-GraphQL requests.
+
+It also requires the ability to change the listening port of your application so Engine can instead listen on that port. You will need to then configure Engine with the new port of your application.
+Whilst this requires a bit more knowledge of TCP ports and how to configure your application server stack it's the preferred configuration for higher performance GraphQL servers.
+
+To use this mode of operation first remove the Engine middleware for your server if you added it above.
+Then configure Engine like so:
+
+```js
+engine = new Engine({
+  endpoint: '/graphql',
+  graphqlPort: APP_PORT, // The port your application is listening on
+    frontend: {
+      host: '0.0.0.0', // Listen on all addresses
+      port: ENGINE_PORT, // The port that Engine will listen on
+      endpoint: '/graphql'
+    }
+});
+```
+
+Where `APP_PORT` is the port your app is now listening on and `ENGINE_PORT` is the port on which Engine proxy will listen. i.e If your application was originally listening on `3000` you would set `ENGINE_PORT` to be `3000` and `APP_PORT` to be a different port, say `3001` as an example and modify your app server to listen on this port.
+
+In the case of `express` you can configure your apps listen port (`APP_PORT`) like so:
+
+```js
+var express = require("express");
+var app = express();
+// setup routes, middleware etc here
+app.listen(APP_PORT)
+```
+
 <h2 id="standalone-docker-container" title="Docker container setup">Advanced: Standalone Docker container setup</h2>
 
-This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. This is the best option to select when you need more control over the scaling, operation, and deployment of Engine, and also delivers better performance than running the proxy inside the same Node process as your API.
+This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. This is the best option to select when you need more control over the scaling, operation, and deployment of Engine, and also delivers better performance than running the proxy as a child process of your Node server.
 
 <h3 id="create-config-json" title="1. Create config.json">1. Create a config.json file</h3>
 
