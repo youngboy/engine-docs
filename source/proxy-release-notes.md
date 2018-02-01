@@ -6,12 +6,15 @@ order: 20
 ### 2018.01-54-gce490265c - 2018-01-31
 
 * Fixed a bug where the `Host` header was not forwarded to origin servers. If the `Host` header is present, it will also be sent in the `X-Forwarded-Host` header. Both of these header values can be overridden via the field mentioned below.
-* Added a field (overrideRequestHeaders) to `origin.http` in the Engine config object. Users can use this field if they want to override headers sent to their GraphQL origin. By default Engine will forward all header values it receives to the origin server. This field is only for users that want to override the default behavior.
+* Added the ability for users to override which headers are sent to their GraphQL origin. Users can do this by specifying the `overrideRequestHeaders` field in `origin.http` in the Engine config object. By default Engine will forward all header values it receives to the origin server. This field is only for users that want to override the default behavior.
 
 	To use this feature, add 
-		```"overrideRequestheaders": {"key1": "value1", "key2": "value2", ... }```
+		```"overrideRequestHeaders": {"key1": "value1", "key2": "value2", ... }```
 	to an `origin.http` object in the engine config. Note that each header key must have exactly one value.
-
+	
+	For example, to override the `Host` header which may need to be done when deploying Engine inside of a PaaS (such as Heroku):
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"overrideRequestheaders": {"Host": "graphql-api-origin.herokuapp.com" }`
 ### 2018.01-43-g1747440e6 - 2018-01-29
 
 * Fixed an issue where Engine proxy would cache responses that set a cookie, causing cache hits to set the same cookie.
