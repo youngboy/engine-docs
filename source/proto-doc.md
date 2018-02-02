@@ -154,6 +154,7 @@ Configuration for forwarding GraphQL queries to an HTTP endpoint.
 | maxIdleConnections |   [uint64](#uint64)  | Maximum number of idle connections to keep open. If not specified, this will default to 100. |
 | trustedCertificates |  string | File path to load trusted X509 CA certificates. This should not be required if your HTTPS origin works in modern browsers. Certificates must be PEM encoded, and multiple certificates can be concatenated into a single file. If specified, only servers with a trust chain to these certificates will be accepted. If not specified, this will default to a certificate bundle included with the proxy binary, which is extracted from Ubuntu Linux. |
 | disableCertificateCheck |  bool | If set, X509 certificate validity (issuer, hostname, expiration) is not verified. This is very insecure, and should only be used for testing. |
+| overrideRequestHeaders | map[string]string  | If set, requests to this origin will have these headers replaced (or added) with the given values. |
 
 
 
