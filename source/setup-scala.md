@@ -21,7 +21,7 @@ At this time, the only available option for running the Engine proxy with a Scal
 _Interested in writing a sidecar Scala extension? [Get in touch](mailto:support@apollodata.com) with us!_
 
 <h3 id="get-api-key" title="Get your API Key">2.1 Get your API Key</h3>
-First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
+First, get your Engine API key by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
 
 <h3 id="create-config-json" title="Create your Config.json">2.2 Create your Proxy's Config.json</h3>
 The proxy uses a JSON object to get configuration information. If the configuration is passed the path to your file, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.

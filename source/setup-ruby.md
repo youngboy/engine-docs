@@ -21,7 +21,7 @@ This is our recommended Ruby gem: https://github.com/uniiverse/apollo-tracing-ru
 
 <h2 id="configure-proxy" title="Configure the Proxy">2. Configure the Proxy</h2>
 <h3 id="get-api-key" title="Get your API Key">2.1 Get your API Key</h3>
-First, get your `Engine_API_Key` by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
+First, get your Engine API key by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
 
 <h3 id="create-config-json" title="Create your Config.json">2.2 Create your Proxy's Config.json</h3>
 The standalone proxy uses a JSON file placed in your applications root folder to get configuration information. Changes to the config.json will cause the proxy to adopt the new configuration without downtime.
