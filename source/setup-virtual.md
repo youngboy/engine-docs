@@ -1,5 +1,5 @@
 ---
-title: Setup for PaaS / Virtual Hosting Environments
+title: Setup for PaaS Hosting Environments (e.g. Heroku)
 sidebar_title: PaaS (e.g. Heroku)
 description: Get Engine running with your virtually hosted GraphQL server.
 order: 2
