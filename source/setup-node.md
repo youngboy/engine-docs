@@ -222,7 +222,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:2018.01-54-gce490265c
+  gcr.io/mdg-public/engine:2018.02-2-g0b77ff3e3
 ```
 
 You can deploy and manage your Engine proxy anywhere Docker containers can be hosted. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
