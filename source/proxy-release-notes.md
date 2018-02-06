@@ -3,6 +3,11 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.02-2-g0b77ff3e3 – 2018-02-05
+
+* Fixed a bug where `Host` header was still not forwarded to origin servers if present.
+* Exposes stats field to better track engineproxy memory usage
+
 ### 2018.01-54-gce490265c - 2018-01-31
 
 * Fixed a bug where the `Host` header was not forwarded to origin servers. If the `Host` header is present, it will also be sent in the `X-Forwarded-Host` header. Both of these header values can be overridden via the field mentioned below.
