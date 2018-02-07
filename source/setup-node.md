@@ -158,7 +158,7 @@ engine = new Engine({
 
 Where `APP_PORT` is the port your app is now listening on and `ENGINE_PORT` is the port on which Engine proxy will listen. i.e If your application was originally listening on `3000` you would set `ENGINE_PORT` to be `3000` and `APP_PORT` to be a different port, say `3001` as an example and modify your app server to listen on this port.
 
-In the case of `express` you can configure your apps listen port (`APP_PORT`) like so:
+In the case of `express`, you can configure your app's listen port (`APP_PORT`) like so:
 
 ```js
 var express = require("express");
