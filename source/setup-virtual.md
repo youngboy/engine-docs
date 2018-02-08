@@ -10,8 +10,6 @@ To get started with Engine, you will need to:
 2. Configure and deploy the Engine proxy docker container.
 3. Send requests to your service – you're all set up!
 
-For Node users, you can either run the Engine proxy as a sidecar or as a Docker container inside of a separate app / dyno.  For sidecar setup, follow the instructions [here](setup-node.html).  For all other platforms, the only available option is to run the proxy in a standalone docker container.
-
 _Interested in writing a sidecar for your platform? [Get in touch](mailto:support@apollodata.com) with us!_
 
 <h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Enable Apollo Tracing</h2>
