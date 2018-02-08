@@ -59,6 +59,8 @@ We provide an NPM package that includes a pre-built copy of the Engine proxy, wh
 
 <h3 id="initialize">2.1. Initialize Engine</h3>
 
+> NOTE: The Apollo Engine npm package is not compatible with some Virtual Hosted environments (e.g. Heroku). For instructions on how to use Apollo Engine with these types of environments, follow the guide [here](setup-virtual.html).
+
 First, install the Engine package from npm:
 
 ```bash
