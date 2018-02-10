@@ -66,22 +66,8 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 | endpoint |  string | URL path on which to listen; often "/graphql". *Deprecated:* use `endpoints`. |
 | endpoints | repeated string | URL paths on which to listen; often `["/graphql"]`. |
 | originName |  string | Name of origin to serve with this frontend. The Proxy will also pass any HTTP requests sent to paths not in `endpoints`/`endpoint` to this origin. If not defined, defaults to the empty string, which is a valid origin name. |
-| endpointMap | repeated  [Config.Frontend.EndpointMapEntry](#mdg.engine.config.proto.Config.Frontend.EndpointMapEntry)  | Map from URL path to origin name. Use this field instead of `endpoints` and `originName` if you want different URL paths on this frontend to serve different origins. If you use this field, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. |
+| endpointMap | map[string]string | Map from URL path to origin name. Use this field instead of `endpoints` and `originName` if you want different URL paths on this frontend to serve different origins. If you use this field, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. |
 | extensions |   [Config.Frontend.Extensions](#mdg.engine.config.proto.Config.Frontend.Extensions)  | Configuration for GraphQL response extensions. |
-
-
-
-
-<a name="mdg.engine.config.proto.Config.Frontend.EndpointMapEntry"/>
-
-### Config.Frontend.EndpointMapEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key |  string |  |
-| value |  string |  |
 
 
 
@@ -169,21 +155,7 @@ Configuration for forwarding GraphQL queries to an HTTP endpoint.
 | maxIdleConnections |   [uint64](#uint64)  | Maximum number of idle connections to keep open. If not specified, this will default to 100. |
 | trustedCertificates |  string | File path to load trusted X509 CA certificates. This should not be required if your HTTPS origin works in modern browsers. Certificates must be PEM encoded, and multiple certificates can be concatenated into a single file. If specified, only servers with a trust chain to these certificates will be accepted. If not specified, this will default to a certificate bundle included with the proxy binary, which is extracted from Ubuntu Linux. |
 | disableCertificateCheck |  bool | If set, X509 certificate validity (issuer, hostname, expiration) is not verified. This is very insecure, and should only be used for testing. |
-| overrideRequestHeaders | repeated  [Config.Origin.HTTP.OverrideRequestHeadersEntry](#mdg.engine.config.proto.Config.Origin.HTTP.OverrideRequestHeadersEntry)  | If set, requests to this origin will have these headers replaced (or added) with the given values. |
-
-
-
-
-<a name="mdg.engine.config.proto.Config.Origin.HTTP.OverrideRequestHeadersEntry"/>
-
-### Config.Origin.HTTP.OverrideRequestHeadersEntry
-
-
-
-| Field | Type | Description |
-| ----- | ---- | ----------- |
-| key |  string |  |
-| value |  string |  |
+| overrideRequestHeaders | map[string]string  | If set, requests to this origin will have these headers replaced (or added) with the given values. |
 
 
 
