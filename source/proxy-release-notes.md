@@ -3,6 +3,14 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.02-37-g678cbb68b – 2018-02-10
+
+* Adds support for GZIP content encoding for Lambda origins
+* Adds support for function qualifiers for Lambda origins
+* Allows per-endpoint origin specification on frontends via `endpointMap`, a \<string,string\> map from endpoint path to `originName`. Users can use this field instead of `endpoints` and `originName` to route different URL paths on a frontend to serve different origins. If `endpointMap` is set, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. The proxy will also verify that only one of `endpoint` [deprecated], `endpoints`, and `endpointMap` are set.
+  * For example, if you have two origins with names `[adminOrigin, userOrigin]` and want to forward requests to `/admin` and `/user` respectively, on the `Frontend` config, specify `endpointMap: {'/admin':'adminOrigin', '/user':'userOrigin'}` and do not specify `endpoint` or `endpoints`.
+* Fixes a bug where all custom extensions were assumed to be maps
+
 ### 2018.02-2-g0b77ff3e3 – 2018-02-05
 
 * Fixed a bug where `Host` header was still not forwarded to origin servers if present.
@@ -11,7 +19,7 @@ order: 20
 ### 2018.01-54-gce490265c - 2018-01-31
 
 * Fixed a bug where the `Host` header was not forwarded to origin servers. If the `Host` header is present, it will also be sent in the `X-Forwarded-Host` header. Both of these header values can be overridden via the field mentioned below.
-* Added the ability for users to override which headers are sent to their GraphQL origin. Users can do this by specifying the `overrideRequestHeaders` field in `origin.http` in the Engine config object. By default Engine will forward all header values it receives to the origin server. This field is only for users that want to override the default behavior. 
+* Added the ability for users to override which headers are sent to their GraphQL origin. Users can do this by specifying the `overrideRequestHeaders` field in `origin.http` in the Engine config object. By default Engine will forward all header values it receives to the origin server. This field is only for users that want to override the default behavior.
   * For example, to override the `Host` header which may need to be done when deploying Engine inside of a PaaS (such as Heroku) follow instructions [here](setup-virtual.html).
 
 ### 2018.01-43-g1747440e6 - 2018-01-29
