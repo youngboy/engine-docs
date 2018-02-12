@@ -56,7 +56,7 @@ DebugServer configures an HTTP server which can be used to debug the Proxy. If y
 <a name="mdg.engine.config.proto.Config.Frontend"/>
 
 ### Config.Frontend
-Frontend defines a web server run by the Proxy. The Proxy will listen on each frontend for incoming GraphQL requests.
+Frontend defines a web server run by the Proxy. The Proxy will listen on each frontend for incoming GraphQL requests. If you are not using the `apollo-engine` npm module, you must specify exactly one of `endpoints`, `endpointMap`, or (deprecated) `endpoint`.
 
 
 | Field | Type | Description |
@@ -65,7 +65,8 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 | port |  int32 | The port on which to listen. If left blank, this will select a random available port. |
 | endpoint |  string | URL path on which to listen; often "/graphql". *Deprecated:* use `endpoints`. |
 | endpoints | repeated string | URL paths on which to listen; often `["/graphql"]`. |
-| originName |  string | Name of origin to serve with this frontend. |
+| originName |  string | Name of origin to serve with this frontend. The Proxy will also pass any HTTP requests sent to paths not in `endpoints`/`endpoint` to this origin. If not defined, defaults to the empty string, which is a valid origin name. |
+| endpointMap | map[string]string | Map from URL path to origin name. Use this field instead of `endpoints` and `originName` if you want different URL paths on this frontend to serve different origins. If you use this field, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. |
 | extensions |   [Config.Frontend.Extensions](#mdg.engine.config.proto.Config.Frontend.Extensions)  | Configuration for GraphQL response extensions. |
 
 
