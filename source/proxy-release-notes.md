@@ -3,19 +3,28 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.02-50-gef2fc6d4e - 2018-02-15
+
+* Add support for proxying non-GraphQL requests with Lambda origins. This allows serving GraphiQL directly from a Lambda handler.
+  No additional configuration is required to start using this feature.
+* Added the ability to define the frontend port (the port Engine proxy will listen on) from an environment variable.
+  To define the frontend port via the environment, remove `"port": 1234,` from the frontend configuration, and add `"portFromEnv": "MY_PORT_VARIABLE"`.
+  This will cause the proxy to read the `MY_PORT_VARIABLE` environment variable.
+  Heroku users in particular should set `"portFromEnv": "PORT"`.
+
 ### 2018.02-37-g678cbb68b – 2018-02-10
 
-* Adds support for GZIP content encoding for responses from Lambda origins.
-* Adds support for function qualifiers for Lambda origins.
+* Added support for GZIP content encoding for responses from Lambda origins.
+* Added support for function qualifiers for Lambda origins.
 * Allows per-endpoint origin specification on frontends via `endpointMap`, a &lt;string,string&gt; map from endpoint path to `originName`. Users can use this field instead of `endpoints` and `originName` to route different URL paths on a frontend to serve different origins. If `endpointMap` is set, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. The proxy will also verify that only one of `endpoint` [deprecated], `endpoints`, and `endpointMap` are set.
- 
+
 	* For example, if you have two origins with names `[adminOrigin, userOrigin]` and want to forward requests to `/admin` and `/user` respectively, on the `Frontend` config, specify `"endpointMap": {"/admin":"adminOrigin", "/user":"userOrigin"}` and do not specify `endpoint` or `endpoints`.
-* Fixes a bug where all custom extensions were assumed to be maps
+* Fixed a bug where all custom extensions were assumed to be maps.
 
 ### 2018.02-2-g0b77ff3e3 – 2018-02-05
 
 * Fixed a bug where `Host` header was still not forwarded to origin servers if present.
-* Exposes stats field to better track engineproxy memory usage
+* Exposed stats field to better track Engine proxy memory usage.
 
 ### 2018.01-54-gce490265c - 2018-01-31
 
@@ -32,9 +41,9 @@ order: 20
     * Responses with a `Cache-Control` header value of: `no-cache` ,`no-store` or `private`.
     * Responses with an `Expires` header of `0`, or any date in the past.
 * Fixed several issues with timestamps included in reports sent to engine backend.
-* Added the ability to dump stacktraces of all running threads when engineproxy receives a `SIGUSR2` signal.
+* Added the ability to dump stacktraces of all running threads when Engine proxy receives a `SIGUSR2` signal.
   When requested, traces are dumped to stderr. This should not be necessary unless requested by Apollo support.
-* Added the ability to collect performance data from engine proxy using [Go pprof profiler](https://golang.org/pkg/net/http/pprof/).
+* Added the ability to collect performance data from Engine proxy using [Go pprof profiler](https://golang.org/pkg/net/http/pprof/).
   To enable the pprof server, add `"debugServer": {"port": 1234}` to your engine configuration.
   Note that the pprof server offers no security, so a firewall etc is required if running in production.
   Enabling the debug server should not be necessary unless requested by Apollo support.
