@@ -8,7 +8,7 @@ order: 20
 * Add support for proxying non-GraphQL requests with Lambda origins. This allows serving GraphiQL directly from a Lambda handler.
   No additional configuration is required to start using this feature.
 * Added the ability to define the frontend port (the port Engine proxy will listen on) from an environment variable.
-  To define a frontend variable, remove `"port": 1234,` from the frontend configuration, and add `"portFromEnv": "MY_PORT_VARIABLE"`.
+  To define the frontend port via the environment, remove `"port": 1234,` from the frontend configuration, and add `"portFromEnv": "MY_PORT_VARIABLE"`.
   This will cause the proxy to read the `MY_PORT_VARIABLE` environment variable.
   Heroku users in particular should set `"portFromEnv": "PORT"`.
 
@@ -24,7 +24,7 @@ order: 20
 ### 2018.02-2-g0b77ff3e3 – 2018-02-05
 
 * Fixed a bug where `Host` header was still not forwarded to origin servers if present.
-* Exposed stats field to better track engineproxy memory usage.
+* Exposed stats field to better track Engine proxy memory usage.
 
 ### 2018.01-54-gce490265c - 2018-01-31
 
@@ -41,7 +41,7 @@ order: 20
     * Responses with a `Cache-Control` header value of: `no-cache` ,`no-store` or `private`.
     * Responses with an `Expires` header of `0`, or any date in the past.
 * Fixed several issues with timestamps included in reports sent to engine backend.
-* Added the ability to dump stacktraces of all running threads when engineproxy receives a `SIGUSR2` signal.
+* Added the ability to dump stacktraces of all running threads when Engine proxy receives a `SIGUSR2` signal.
   When requested, traces are dumped to stderr. This should not be necessary unless requested by Apollo support.
 * Added the ability to collect performance data from Engine proxy using [Go pprof profiler](https://golang.org/pkg/net/http/pprof/).
   To enable the pprof server, add `"debugServer": {"port": 1234}` to your engine configuration.
