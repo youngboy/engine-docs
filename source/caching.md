@@ -294,4 +294,4 @@ The histogram uses differently-colored bars to represent cache vs. non-cache req
 
 > \* Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards. If you are using `express-graphql`, we recommend you switch to Apollo Server to use caching. Both `express-graphql` and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code.
 
-> We're working with the community to add support for Apollo Cache Control to other server libraries. (Contact us)[mailto:support@apollographql.com] if you are interested in joining the community to work on support for `express-graphql`. 
+> We're working with the community to add support for Apollo Cache Control to other server libraries. [Contact us](mailto:support@apollographql.com)   if you are interested in joining the community to work on support for `express-graphql`. 
