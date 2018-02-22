@@ -3,6 +3,11 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.02-72-g882e543b9 - 2018-02-22
+
+* Added support for receiving client-provided GraphQL extensions such as `persistedQuery` over GET requests. To use GET requests (with or without persisted queries), we recommend you upgrade to [`apollo-link-http` 1.5.0](https://www.npmjs.com/package/apollo-link-http) and pass `useGETForQueries: true` to `createHttpLink` in your client code.
+* Improve error messages for GraphQL request parse failures and for several common configuration problems.
+
 ### 2018.02-50-gef2fc6d4e - 2018-02-15
 
 * Add support for proxying non-GraphQL requests with Lambda origins. This allows serving GraphiQL directly from a Lambda handler.
