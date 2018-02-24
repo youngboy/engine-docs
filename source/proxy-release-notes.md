@@ -3,6 +3,10 @@ title: Proxy release notes
 order: 20
 ---
 
+### 2018.02-84-g7a295e631 - 2018-02-23
+
+* Unknown fields in the Engine config file (or engineConfig option to `new Engine`) are now result in an error.
+
 ### 2018.02-72-g882e543b9 - 2018-02-22
 
 * Added support for receiving client-provided GraphQL extensions such as `persistedQuery` over GET requests. To use GET requests (with or without persisted queries), we recommend you upgrade to [`apollo-link-http` 1.5.0](https://www.npmjs.com/package/apollo-link-http) and pass `useGETForQueries: true` to `createHttpLink` in your client code.
