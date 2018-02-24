@@ -4,13 +4,13 @@ sidebar_title: Node with Apollo Server
 description: Get Engine running with your Node.js GraphQL server.
 ---
 
-This guide will help you set up Engine with Node.js. Because Engine relies on some GraphQL response extensions like Tracing and Cache Control, the main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), which you can use with every popular Node.js server middleware such as Express, Hapi, Koa, Restify, and more.
-
-The guide below will get you up and running as fast as possible. For advanced functionality and other features check out the other articles in the docs.
+Our main supported server library for Node.js is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), which you can use with major Node.js server middlewares such as Express, Hapi, Koa, Restify, and more. Because Engine relies on GraphQL response extensions like Tracing and Cache Control, Apollo Server is a natural fit.
 
 <h2 id="enable-apollo-tracing-and-cache-control" title="1. Tracing + Cache Control">1. Enable Apollo Tracing and Cache Control</h2>
 
-With Apollo Server, this part of the setup is trivial: The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, with Express:
+With Apollo Server, setup is trivial: The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice.
+
+For example, with Express:
 
 ```javascript
 app.use('/graphql', bodyParser.json(), graphqlExpress({
@@ -27,9 +27,7 @@ If you are using `express-graphql`, we recommend switching to Apollo Server, whi
 
 <h3 id="enabling-compression">1.1 Enable compression</h3>
 
-Once instrumented, the tracing package will increase the size of responses traveling between your GraphQL API and the Engine proxy, because the requests will be augmented with additional tracing data.
-
-Because of this, we recommend that you enable gzip compression in your GraphQL server, since the added volume from the tracing format compresses well.
+Once instrumented, the tracing package will increase the size of responses traveling between your GraphQL API and the Engine proxy, because the requests will be augmented with additional tracing data. We recommend that you enable gzip compression in your GraphQL server, since the added volume from the tracing format compresses well.
 
 **Express**
 
@@ -55,7 +53,7 @@ Hapi comes with support for compression enabled by default, unless it has been c
 
 <h2 id="configure-proxy">2. Add Engine middleware</h2>
 
-We provide an NPM package that includes a pre-built copy of the Engine proxy, which makes initial setup with Node very simple. It spawns an Engine process side-by-side with your GraphQL server process and incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
+We provide a NPM package that includes a pre-built copy of the Engine proxy, which simplifies the initial setup. It spawns an Engine process side-by-side with your GraphQL server process so that incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
 <h3 id="initialize">2.1. Initialize Engine</h3>
 
@@ -79,7 +77,7 @@ const engine = new Engine({
 engine.start();
 ```
 
-It does not matter when you call `engine.start()` in your server file, but the earlier Engine is started the better. Your server will start normally and handle requests without the Engine proxy until it has fully started and is ready.
+It does not matter when you call `engine.start()` in your server file, but the earlier Engine is started, the better. Your server will start normally and handle requests without the Engine proxy until it has fully started and is ready.
 
 #### Optional configuration
 
@@ -111,7 +109,9 @@ You can get your `ENGINE_API_KEY` by creating a service in the [Engine UI](http:
 
 <h3 id="add-middleware" title="2.3. Add middleware">2.3. Add the middleware to your app</h3>
 
-Add the Engine middleware to your app's middleware stack so that your app can route requests through the Engine proxy. Since the Engine middleware needs to process the raw requests to your server before they receive any other modifications, it's important that this is your app's _first middleware_.
+Add the Engine middleware to your app's middleware stack so that your app can route requests through the Engine proxy. 
+
+Since the Engine middleware needs to process the raw requests to your server before they receive any other modifications, it's important that this is your app's _first middleware_.
 
 The `apollo-engine` package supports the following middlewares:
 
@@ -132,17 +132,22 @@ app.use(engine.expressMiddleware());
 
 <h2 id="view-metrics-in-engine" title="3. View data">3. View your data in Engine</h2>
 
-Once your server is set up, navigate to your newly created Engine service in the [Engine UI](https://engine.apollographql.com). It should indicate that you've set everything up successfully. Start sending requests to your Node server to start seeing performance metrics!
+Once your server is set up, navigate to your newly created Engine service in the [Engine UI](https://engine.apollographql.com). It should indicate that you've set everything up successfully.
 
-<h2 id="single-proxy-with-sidecar" title="Single proxy">Advanced: Single proxying sidecar configuration</h2>
+Start sending requests to your Node server to see performance metrics!
 
-An alternative to using the middleware to selectively forward requests to Engine and then back to your application is to proxy all traffic via the Engine proxy. This is more performant for pure or close to pure GraphQL workloads but will result in the proxy being in the request path even for non-GraphQL requests.
+<h2 id="single-proxy-with-sidecar" title="Single proxy">Single proxying sidecar configuration</h2>
 
-It also requires the ability to change the listening port of your application so Engine can instead listen on that port. You will need to then configure Engine with the new port of your application.
-Whilst this requires a bit more knowledge of TCP ports and how to configure your application server stack it's the preferred configuration for higher performance GraphQL servers.
+An alternative to using the middleware to selectively forward requests to Engine and then back to your application is to proxy all traffic via the Engine proxy.
 
-To use this mode of operation first remove the Engine middleware for your server if you added it above.
-Then configure Engine like so:
+This is more performant for pure or close to pure GraphQL workloads. Note that it will result in the proxy being in the request path even for non-GraphQL requests.
+
+This requires the ability to change the listening port of your application so Engine can instead listen on that port. You'll also need to configure Engine with the new port.
+
+While this requires some knowledge of TCP ports and how to configure your application server stack, we recommend this configuration for higher performance GraphQL servers.
+
+To use this mode of operation, first remove the Engine middleware for your server if you added it above.
+Then configure Engine as follows:
 
 ```js
 engine = new Engine({
@@ -156,7 +161,7 @@ engine = new Engine({
 });
 ```
 
-Where `APP_PORT` is the port your app is now listening on and `ENGINE_PORT` is the port on which Engine proxy will listen. i.e If your application was originally listening on `3000` you would set `ENGINE_PORT` to be `3000` and `APP_PORT` to be a different port, say `3001` as an example and modify your app server to listen on this port.
+Where `APP_PORT` is the port your app is now listening on and `ENGINE_PORT` is the port on which the Engine proxy will listen. If your application was originally listening on `3000` you would set `ENGINE_PORT` to be `3000` and `APP_PORT` to be a different port, say `3001`. Modify your app server to listen on this port.
 
 In the case of `express`, you can configure your app's listen port (`APP_PORT`) like so:
 
@@ -167,9 +172,11 @@ var app = express();
 app.listen(APP_PORT)
 ```
 
-<h2 id="standalone-docker-container" title="Docker container setup">Advanced: Standalone Docker container setup</h2>
+<h2 id="standalone-docker-container" title="Docker container setup">Standalone Docker container setup</h2>
 
-This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. This is the best option to select when you need more control over the scaling, operation, and deployment of Engine, and also delivers better performance than running the proxy as a child process of your Node server.
+This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server.
+
+This is the best option to select when you need more control over the scaling, operation, and deployment of Engine. It also delivers better performance than running the proxy as a child process of your Node server.
 
 <h3 id="create-config-json" title="1. Create config.json">1. Create a config.json file</h3>
 
@@ -227,4 +234,4 @@ docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
 
 You can deploy and manage your Engine proxy anywhere Docker containers can be hosted. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
 
-We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy.
+We recognize that almost every team using Engine has a different deployment environment. [Contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy!
