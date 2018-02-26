@@ -5,9 +5,7 @@ order: 20
 
 <h2>Proxy release notes</h2>
 
-The versions given here are the tags for the Docker release of Engine Proxy. The
-[apollo-engine npm package](https://www.npmjs.com/package/apollo-engine) has its
-own versioning. Its changelog refers to entries in these release notes.
+The versions given here are the tags for the Docker release of Engine Proxy. The [apollo-engine npm package](https://www.npmjs.com/package/apollo-engine) has its own versioning. Its changelog refers to entries in these release notes.
 
 <h3 id="v2018.02-84-g7a295e631">2018.02-84-g7a295e631 - 2018-02-23</h3>
 
