@@ -11,7 +11,7 @@ own versioning. Its changelog refers to entries in these release notes.
 
 <h3 id="v2018.02-84-g7a295e631">2018.02-84-g7a295e631 - 2018-02-23</h3>
 
-* Unknown fields in the Engine config file (or engineConfig option to `new Engine`) are now result in an error.
+* Unknown fields in the Engine config file (or engineConfig option to `new Engine`) now result in an error.
 
 <h3 id="v2018.02-72-g882e543b9">2018.02-72-g882e543b9 - 2018-02-22</h3>
 
