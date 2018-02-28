@@ -128,11 +128,9 @@ Once instrumented, the tracing package will increase the size of responses trave
 
 Because of this, we recommend that you enable gzip compression in your GraphQL server, since the added volume from the tracing format compresses well. With Hapi servers, you can go ahead and omit the compression code. See how to enable compression in the next step.
 
-<h2 id="configure-proxy">2. Choose a setup configuration that's right for you
+<h1 id="configure-proxy">2. Choose a setup configuration that's right for you</h1>
 
-OPTION 1 
-
-Basic Engine Proxy Setup - Add Middleware</h2>
+<h2 id="choose-basic" title="Basic Sidecar Installation">OPTION 1: Basic Sidecar Installation - Add Middleware</h2>
 
 We provide an NPM package that includes a pre-built copy of the Engine proxy, which makes initial setup with Node very simple. It spawns an Engine process side-by-side with your GraphQL server process and incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
