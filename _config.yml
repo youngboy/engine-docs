@@ -28,6 +28,7 @@ sidebar_categories:
     - error-tracking
     - caching
     - auto-persisted-queries
+    - query-batching
   Guides:
     - troubleshooting
     - upgrade-optics
