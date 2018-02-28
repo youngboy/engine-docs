@@ -14,13 +14,13 @@ For details about how to integrate Engine into your GraphQL server, select your 
 
 Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure. It provides the following features today:
 
-1. Performance tracing
-1. Schema analytics
+1. [Performance tracing](./performance-tracing.html)
+1. [Schema analytics](./schema-analytics.html)
 1. [Error tracking](./error-tracking.html)
 1. [Response caching](./caching.html)
 1. [Automatic persisted queries](./auto-persisted-queries.html)
 
-To learn more about the features and how they'll help you work with GraphQL, check out the [Engine landing page](https://www.apollographql.com/engine/).
+Learn more about the features and how they'll help you work with GraphQL [here](https://www.apollographql.com/engine/).
 
 <h2 id="components">Engine components</h2>
 
