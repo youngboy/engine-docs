@@ -114,7 +114,7 @@ If your origin supports batching and you'd like to pass entire batches through, 
 }
 ```
 
-Add this setting and you're good to go! 
+Add this setting, and you're good to go! 
 
 If you have questions, we're always available in the public [Apollo Slack #engine channel](https://www.apollographql.com/#slack).
 
