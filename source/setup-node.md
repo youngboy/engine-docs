@@ -14,7 +14,7 @@ Choosing which way to configure Engine depends on what's right for your applicat
 
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
 
-Once you've choosen a configuration, follow the steps below to start your Engine service.
+Once you've chosen a configuration, follow the steps below to start your Engine service.
 
 <h2 id="enable-apollo-tracing-and-cache-control" title="1. Tracing + Cache Control">1. Enable Apollo Tracing and Cache Control</h2>
 
@@ -333,7 +333,7 @@ If not, the Engine middleware might not be the first middleware called, or it ma
 
 If Engine is not intercepting the requests, extension data will not be stripped from the response, unless you explicitly allow extension data in your configuration either with `Config.Frontend.Extensions` or by specifying `includeInResponse`:
 
-To instruct the proxy to strip extensions, set: "extensions": { "strip": ["cacheControl", "tracing", "myAwesomeExtension"] } within the frontends section of the configuration. By default, Apollo extensions: cacheControl and tracing are stripped.
+To instruct the proxy to strip extensions, set ```"extensions": { "strip": ["cacheControl", "tracing", "myAwesomeExtension"] }``` within the frontends section of the configuration. By default, Apollo `extensions: cacheControl` and `tracing` are stripped.
 
 Stripped extensions may still be returned if the client requests them via the includeInResponse query extension. To instruct the proxy to never return extensions, set "extensions": { "blacklist": ["tracing","mySecretExtension"] } within the frontends section of the configuration. By default, the Apollo tracing extension: tracing is blacklisted.
 
