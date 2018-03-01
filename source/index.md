@@ -22,7 +22,7 @@ Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure.
 1. [Automatic persisted queries](./auto-persisted-queries.html)
 1. Schema analytics
 
-To learn more about these features help you work with GraphQL, check out the [Engine landing page](https://www.apollographql.com/engine/).
+Learn more about the features and how they'll help you work with GraphQL [here](https://www.apollographql.com/engine/).
 
 <h2 id="components">Engine components</h2>
 
