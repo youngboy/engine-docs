@@ -210,18 +210,49 @@ The `apollo-engine` package supports the following middlewares, which are availa
 3. `instrumentHapiServer` – use for Hapi servers.
 4. `koaMiddleware` – use for Koa servers.
 
-In an Express or Koa server, adding the Engine middleware would look like this:
+As a result of using one of these Engine-provided middlewares, the application's middleware declaration might look like this:
+
+<h4 id="add-middleware-express">Express</h4>
 
 ```javascript
-const app = express();
+const express = require('express');
+const compression = require('compression');
 
-var compression = require('compression | koa-compress')
+const engine = new Engine({
+  engineConfig: {
+    apiKey: 'API_KEY_HERE'
+  }
+});
+
+engine.start();
+
+const app = express();
 app.use(engine.expressMiddleware());
 app.use(compression());
 // Other middleware
 ```
 
-Make sure that your [compression](https://github.com/expressjs/compression) or [koa-compress](https://github.com/koajs/compress) middleware is placed directly after your Engine middleware `app.use(engine.expressMiddleware());` code, since both need to be at the beginning of your server code to properly handle requests. 
+<h4 id="add-middleware-koa">Koa</h4>
+
+```javascript
+const koa = require('koa');
+const koaCompress = require('koa-compress');
+
+const engine = new Engine({
+  engineConfig: {
+    apiKey: 'API_KEY_HERE'
+  }
+});
+
+engine.start();
+
+const app = koa();
+app.use(engine.koaMiddleware())
+app.use(koaCompress());
+// Other middleware
+```
+
+By having the Engine middleware and compression middleware server code _before_ other middleware, it ensures that the subsequent middleware won't short-circuit the Engine proxy or the compression.
 
 <h2 id="single-proxy-with-sidecar" title="Single proxy">OPTION 2: Single proxying sidecar configuration</h2>
 
