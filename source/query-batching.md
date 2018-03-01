@@ -86,7 +86,7 @@ If a batch of queries is sent, the batches are fractured by the Engine proxy and
 Apollo Client has built-in support for batching queries in your client application.  To learn how to use query batching with Apollo Client, visit the in-depth guide on our package [`apollo-link-batch-http`](https://www.apollographql.com/docs/link/links/batch-http.html).
 
 
-<h2 id="apollo-server-batch-support" title="Batching, Apollo Server & Engine">Batchin in Apollo Server with Engine</h2>
+<h2 id="apollo-server-batch-support" title="Batching, Apollo Server & Engine">Batching in Apollo Server with Engine</h2>
 
 If your origin supports batching and you'd like to pass entire batches through, set "supportsBatch": true within the origins section of the configuration:
 
