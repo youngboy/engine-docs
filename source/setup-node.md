@@ -203,7 +203,7 @@ Add the Engine middleware, and if using Express or Koa, add the compression midd
 
 It's important that Engine be the app's _first_ middleware, since Engine needs to process the raw requests to your server _before_ other modifications.
 
-The `apollo-engine` package supports the following middlewares:
+The `apollo-engine` package supports the following middlewares, which are available through the `engine` instance created in the earlier step:
 
 1. `expressMiddleware` – use for Express servers.
 2. `connectMiddleware` – use for Connect or Restify servers.
