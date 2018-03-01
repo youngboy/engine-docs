@@ -5,7 +5,7 @@ order: 20
 
 <h2>Proxy release notes</h2>
 
-The versions given here are the tags for the Docker release of Engine Proxy. The [apollo-engine npm package](https://www.npmjs.com/package/apollo-engine) has its own versioning. Its changelog refers to entries in these release notes.
+The versions given here are the tags for the Docker release of Engine Proxy. The [`apollo-engine` Node.js module](https://www.npmjs.com/package/apollo-engine) has its own versioning. Its changelog refers to entries in these release notes.
 
 <h3 id="v2018.02-90-g65206681c">2018.02-90-g65206681c - 2018-02-28</h3>
 
@@ -109,7 +109,7 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
 <h3 id="v2017.11-121-g2a0310e1b">2017.11-121-g2a0310e1b - 2017-11-30</h3>
 
 * Improved performance when reverse proxying non-GraphQL requests.
-* Removed `-restart=true` flag, which spawned and managed a child proxy process. This was only used by `apollo-engine-js`.
+* Removed `-restart=true` flag, which spawned and managed a child proxy process. This was only used by the `apollo-engine` Node.js module.
 * Added POSIX signal processing:
   * On `SIGHUP`, reload configuration. Configurations provided through `STDIN` ignore `SIGHUP`.
   * On `SIGTERM`, or `SIGINT`, attempt to send final stats and traces  before gracefully shutting down.
@@ -163,7 +163,7 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
 
 * *BREAKING*: Fixed a bug where literals in a query were ignored by query cache lookup. This change invalidates the current query cache.
 
-* Fixed a bug where the `X-Engine-From` header was not set in non-GraphQL requests forwarded to origins. This could result in an infinite request loop in `apollo-engine-js`.
+* Fixed a bug where the `X-Engine-From` header was not set in non-GraphQL requests forwarded to origins. This could result in an infinite request loop in the Node.js `apollo-engine` package.
 
 <h3 id="v2017.10-431-gdc135a5d">2017.10-431-gdc135a5d - 2017-10-26</h3>
 
@@ -178,7 +178,7 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
 <h3 id="v2017.10-408-g497e1410">2017.10-408-g497e1410</h3>
 
 * Removed limit on HTTP responses from origin server.
-* Fixed issue where `apollo-engine-js` would fail to clean up sidecar processes.
+* Fixed issue where the `apollo-engine` Node.js module would fail to clean up sidecar processes.
 * Switched query cache compression from LZ4 to Snappy.
 * *BREAKING*: Renamed the `logcfg` configuration section to `logging`.
 * *BREAKING*: Nested HTTP/Lambda origin configurations under child objects: `http` and `lambda`.

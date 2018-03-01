@@ -10,7 +10,7 @@ The guide below will get you up and running as fast as possible. For advanced fu
 
 <h2 id="Choose a configuration" title="Choosing a Configuration">Choose a configuration</h2>
 
-How you configure and install Engine depends on what's right for your application environment.  There are three ways to run Engine with a Node GraphQL server: a quick install that meets most needs, a single proxy for applications with more than one GraphQL server, and a standalone Docker Engine deployment for teams opting out of sidecar deployment for various reasons. For more information on sidecar deployment, see the `apollo-engine-js` GitHub [README](https://github.com/apollographql/apollo-engine-js/).
+How you configure and install Engine depends on what's right for your application environment.  There are three ways to run Engine with a Node GraphQL server: a quick install that meets most needs, a single proxy for applications with more than one GraphQL server, and a standalone Docker Engine deployment for teams opting out of sidecar deployment for various reasons. For more information on sidecar deployment, see the [`apollo-engine` npm page](https://npmjs.com/package/apollo-engine/).
 
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
 
@@ -133,7 +133,7 @@ Because of this, we recommend that you enable gzip [`compression`](https://githu
 
 <h2 id="choose-basic" title="Basic Sidecar Installation">OPTION 1: Basic Sidecar Installation</h2>
 
-`apollo-engine-js` is a package available through NPM that includes a pre-built copy of the Engine proxy, which simplifies the initial setup. It spawns an Engine process side-by-side with your GraphQL server process so that incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
+`apollo-engine` is a module [available on npm](https://npmjs.com/package/apollo-engine) that includes a pre-built copy of the Engine proxy, which simplifies the initial setup. It spawns an Engine process side-by-side with your GraphQL server process so that incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
 <h3 id="initialize">2.1 Initialize Engine</h3>
 
