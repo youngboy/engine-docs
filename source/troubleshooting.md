@@ -15,7 +15,7 @@ If it is, please make sure you're running the [currently tested version](https:/
 
 You can enter the following into the commandline to check the package version, or look in  `package.json`.
 ```
-$ npm view <apollo-engine or npm package> version
+$ npm view apollo-engine version
 0.4.10
 ```
 
@@ -118,19 +118,13 @@ If using the sidecar deployment configuration - check that you integrated the En
 
 <h2 id="">Troubleshooting FAQs</h2>
 
-**I'm getting an error saying “The query failed!”, how do I fix it?**
+**I'm receiving an error. What does this mean?**
 
-This may mean you need to upgrade an NPM package. Check that your package versions are all up-to-date. This also may mean a variety of other things. When this error is paired with a 503 error, the query did not receive an expected response.
+| Error message | Issue description and resolution steps |
+| 503 error - unable to communicate with backend | This likely means that the origin GraphQL server did not respond to the proxied request. To resolve this, verify the Origin specification in the Engine configuration matches the corresponding GraphQL server location |
+| 403 error - [location unavailable] | Received unsupported Content-Type from origin GraphQL server. This often occurs when a GraphQL server throws an error during resolver execution and sends that error as `text/plain` instead of embedding it within a GraphQL error. This could also be caused by an inaccurate Content-Type header. |
 
-Other common errors:
-
-Query error: HTTP Status Code 400
-```
-Error parsing JSON query!\njson: cannot unmarshal array into Go value of type graphql.SerializedQuery\n[{\"query\":\"query 	
-```
-This is a known issue. As of version 0.4.11, Engine does not support batched queries. If you would like an update when the fix is released, please contact [support@apollodata.com](mailto:support@apollodata.com). 
-
-**Why isn't data showing up in my dashboard? I followed your install guide exactly.**
+**Where is the data in my dashboard? I followed all installation steps and am sending successful queries.**
 
 We'd recommend double checking that your Engine API key is passing through to your server. 
 
@@ -140,13 +134,61 @@ Third, we currently support a certain range of language-specific GraphQL servers
 
 **What is shown on the Engine Proxy logs?**
 
-Each time the Engine proxy starts, you should see the following 4 lines in the logs indicating the Engine proxy is healthy: 
+Each time the Engine proxy starts, you should see the following lines in the logs indicating the Engine proxy is healthy: 
 
 ``` 
-time="2017-10-16T14:34:48-07:00" level=info msg="Creating frontend" endpoint=/graphql host=127.0.0.1 port=62590 
-time="2017-10-16T14:34:48-07:00" level=info msg="Starting HTTP frontend" frontend="127.0.0.1:62590/graphql" 
-time="2017-10-16T14:34:48-07:00" level=info msg="Added new origin" url="http://127.0.0.1:3010/graphql" (http://127.0.0.1:3010/graphql); 
-time="2017-10-16T14:34:48-07:00" level=info msg="Set passthrough url" url="http://127.0.0.1:3010” (http://127.0.0.1:3010/); 
+{ proxy:
+   { level: 'info',
+     logLevel: 'debug',
+     msg: 'Set log level.',
+     time: '2018-03-01T12:33:35-08:00' } }
+{ proxy:
+   { level: 'debug',
+     msg: 'Created origin.',
+     name: '',
+     time: '2018-03-01T12:33:35-08:00',
+     type: 'http',
+     url: 'http://127.0.0.1:3010/graphql' } }
+{ proxy:
+   { host: '127.0.0.1',
+     level: 'debug',
+     msg: 'Creating frontend service.',
+     port: 0,
+     time: '2018-03-01T12:33:35-08:00' } }
+{ proxy:
+   { address: '127.0.0.1:64201',
+     level: 'info',
+     msg: 'Started HTTP server.',
+     time: '2018-03-01T12:33:35-08:00' } }
+{ proxy:
+   { configured: 3,
+     current: 0,
+     level: 'debug',
+     msg: 'Synchronizing stores.',
+     time: '2018-03-01T12:33:35-08:00' } }
+{ proxy:
+   { level: 'debug',
+     msg: 'Refreshing store configuration.',
+     storeName: 'publicResponseCache',
+     time: '2018-03-01T12:33:35-08:00',
+     type: 'embedded' } }
+{ proxy:
+   { level: 'debug',
+     msg: 'Refreshing store configuration.',
+     storeName: 'privateResponseCache',
+     time: '2018-03-01T12:33:35-08:00',
+     type: 'embedded' } }
+{ proxy:
+   { level: 'debug',
+     msg: 'Refreshing store configuration.',
+     storeName: 'pq',
+     time: '2018-03-01T12:33:35-08:00',
+     type: 'embedded' } }
+{ proxy:
+   { level: 'info',
+     msg: 'Engine proxy started.',
+     time: '2018-03-01T12:33:35-08:00',
+     version: '2018.02-37-g678cbb68b' } }
 ``` 
 
 These lines are internal to the Engine proxy: the endpoint url that you want will be the same as you configured your application to run without Engine. 
@@ -156,7 +198,7 @@ These lines are internal to the Engine proxy: the endpoint url that you want wil
 Please include the following when submitting an issue to our support team:
 
 * Engine JSON configuration object
-* Type of GraphQL server and whether you are using a sidecar or standalone container
-* The query submitted and the full response
+* Type of GraphQL server and whether you are using the `apollo-engine` sidecar or standalone Docker container
+* The query submitted and the full response, including headers
 
 Submit your issue to [support@apollodata.com](mailto:support@apollodata.com) or join our Apollo public slack #engine channel here (https://apollographql.slack.com/).

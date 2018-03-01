@@ -3,9 +3,9 @@ title: Response Caching
 description: Speed up your GraphQL responses and reduce load on your backends by enabling caching in Engine.
 ---
 
-<h2 id="notes-on-caching">Notes on Caching in Engine</h2>
+<h2 id="caching">Caching with Engine</h2>
 
-Caching in Engine accepts cache control hints in a fine-grained way, but caches the entire result. Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides public.
+Turning on caching with Engine means that you can use the cache store with Engine, rather than an outside data store. Just set a simple directive either on your schema or in your resolvers to instruct your application to cache dynamically. When your query is called, Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides public. This means that Engine currently executes whole query caching.
 
 To bring caching to GraphQL, we've developed [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), a new open standard that allows servers to specify exactly what parts of a response can be cached and for how long. 
 
