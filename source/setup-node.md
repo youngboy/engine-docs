@@ -252,7 +252,7 @@ const engine = new Engine({
 
 engine.start();
 
-const app = koa();
+const app = new koa();
 app.use(engine.koaMiddleware())
 app.use(koaCompress());
 // Other middleware
