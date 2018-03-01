@@ -133,7 +133,7 @@ Because of this, we recommend that you enable gzip [`compression`](https://githu
 
 <h2 id="choose-basic" title="Basic Sidecar Installation">OPTION 1: Basic Sidecar Installation</h2>
 
-`apollo-engine` is a module [available on npm](https://npmjs.com/package/apollo-engine) that includes a pre-built copy of the Engine proxy, which simplifies the initial setup. It spawns an Engine process side-by-side with your GraphQL server process so that incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
+`apollo-engine` is a package [available on npm](https://npmjs.com/package/apollo-engine) that includes a pre-built copy of the Engine proxy, which simplifies the initial setup. It spawns an Engine process side-by-side with your GraphQL server process so that incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
 <h3 id="initialize">2.1 Initialize Engine</h3>
 
