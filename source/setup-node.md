@@ -177,7 +177,7 @@ If you need some extra debugging information or customizability, you can add it 
 ```javascript
 const engine = new Engine({
   engineConfig: {
-    apiKey: engineApiKey,
+    apiKey: 'API_KEY_HERE',
     logging: {
       level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
     }
