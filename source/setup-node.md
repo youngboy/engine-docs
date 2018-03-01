@@ -18,7 +18,7 @@ Once you've chosen a configuration, follow the steps below to start your Engine 
 
 <h2 id="enable-apollo-tracing-and-cache-control" title="1. Tracing + Cache Control">1. Enable Apollo Tracing and Cache Control</h2>
 
-With Apollo Server, this part of the setup is trivial: The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. 
+With Apollo Server, setup is trivial: The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. 
 
 For example, with Express:
 
@@ -133,7 +133,7 @@ Because of this, we recommend that you enable gzip [`compression`](https://githu
 
 <h2 id="choose-basic" title="Basic Sidecar Installation">OPTION 1: Basic Sidecar Installation</h2>
 
-We provide an NPM package that includes a pre-built copy of the Engine proxy, which makes initial setup with Node very simple. It spawns an Engine process side-by-side with your GraphQL server process and incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
+`apollo-engine-js` is a package available through NPM that includes a pre-built copy of the Engine proxy, which simplifies the initial setup. It spawns an Engine process side-by-side with your GraphQL server process so that incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
 <h3 id="initialize">2.1 Initialize Engine</h3>
 
@@ -168,7 +168,7 @@ const engine = new Engine({
 engine.start();
 ```
 
-It does not matter when you call `engine.start()` in your server file, but the earlier Engine is started the better. Your server will start normally and handle requests without the Engine proxy until it has fully started and is ready.
+It does not matter when you call `engine.start()` in your server file, but the earlier Engine is started, the better. Your server will start normally and handle requests without the Engine proxy until it has fully started and is ready.
 
 #### Optional configuration
 
@@ -199,7 +199,9 @@ You can get your `ENGINE_API_KEY` by [logging into Engine](http://engine.apollog
 
 <h3 id="add-middleware" title="2.3 Add middleware">2.3 Add Engine middleware to your app</h3>
 
-Add the Engine middleware, and if using Express or Koa, add the compression middleware as well to your app's middleware stack so that your app can route requests through the Engine proxy. Since the Engine middleware needs to process the raw requests to your server before they receive any other modifications, it's important that this is your app's _first middleware_.
+Add the Engine middleware, and if using Express or Koa, add the compression middleware as well to your app's middleware stack so that your app can route requests through the Engine proxy. 
+
+Since the Engine middleware needs to process the raw requests to your server before they receive any other modifications, it's important that this is your app's _first middleware_.
 
 The `apollo-engine` package supports the following middlewares:
 
@@ -223,10 +225,11 @@ Make sure that your [compression](https://github.com/expressjs/compression) or [
 
 <h2 id="single-proxy-with-sidecar" title="Single proxy">OPTION 2: Single proxying sidecar configuration</h2>
 
-An alternative to using the middleware to selectively forward requests to Engine and then back to your application is to proxy all traffic via the Engine proxy. This is more performant for pure or close to pure GraphQL workloads but will result in the proxy being in the request path even for non-GraphQL requests.
+An alternative to using the middleware to selectively forward requests to Engine and then back to your application is to proxy all traffic via the Engine proxy. 
+
+This is more performant for pure or close to pure GraphQL workloads but will result in the proxy being in the request path even for non-GraphQL requests.
 
 It also requires the ability to change the listening port of your application so Engine can instead listen on that port. You will need to then configure Engine with the new port of your application.
-Whilst this requires a bit more knowledge of TCP ports and how to configure your application server stack it's the preferred configuration for higher performance GraphQL servers.
 
 To use this mode of operation first remove the Engine middleware for your server if you added it above:
 
@@ -249,7 +252,7 @@ engine = new Engine({
 });
 ```
 
-Where `APP_PORT` is the port your app is now listening on and `ENGINE_PORT` is the port on which Engine proxy will listen. i.e If your application was originally listening on `3000` you would set `ENGINE_PORT` to be `3000` and `APP_PORT` to be a different port, say `3001` as an example and modify your app server to listen on this port.
+Where `APP_PORT` is the port your app is now listening on and `ENGINE_PORT` is the port on which Engine proxy will listen. i.e If your application was originally listening on `3000` you would set `ENGINE_PORT` to be `3000` and `APP_PORT` to be a different port, say `3001`. Modify your app server to listen on this port.
 
 In the case of `express`, you can configure your app's listen port (`APP_PORT`) like so:
 
@@ -264,7 +267,9 @@ app.listen(APP_PORT)
 
 <h2 id="standalone-docker-container" title="Docker container setup">OPTION 3: Standalone Docker container setup</h2>
 
-This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. This is the best option to select when you need more control over the scaling, operation, and deployment of Engine.
+This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. 
+
+This is the best option to select when you need more control over the scaling, operation, and deployment of Engine.
 
 <h3 id="create-config-json" title="1. Create config.json">1. Create a config.json file</h3>
 
