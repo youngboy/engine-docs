@@ -31,6 +31,25 @@ It's easy to get started with APQ:
 
 Inside Apollo Engine, the query registry is stored in a user-configurable cache.  Just like with response caching, this can either be an in-memory store within the Engine proxy process, or an external memcache store that you operate in your infrastructure. Read more here about [how to configure caching](caching.html) in Engine.
 
+<h2 id="verify">Verify</h2>
+
+You can verify persisted queries configuration using any browser. The following examples assume your GraphQL endpoint with Engine enabled is running at `localhost:8000/graphql`.
+This example persists a dummy query of `{__typename}`, using its sha256 hash: `ecf4edb46db40b5132295c0291d62fb65d6759a9eedfa4d5d612dd5ec54a6b38`.
+
+
+1. Request a persisted query: http://localhost:8000/graphql?extensions={"persistedQuery":{"version":1,"sha256Hash":"ecf4edb46db40b5132295c0291d62fb65d6759a9eedfa4d5d612dd5ec54a6b38"}}
+
+   Expect a response of: `{"errors": [{"message": "PersistedQueryNotFound"}]}`. If you receive `{"errors": [{"message": "PersistedQueryNotSupported"}]}`, double check the proxy configuration.
+
+2. Store the query to the cache: http://localhost:8000/graphql?query={__typename}&extensions={"persistedQuery":{"version":1,"sha256Hash":"ecf4edb46db40b5132295c0291d62fb65d6759a9eedfa4d5d612dd5ec54a6b38"}}
+
+   Expect a response of `{"data": {"__typename": "Query"}}"`.
+
+3. Request the persisted query again: http://localhost:8000/graphql?extensions={"persistedQuery":{"version":1,"sha256Hash":"ecf4edb46db40b5132295c0291d62fb65d6759a9eedfa4d5d612dd5ec54a6b38"}}
+
+   Expect a response of `{"data": {"__typename": "Query"}}"`, as the query string is loaded from the cache.
+
+
 <h2 id="how-it-works">How it works</h2>
 
 The mechanism is based on a lightweight protocol extension between Apollo Client and Apollo Engine, which sits in front of your GraphQL server. It works as follows:
