@@ -35,7 +35,7 @@ A batch of queries can be sent by simply sending a JSON-encoded array of queries
 
 Batched requests to servers that don’t support batching fail without explicit code to handle batching, however Engine ships with batched request handling built-in.  
 
-<h2 id="apollo-server-batch-support" title="Batching, Apollo Client & Engine">Batching and Engine</h2>
+<h2 id="apollo-server-batch-support" title="Batching and Engine">Batching and Engine</h2>
 
 If a batch of queries is sent, the batches are fractured by the Engine proxy and individual queries are sent to origins in parallel.  Engine will wait for all the responses to complete and send a single response back to the client.  The response will be an array of GraphQL results:
 
