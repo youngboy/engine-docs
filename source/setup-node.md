@@ -161,7 +161,7 @@ npm install --save apollo-engine
 Then, import the `Engine` constructor at the top, create a new Engine instance, and call `engine.start()` or `await engine.start()`:
 
 ```js
-import { Engine } from 'apollo-engine';
+const { Engine } = require('apollo-engine');
 
 const engine = new Engine({
   engineConfig: {
