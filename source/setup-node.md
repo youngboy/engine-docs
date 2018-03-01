@@ -241,11 +241,11 @@ Then configure Engine like so:
 engine = new Engine({
   endpoint: '/graphql',
   graphqlPort: APP_PORT, // The port your application is listening on
-    frontend: {
-      host: '0.0.0.0', // Listen on all addresses
-      port: ENGINE_PORT, // The port that Engine will listen on
-      endpoint: '/graphql'
-    }
+  frontend: {
+    host: '0.0.0.0', // Listen on all addresses
+    port: ENGINE_PORT, // The port that Engine will listen on
+    endpoint: '/graphql'
+  }
 });
 ```
 
@@ -317,7 +317,7 @@ engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:2018.02-90-g65206681c
+  gcr.io/mdg-public/engine:2018.02-2-g0b77ff3e3
 ```
 
 You can deploy and manage your Engine proxy anywhere Docker containers can be hosted. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
