@@ -1,7 +1,7 @@
 ---
 title: Query batching
 sidebar_title: Query Batching 
-description: Query batching recommendations for Engine
+description: Query Batching with Engine
 ---
 
 Query batching allows your client to batch multiple queries into one request.  This means that if you render several view components within a short time interval, for example a navbar, sidebar, and content, and each of those do their own GraphQL query, the queries can be sent together in a single roundtrip.  
