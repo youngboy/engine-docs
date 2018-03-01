@@ -14,13 +14,13 @@ How you configure and install Engine depends on what's right for your applicatio
 
 There are three ways to run Engine with a Node GraphQL server:
 
-1) A quick install (for most needs)
+1) A quick install a.k.a sidecar deployment (for most needs)
 2) A single proxy (for applications with more than one GraphQL server)
 3) A standalone Docker Engine deployment (for teams opting out of the sidecar deployment for various reasons)
 
-For more information on the quick install a.k.a. sidecar deployment, see the [`apollo-engine` npm page](https://npmjs.com/package/apollo-engine/).
+For more information on the quick install option, see the [`apollo-engine` npm page](https://npmjs.com/package/apollo-engine/).
 
-We encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
+We encourage you to [contact us](mailto:support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
 
 Once you've chosen a configuration, follow the steps below to start your Engine service.
 
@@ -131,11 +131,13 @@ Tracing and cacheControl extension data should be returned like so:
   }
 }
 ```
-Once tracing and cacheControl are instrumented, the size of responses between your GraphQL API and Engine proxy will increase, because the responses will be augmented with additional tracing data.
+Once tracing and cacheControl are instrumented, the size of responses between your GraphQL API and Engine proxy will increase, because the responses will be enriched with tracing data.
 
-Because of this, we recommend that you enable gzip [`compression`](https://github.com/expressjs/compression)  in your GraphQL server, since the added volume from the tracing format compresses well.
+Because of this, we recommend that you enable gzip [`compression`](https://github.com/expressjs/compression) on your GraphQL server, since the added volume from the tracing format compresses well.
 
 If you are interested in creating a highly performant application, you can turn on [caching](https://www.apollographql.com/docs/engine/caching.html) and [automatic persisted queries](https://www.apollographql.com/docs/engine/auto-persisted-queries.html).
+
+We'll explain how to ensure compression is enabled in the next step.
 
 <h1 id="configure-proxy">Choose a setup configuration that's right for you</h1>
 
@@ -388,19 +390,19 @@ If Engine is not intercepting the requests, extension data will not be stripped 
 
 **Stripping Extensions**
 
-To instruct the proxy to strip extensions, set the following within the frontends section of the configuration:
+To instruct the proxy to strip extensions, set the following within the `frontends` section of the configuration:
 
 ```
 "extensions": { "strip": ["cacheControl", "tracing", "myAwesomeExtension"] }
 ```
 
-By default, Apollo `extensions: cacheControl` and `tracing` are stripped.
+By default, Apollo extensions `cacheControl` and `tracing` are stripped.
 
-Stripped extensions may still be returned if the client requests them via the includeInResponse query extension. To instruct the proxy to never return extensions, set the following within the frontends section of the configuration:
+Stripped extensions may still be returned if the client requests them via the `includeInResponse` query extension. To instruct the proxy to never return extensions, set the following within the `frontends` section of the configuration:
 
 ```
 "extensions": { "blacklist": ["tracing","mySecretExtension"] }
 ```
 
-By default, Apollo `extension: tracing` is blacklisted.
+By default, the Apollo extension `tracing` is blacklisted and will never returns extensions to the client.
 
