@@ -201,7 +201,7 @@ You can get your `ENGINE_API_KEY` by [logging into Engine](http://engine.apollog
 
 Add the Engine middleware, and if using Express or Koa, add the compression middleware as well to your app's middleware stack so that your app can route requests through the Engine proxy. 
 
-Since the Engine middleware needs to process the raw requests to your server before they receive any other modifications, it's important that this is your app's _first middleware_.
+It's important that Engine be the app's _first_ middleware, since Engine needs to process the raw requests to your server _before_ other modifications.
 
 The `apollo-engine` package supports the following middlewares:
 
