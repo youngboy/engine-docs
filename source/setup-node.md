@@ -151,7 +151,11 @@ npm install --save apollo-engine koa-compress
 
 **Hapi**
 
-Hapi comes with support for compression enabled by default, unless it has been configured with `compression: false`.
+```bash
+npm install --save apollo-engine
+```
+
+> With Hapi, there is no need for an additional package to enable compression, as compression is enabled by default, unless it has been configured with `compression: false`.
 
 #### Import and instantiate Engine
 Then, import the `Engine` constructor at the top, create a new Engine instance, and call `engine.start()` or `await engine.start()`:
