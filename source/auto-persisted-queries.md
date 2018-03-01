@@ -33,7 +33,7 @@ Inside Apollo Engine, the query registry is stored in a user-configurable cache.
 
 <h2 id="verify">Verify</h2>
 
-You can verify persisted queries configuration using any browser. The following examples assume Engine proxy is running at `localhost:8000/graphql`.
+You can verify persisted queries configuration using any browser. The following examples assume your GraphQL endpoint with Engine enabled is running at `localhost:8000/graphql`.
 This example persists a dummy query of `{__typename}`, using its sha256 hash: `ecf4edb46db40b5132295c0291d62fb65d6759a9eedfa4d5d612dd5ec54a6b38`.
 
 
