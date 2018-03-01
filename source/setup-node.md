@@ -221,6 +221,7 @@ As a result of using one of these Engine-provided middlewares, the application's
 ```javascript
 const express = require('express');
 const compression = require('compression');
+const { Engine } = require('apollo-engine');
 
 const engine = new Engine({
   engineConfig: {
@@ -241,6 +242,7 @@ app.use(compression());
 ```javascript
 const koa = require('koa');
 const koaCompress = require('koa-compress');
+const { Engine } = require('apollo-engine');
 
 const engine = new Engine({
   engineConfig: {
