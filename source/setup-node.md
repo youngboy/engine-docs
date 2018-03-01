@@ -6,7 +6,7 @@ description: Get Engine running with your Node.js GraphQL server.
 
 This guide will help you set up Engine with Node.js.
 
-Our main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), because Engine relies on GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control). Apollo server is easy to use with popular Node.js server middleware such as Express, Hapi, and Koa.
+Our main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), because Engine relies on GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control). Apollo server is easy to use with popular Node.js server middlewares such as Express, Hapi, and Koa.
 
 <h2 id="Choose a configuration" title="Choosing a Configuration">Choose a configuration</h2>
 
@@ -18,9 +18,9 @@ There are three ways to run Engine with a Node GraphQL server:
 2) A single proxy (for applications with more than one GraphQL server)
 3) A standalone Docker Engine deployment (for teams opting out of the sidecar deployment for various reasons)
 
-For more information on the quick install sidecar deployment, see the [`apollo-engine` npm page](https://npmjs.com/package/apollo-engine/).
+For more information on the quick install a.k.a. sidecar deployment, see the [`apollo-engine` npm page](https://npmjs.com/package/apollo-engine/).
 
-We recognize that almost every team using Engine has a different deployment environment. We encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
+We encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
 
 Once you've chosen a configuration, follow the steps below to start your Engine service.
 
@@ -45,7 +45,7 @@ If you are using `express-graphql`, we recommend switching to Apollo Server, whi
 
 <h4 id="extensions-check-point">Check Point!</h4>
 
-You can test that you've correctly configured Apollo Server tracing and cacheControl extensions by cURLing your `/graphql` endpoint.
+You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions by cURLing your `/graphql` endpoint.
 
 Tracing and cacheControl extension data should be returned like so:
 
@@ -131,7 +131,7 @@ Tracing and cacheControl extension data should be returned like so:
   }
 }
 ```
-Once tracing and cacheControl are instrumented, the size of responses increase when traveling between your GraphQL API and the Engine proxy, because the responses will be augmented with additional tracing data.
+Once tracing and cacheControl are instrumented, the size of responses between your GraphQL API and Engine proxy will increase, because the responses will be augmented with additional tracing data.
 
 Because of this, we recommend that you enable gzip [`compression`](https://github.com/expressjs/compression)  in your GraphQL server, since the added volume from the tracing format compresses well.
 
@@ -384,19 +384,23 @@ Do your charts capture the requests showing up in the dashboard?
 
 If not, the Engine middleware might not be the first middleware called, or it may be improperly configured. It may be registering that your service is activated, yet isn't able to intercept the requests.
 
-If Engine is not intercepting the requests, extension data will not be stripped from the response, unless you explicitly allow extension data in your configuration either with `Config.Frontend.Extensions` or by specifying `includeInResponse`:
+If Engine is not intercepting the requests, extension data will not be stripped from the response, unless you explicitly allow extension data in your configuration either with `Config.Frontend.Extensions` or by specifying `includeInResponse`.
 
 **Stripping Extensions**
 
 To instruct the proxy to strip extensions, set the following within the frontends section of the configuration:
 
-```"extensions": { "strip": ["cacheControl", "tracing", "myAwesomeExtension"] }```
+```
+"extensions": { "strip": ["cacheControl", "tracing", "myAwesomeExtension"] }
+```
 
 By default, Apollo `extensions: cacheControl` and `tracing` are stripped.
 
 Stripped extensions may still be returned if the client requests them via the includeInResponse query extension. To instruct the proxy to never return extensions, set the following within the frontends section of the configuration:
 
-```"extensions": { "blacklist": ["tracing","mySecretExtension"] }```
+```
+"extensions": { "blacklist": ["tracing","mySecretExtension"] }
+```
 
-By default, the Apollo tracing extension: tracing is blacklisted.
+By default, Apollo `extension: tracing` is blacklisted.
 
