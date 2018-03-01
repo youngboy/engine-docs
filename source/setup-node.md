@@ -241,11 +241,11 @@ Then configure Engine like so:
 engine = new Engine({
   endpoint: '/graphql',
   graphqlPort: APP_PORT, // The port your application is listening on
-    frontend: {
-      host: '0.0.0.0', // Listen on all addresses
-      port: ENGINE_PORT, // The port that Engine will listen on
-      endpoint: '/graphql'
-    }
+  frontend: {
+    host: '0.0.0.0', // Listen on all addresses
+    port: ENGINE_PORT, // The port that Engine will listen on
+    endpoint: '/graphql'
+  }
 });
 ```
 
