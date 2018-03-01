@@ -4,13 +4,13 @@ sidebar_title: Node with Apollo Server
 description: Get Engine running with your Node.js GraphQL server.
 ---
 
-This guide will help you set up Engine with Node.js. Because Engine relies on some GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), the main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), which you can use with every popular Node.js server middleware such as Express, Hapi, Koa, Restify, and more.
+This guide will help you set up Engine with Node.js. Because Engine relies on some GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), the main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), which you can use with every popular Node.js server middleware such as Express, Hapi, and Koa.
 
 The guide below will get you up and running as fast as possible. For advanced functionality and other features check out the other articles in the docs.
 
-<h2 id="Choose a configuration" title="Choosing a Configuration">Choosing a configuration</h2>
+<h2 id="Choose a configuration" title="Choosing a Configuration">Choose a configuration</h2>
 
-Choosing which way to configure Engine depends on what's right for your application environment. We have three ways we recommend to run Engine: a quick install that meets most needs, a single proxy for applications with more than one GraphQL server, and a standalone Docker Engine deployment for teams opting out of sidecar deployment for various reasons.
+How you configure and install Engine depends on what's right for your application environment.  There are three ways to run Engine with a Node GraphQL server: a quick install that meets most needs, a single proxy for applications with more than one GraphQL server, and a standalone Docker Engine deployment for teams opting out of sidecar deployment for various reasons. For more information on sidecar deployment, see the `apollo-engine-js` GitHub [README](https://github.com/apollographql/apollo-engine-js/).
 
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
 
@@ -39,7 +39,7 @@ If you are using `express-graphql`, we recommend switching to Apollo Server, whi
 
 Next, test that you've correctly configured Apollo Server tracing and cacheControl extensions by cURLing your `/graphql` endpoint.
 
-Tracing extension data should be returned like so:
+Tracing and cacheControl extension data should be returned like so:
 
 ```
 {
@@ -123,14 +123,15 @@ Tracing extension data should be returned like so:
   }
 }
 ```
+If you are interested in creating a highly performant application, find out how to turn on caching [here](https://www.apollographql.com/docs/engine/caching.html) and automatic persisted queries [here](https://www.apollographql.com/docs/engine/auto-persisted-queries.html).
 
-Once instrumented, the tracing package will increase the size of responses traveling between your GraphQL API and the Engine proxy, because the requests will be augmented with additional tracing data.
+Once tracing and cacheControl are instrumented, the size of responses increase when traveling between your GraphQL API and the Engine proxy, because the responses will be augmented with additional tracing data.
 
-Because of this, we recommend that you enable gzip compression in your GraphQL server, since the added volume from the tracing format compresses well. With Hapi servers, you can go ahead and omit the compression code. See how to enable compression in the next step.
+Because of this, we recommend that you enable gzip [`compression`](https://github.com/expressjs/compression)  in your GraphQL server, since the added volume from the tracing format compresses well. Because Hapi servers enable compression by default, you can go ahead and omit the compression code. See how to enable compression in the next step.
 
 <h1 id="configure-proxy">2. Choose a setup configuration that's right for you</h1>
 
-<h2 id="choose-basic" title="Basic Sidecar Installation">OPTION 1: Basic Sidecar Installation - Add Middleware</h2>
+<h2 id="choose-basic" title="Basic Sidecar Installation">OPTION 1: Basic Sidecar Installation</h2>
 
 We provide an NPM package that includes a pre-built copy of the Engine proxy, which makes initial setup with Node very simple. It spawns an Engine process side-by-side with your GraphQL server process and incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
 
@@ -153,7 +154,7 @@ npm install --save apollo-engine koa-compress
 Hapi comes with support for compression enabled by default, unless it has been configured with `compression: false`.
 
 #### Import and instantiate Engine
-Then, import the `Engine` constructor at the top, create a new Engine instance, and call `.start()` on it:
+Then, import the `Engine` constructor at the top, create a new Engine instance, and call `engine.start()` or `await engine.start()`:
 
 ```js
 import { Engine } from 'apollo-engine';
@@ -263,7 +264,7 @@ app.listen(APP_PORT)
 
 <h2 id="standalone-docker-container" title="Docker container setup">OPTION 3: Standalone Docker container setup</h2>
 
-This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. This is the best option to select when you need more control over the scaling, operation, and deployment of Engine, and also delivers better performance than running the proxy as a child process of your Node server.
+This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. This is the best option to select when you need more control over the scaling, operation, and deployment of Engine.
 
 <h3 id="create-config-json" title="1. Create config.json">1. Create a config.json file</h3>
 
