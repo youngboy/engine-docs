@@ -6,7 +6,7 @@ description: Query batching recommendations for Engine
 
 Query batching allows your client to batch multiple queries into one request.  This means that if you render several view components within a short time interval, for example a navbar, sidebar, and content, and each of those do their own GraphQL query, the queries can be sent together in a single roundtrip.  
 
-> Note that we don't recommend enabling query batching with Engine for most uses. Engine supports HTTP/2 even when your server doesn't, and one of the features that allows is sending multiple requests in parallel over a single connection. In most cases, that is actually more efficient than query batching, because requests are not blocked on each other. If you want to use HTTP/2, make sure to use the sidecar in single proxy mode or deploy Engine using the Docker container.
+> Note that we don't recommend enabling query batching with Engine for most uses.
 
 A batch of queries can be sent by simply sending a JSON-encoded array of queries in the request:
 
