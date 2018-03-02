@@ -47,6 +47,16 @@ If you are using `express-graphql`, we recommend switching to Apollo Server, whi
 
 You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions by cURLing your `/graphql` endpoint.
 
+For example, if you were testing with the [GitHunt API](https://github.com/apollographql/GitHunt-API) repo, your cURL command might look like this:
+
+```
+curl -X POST \
+  http://api.githunt.com/graphql \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '{"query": "{ feed (type: NEW, limit: 5) { repository { owner { login } name } postedBy { login } } }" }'
+```
+
 Tracing and cacheControl extension data should be returned like so:
 
 ```
@@ -405,4 +415,5 @@ Stripped extensions may still be returned if the client requests them via the `i
 ```
 
 By default, the Apollo extension `tracing` is blacklisted and will never returns extensions to the client.
+
 
