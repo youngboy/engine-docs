@@ -45,9 +45,9 @@ If you are using `express-graphql`, we recommend switching to Apollo Server, whi
 
 <h4 id="extensions-check-point">Check Point!</h4>
 
-You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions by cURLing your `/graphql` endpoint.
+You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions using the `curl` command against your `/graphql` endpoint.
 
-For example, if you were testing with the [GitHunt API](https://github.com/apollographql/GitHunt-API) repo, your cURL command might look like this:
+For example, if you were testing with the [GitHunt API](https://github.com/apollographql/GitHunt-API) repo, your `curl` command might look like this:
 
 ```
 curl -X POST \
