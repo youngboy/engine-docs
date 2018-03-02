@@ -29,6 +29,7 @@ sidebar_categories:
     - caching
     - auto-persisted-queries
     - query-batching
+    - security
   Guides:
     - troubleshooting
     - upgrade-optics
