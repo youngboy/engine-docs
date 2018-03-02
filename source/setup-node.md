@@ -82,18 +82,7 @@ Tracing and cacheControl extension data should be returned like so:
       "endTime": "2018-02-28T00:34:44.395Z",
       "duration": 367540351,
       "execution": {
-        "resolvers": [
-          {
-            "path": [
-              "feed"
-            ],
-            "parentType": "Query",
-            "fieldName": "feed",
-            "returnType": "[Entry]",
-            "startOffset": 1159879,
-            "duration": 1106808
-          },
-          // ... 
+        "resolvers": [      
           // ...
           {
             "path": [
@@ -112,31 +101,7 @@ Tracing and cacheControl extension data should be returned like so:
       }
     },
     "cacheControl": {
-      "version": 1,
-      "hints": [
-        {
-          "path": [
-            "feed"
-          ],
-          "maxAge": 60
-        },
-        {
-          "path": [
-            "feed",
-            0,
-            "repository"
-          ],
-          "maxAge": 240
-        },
-        {
-          "path": [
-            "feed",
-            1,
-            "repository"
-          ],
-          "maxAge": 240
-        }
-      ]
+      // ...
     }
   }
 }
@@ -394,7 +359,7 @@ Start sending requests to your Node server to see performance metrics!
 
 Do your charts capture the requests showing up in the dashboard?
 
-If not, the Engine middleware might not be the first middleware called, or it may be improperly configured. It may be registering that your service is activated, yet isn't able to intercept the requests.
+If not, the Engine middleware might not be the first middleware called, or it may be improperly configured. It may be registering that your service is activated, without being able to intercept the requests.
 
 If Engine is not intercepting the requests, extension data will not be stripped from the response, unless you explicitly allow extension data in your configuration either with `Config.Frontend.Extensions` or by specifying `includeInResponse`.
 
