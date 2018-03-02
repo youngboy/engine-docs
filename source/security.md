@@ -23,7 +23,7 @@ We've also added the option to disable reporting of stats and traces to Apollo s
 
 To disable reporting, add "disabled": true within the reporting section of the configuration. Reporting is enabled by default.
 
-<h3 id="policies" title="Policies and Agreements">Policies and Agreements</h2>
+<h3 id="policies" title="Policies and Agreements">Policies and Agreements</h3>
 
 [Terms of Service](https://d14xs1qewsqjcd.cloudfront.net/assets/content/Meteor-Terms-of-Service.pdf)
 [Privacy Policy](https://d14xs1qewsqjcd.cloudfront.net/assets/content/Meteor-Privacy-Policy.pdf)
