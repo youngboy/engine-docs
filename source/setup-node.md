@@ -4,33 +4,25 @@ sidebar_title: Node with Apollo Server
 description: Get Engine running with your Node.js GraphQL server.
 ---
 
-This guide will help you set up Engine with Node.js.
+With just a few minutes of setup, you can supercharge your Node.js GraphQL server with Apollo Engine to get performance tracing, caching, error tracking, and more. Let's get started!
 
-Our main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/), because Engine relies on GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control). Apollo server is easy to use with popular Node.js server middlewares such as Express, Hapi, and Koa.
+Our main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/). Engine relies on GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control) to work, which come integrated with Apollo Server. Apollo Server is easy to use with every popular Node.js server middlewares such as Express, Hapi, and Koa.
 
-<h2 id="Choose a configuration" title="Choosing a Configuration">Choose a configuration</h2>
+We encourage you to [contact us](mailto:support@apollodata.com) with feedback or help if you encounter problems running Engine in your app. You can also join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
 
-How you configure and install Engine depends on what's right for your application environment.
+<h2 id="setup-guide">Setup guide for Express</h2>
 
-There are three ways to run Engine with a Node GraphQL server:
+To get Engine running with Apollo Server and Express, just follow these three quick steps. This guide assumes you're running your GraphQL server with the `express` web server package for Node. If you're using a different framework, all of the steps are the same except step 3, for which you should check out the [other servers](#not-express) section of this page.
 
-1) A quick install a.k.a sidecar deployment (for most needs)
-2) A single proxy (for applications with more than one GraphQL server)
-3) A standalone Docker Engine deployment (for teams opting out of the sidecar deployment for various reasons)
+<h3 id="apollo-server-config" title="Apollo Server Config">1. Enable Tracing and Cache Control in Apollo Server</h3>
 
-For more information on the quick install option, see the [`apollo-engine` npm page](https://npmjs.com/package/apollo-engine/).
+Just add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function.
 
-We encourage you to [contact us](mailto:support@apollodata.com) with feedback or for help if you encounter problems running the Engine proxy, or join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
-
-Once you've chosen a configuration, follow the steps below to start your Engine service.
-
-<h2 id="enable-apollo-tracing-and-cache-control" title="1. Tracing + Cache Control">1. Enable Apollo Tracing and Cache Control</h2>
-
-With Apollo Server, setup is trivial. The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. 
-
-For example, with Express:
+For example:
 
 ```javascript
+const { graphqlExpress } = require('apollo-server-express');
+
 app.use('/graphql', bodyParser.json(), graphqlExpress({
   schema,
   context: { ... },
@@ -41,344 +33,217 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 }));
 ```
 
-If you are using `express-graphql`, we recommend switching to Apollo Server, which includes more features out of the box. Both `express-graphql` and Apollo Server use the same [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, so your schema will work in exactly the same way. Switching should only require changing a few lines of code.
+If you are using `express-graphql`, we recommend switching to Apollo Server. Both `express-graphql` and Apollo Server use the same [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, so your schema will work in exactly the same way. Switching should only require changing a few lines of code.
 
-<h4 id="extensions-check-point">Check Point!</h4>
+#### Check if it worked!
 
-You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions using the `curl` command against your `/graphql` endpoint.
+You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions by running a query against your API using GraphiQL.
 
-For example, if you were testing with the [GitHunt API](https://github.com/apollographql/GitHunt-API) repo, your `curl` command might look like this:
+The `"tracing"` field should now be returned as part of the response extensions like below. Don't worry, this data won't make it to your frontend since Engine will filter it out.
 
-```
-curl -X POST \
-  http://api.githunt.com/graphql \
-  -H 'Cache-Control: no-cache' \
-  -H 'Content-Type: application/json' \
-  -d '{"query": "{ feed (type: NEW, limit: 5) { repository { owner { login } name } postedBy { login } } }" }'
-```
-
-Tracing and cacheControl extension data should be returned like so:
-
-```
+```js
 {
-  "data": {
-    "feed": [
-      {
-        "repository": {
-          "name": "apollo-client"
-        }
-      },
-      {
-        "repository": {
-          "name": "apollo-server"
-        }
-      }
-    ]
-  },
+  "data": { ... },
   "extensions": {
-    "tracing": {
-      "version": 1,
-      "startTime": "2018-02-28T00:34:44.027Z",
-      "endTime": "2018-02-28T00:34:44.395Z",
-      "duration": 367540351,
-      "execution": {
-        "resolvers": [      
-          // ...
-          {
-            "path": [
-              "feed",
-              1,
-              "repository",
-              "name"
-            ],
-            "parentType": "Repository",
-            "fieldName": "name",
-            "returnType": "String!",
-            "startOffset": 366803009,
-            "duration": 54531
-          }
-        ]
-      }
-    },
-    "cacheControl": {
-      // ...
-    }
+    "tracing": { ... }
   }
 }
 ```
-Once tracing and cacheControl are instrumented, the size of responses between your GraphQL API and Engine proxy will increase, because the responses will be enriched with tracing data.
 
-Because of this, we recommend that you enable gzip [`compression`](https://github.com/expressjs/compression) on your GraphQL server, since the added volume from the tracing format compresses well.
+If you see the `tracing` data in the result, move on to the next step!
 
-If you are interested in creating a highly performant application, you can turn on [caching](https://www.apollographql.com/docs/engine/caching.html) and [automatic persisted queries](https://www.apollographql.com/docs/engine/auto-persisted-queries.html).
+<h3 id="api-key" title="Get API key">2. Get an Engine API key</h3>
 
-We'll explain how to ensure compression is enabled in the next step.
+[Log into Apollo Engine](http://engine.apollographql.com/) via your browser and create a service to get an API key. We'll pass it into our Apollo Engine constructor in the next step.
 
-<h1 id="configure-proxy">Choose a setup configuration that's right for you</h1>
+<h3 id="apollo-engine" title="Add Engine">3. Add Engine to your server</h3>
 
-<h2 id="choose-basic" title="2. Basic Sidecar Installation">OPTION 1: Basic Sidecar Installation</h2>
-
-`apollo-engine` is a package [available on npm](https://npmjs.com/package/apollo-engine) that includes a pre-built copy of the Engine proxy, which simplifies the initial setup. It spawns an Engine process side-by-side with your GraphQL server process so that incoming GraphQL operations are routed through the Engine proxy and then sent to your server.
-
-<h3 id="initialize">2.1 Initialize Engine</h3>
-
-First, install the Engine and compression packages from npm. Make sure to choose the correct compression option for your middleware stack:
-
-**Express**
-```bash
-npm install --save apollo-engine compression
-```
-
-**Koa**
-```bash
-npm install --save apollo-engine koa-compress
-```
-
-**Hapi**
+First, install the `apollo-engine` package from npm:
 
 ```bash
 npm install --save apollo-engine
 ```
 
-> With Hapi, there is no need for an additional package to enable compression, as compression is enabled by default, unless it has been configured with `compression: false`.
-
-#### Import and instantiate Engine
-Then, import the `Engine` constructor at the top, create a new Engine instance, and call `engine.start()`:
+Then, import the `ApolloEngine` constructor at the top, create a new Engine instance, and replace `app.listen()` with `engine.listen()`. Engine will now wrap your endpoint and process GraphQL requests and responses. See the code sample below:
 
 ```js
-const { Engine } = require('apollo-engine');
+// Import ApolloEngine
+const { ApolloEngine } = require("apollo-engine");
 
-const engine = new Engine({
-  engineConfig: {
-    apiKey: 'API_KEY_HERE'
-  }
+// Initialize your Express app like before
+const app = express();
+
+// All of your GraphQL middleware go here
+app.use('/graphql', ...);
+
+// Initialize engine with your API key
+const engine = new ApolloEngine({
+  apiKey: 'API_KEY_HERE'
 });
 
-engine.start();
+// Call engine.listen instead of app.listen(port)
+engine.listen({
+  port: 3000,
+  expressApp: app
+});
 ```
 
-It does not matter when you call `engine.start()` in your server file, but the earlier Engine is started, the better. Your server will start normally and handle requests without the Engine proxy until the proxy is ready.
+And you're done!
 
-#### Optional configuration
+The code above is specifically for `express`. For other servers, check out the [other servers](#not-express) section of this page for the appropriate snippet.
 
-If you need some extra debugging information or customizability, you can add it with the options below:
+#### Checking if it worked
 
-```javascript
-const engine = new Engine({
-  engineConfig: {
-    apiKey: 'API_KEY_HERE',
-    logging: {
-      level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
-    }
-  },
+Call your endpoint again with GraphiQL, and you should no longer see the `tracing` data in the result since Engine is now consuming it! Check the Engine UI for your new service, and you should see it confirm that the setup worked.
 
-  // GraphQL port
-  graphqlPort: process.env.PORT || 8003,
+If you see the above, congratulations, you're up and running! Otherwise, look at some of the options below.
+
+#### Configuring the GraphQL path
+
+You can use the `graphqlPaths` option if your GraphQL API responds to requests on a path other than `/graphql`.
+
+```js
+// For engine.listen
+engine.listen({
+  port: 3000,
+  expressApp: app,
 
   // GraphQL endpoint suffix - '/graphql' by default
-  endpoint: '/graphql',
-
-  // Debug configuration that logs traffic between Proxy and GraphQL server
-  dumpTraffic: true
+  graphqlPaths: ['/graphql', '/special-graphql'],
 });
 ```
-<h3 id="api-key" title="2.2. Get API key">2.2 Get your Engine API key</h3>
 
-You can get your `ENGINE_API_KEY` by [logging into Engine](http://engine.apollographql.com/) via your browser and creating a service. You will need to log in and click "Add Service" to recieve your API key.
+#### Configuring debug logging
 
-<h3 id="add-middleware" title="2.3 Add middleware">2.3 Add Engine middleware to your app</h3>
-
-Add the Engine middleware. If you're using Express or Koa, add the compression middleware as well to your app's middleware stack so that your app can route requests through the Engine proxy. 
-
-It's important that Engine be the app's _first_ middleware, since Engine needs to process the raw requests to your server _before_ other modifications.
-
-The `apollo-engine` package supports the following middlewares, which are available through the `engine` instance created in the earlier step:
-
-1. `expressMiddleware` – use for Express servers.
-2. `connectMiddleware` – use for Connect or Restify servers.
-3. `instrumentHapiServer` – use for Hapi servers.
-4. `koaMiddleware` – use for Koa servers.
-
-As a result of using one of these Engine-provided middlewares, the application's middleware declaration might look like this:
-
-<h4 id="add-middleware-express">Express</h4>
+If you need some extra debugging information, you can add it with the `logging.level` option as below.
 
 ```javascript
-const express = require('express');
-const compression = require('compression');
-const { Engine } = require('apollo-engine');
-
-const engine = new Engine({
-  engineConfig: {
-    apiKey: 'API_KEY_HERE'
+// For the constructor
+const engine = new ApolloEngine({
+  apiKey: "API_KEY_HERE",
+  logging: {
+    level: "DEBUG" // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
   }
 });
-
-engine.start();
-
-const app = express();
-app.use(engine.expressMiddleware());
-app.use(compression());
-// Other middleware
 ```
 
-<h4 id="add-middleware-koa">Koa</h4>
+<h2 id="using-engine" title="Using Engine">Using Engine</h2>
 
-```javascript
-const koa = require('koa');
-const koaCompress = require('koa-compress');
-const { Engine } = require('apollo-engine');
+Once your server is set up, navigate to your newly created Engine service in the [Engine UI](https://engine.apollographql.com). It should indicate that you've set everything up successfully. Start sending requests to your Node server to see performance metrics!
 
-const engine = new Engine({
-  engineConfig: {
-    apiKey: 'API_KEY_HERE'
-  }
+To get the most out of Engine, check out the documentation in the "Features" section on the left. In particular, a good next step might be to set up [response caching](./caching.html) which can make your GraphQL server much faster by storing commonly requested data, much like HTTP caching does.
+
+<h2 id="not-express" title="Other Node servers">Node servers other than Express</h2>
+
+If you're using one of the Node.js server packages that Apollo Server supports that aren't express, you've come to the right place! Find your server library below for an example.
+
+All of these are just one line to set up, and the integration is built right into `ApolloEngine` like so:
+
+#### Connect
+
+Connect is the same as Express.
+
+```js
+const app = new connect();
+
+engine.listen({
+  port: 3000,
+  expressApp: app
 });
+```
 
-engine.start();
+#### Koa
 
+Just pass your server into the `koaApp` option:
+
+```js
 const app = new koa();
-app.use(engine.koaMiddleware())
-app.use(koaCompress());
-// Other middleware
-```
 
-By having the Engine middleware and compression middleware server code _before_ other middleware, it ensures that the subsequent middleware won't short-circuit the Engine proxy or the compression.
-
-<h2 id="single-proxy-with-sidecar" title="Single proxy">OPTION 2: Single proxying sidecar configuration</h2>
-
-An alternative to using the middleware to selectively forward requests to Engine and then back to your application is to proxy all traffic via the Engine proxy. 
-
-This is more performant for pure or close to pure GraphQL workloads but will result in the proxy being in the request path even for non-GraphQL requests.
-
-It also requires the ability to change the listening port of your application so Engine can instead listen on that port. You'll need to configure Engine with the new port of your application.
-
-To use this mode of operation first remove the Engine middleware for your server if you added it above:
-
-```js
-// remove:
-app.use(engine.expressMiddleware());
-```
-
-Then configure Engine like so:
-
-```js
-engine = new Engine({
-  endpoint: '/graphql',
-  graphqlPort: APP_PORT, // The port your application is listening on
-  frontend: {
-    host: '0.0.0.0', // Listen on all addresses
-    port: ENGINE_PORT, // The port that Engine will listen on
-    endpoint: '/graphql'
-  }
+// Replace your app.listen with engine.listen
+engine.listen({
+  port: 3000,
+  koaApp: app
 });
 ```
 
-`APP_PORT` is the port your app is now listening on and `ENGINE_PORT` is the port on which Engine proxy will listen. For example, if your application was originally listening on `3000`, you could set `ENGINE_PORT` to be `3000` and `APP_PORT` to be a different port, such as `3001`. Modify your app server accordingly.
+#### Hapi
 
-In the case of `express`, you can configure your app's listen port (`APP_PORT`) like so:
-
-```js
-var express = require("express");
-var app = express();
-// setup routes, middleware etc here
-engine.start()
-
-app.listen(APP_PORT)
-```
-
-<h2 id="standalone-docker-container" title="Docker container setup">OPTION 3: Standalone Docker container setup</h2>
-
-This option involves running a standalone docker container that contains the Engine proxy process and is hosted and managed separately from your Node server. 
-
-This is the best option to select when you need more control over the scaling, operation, and deployment of Engine.
-
-<h3 id="create-config-json" title="1. Create config.json">1. Create a config.json file</h3>
-
-The proxy container uses a JSON object to get configuration information. If the configuration is passed the path to your file, that file will be watched for changes. Changes will cause the proxy to adopt the new configuration without downtime.
-
-Create a JSON configuration file that looks like this:
+This is a little more complex but also built right in!
 
 ```js
-{
-  "apiKey": "<ENGINE_API_KEY>",
-  "logging": {
-    "level": "INFO"
-  },
-  "origins": [
-    {
-      "http": {
-        "url": "http://localhost:3000/graphql"
-      }
-    }
-  ],
-  "frontends": [
-    {
-      "host": "0.0.0.0",
-      "port": 3001,
-      "endpoint": "/graphql"
-    }
-  ]
-}
+TODO
 ```
 
-You can get your `ENGINE_API_KEY` by creating a service in the [Engine UI](http://engine.apollographql.com/). You will need to log in and click "Add Service" to recieve your API key.
+#### Meteor
 
-**Configuration options:**
+Just call `meteorListen` on the built-in `WebApp` server.
 
-1. `apiKey`: The API key for the Engine service you want to report data to.
-2. `logging.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
-3. `origin.http.url` : The URL for your GraphQL server.
-4. `frontend.host` : The hostname the proxy should be available on.
-5. `frontend.port` : The port the proxy should bind to.
-6. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
-
-<h3 id="run-proxy" title="2. Run the Docker proxy">2. Run the Docker container proxy</h3>
-
-The Engine proxy is a Docker image that you will deploy and manage separate from your server.
-
-If you have a working [Docker installation](https://docs.docker.com/engine/installation/), use the following shell commands (variables replaced with the correct values for your environment) to run the Engine proxy:
-
-```bash
-engine_config_path=/path/to/engine.json
-proxy_frontend_port=3001
-docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
-  -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:2018.02-90-g65206681c
+```js
+engine.meteorListen(WebApp);
 ```
 
-You can deploy and manage your Engine proxy anywhere Docker containers can be hosted. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
+If you want to pass options to the Engine listener, you can pass them as the second parameter:
 
-<h2 id="view-metrics-in-engine" title="3. View data">3. View your data in Engine</h2>
-
-Once your server is set up, navigate to your newly created Engine service in the [Engine UI](https://engine.apollographql.com). It should indicate that you've set everything up successfully by showing a message.
-
-Start sending requests to your Node server to see performance metrics!
-
-<h4 id="ui-data-view-check-point">Check Point!</h4>
-
-Do your charts capture the requests showing up in the dashboard?
-
-If not, the Engine middleware might not be the first middleware called, or it may be improperly configured. It may be registering that your service is activated, without being able to intercept the requests.
-
-If Engine is not intercepting the requests, extension data will not be stripped from the response, unless you explicitly allow extension data in your configuration either with `Config.Frontend.Extensions` or by specifying `includeInResponse`.
-
-**Stripping Extensions**
-
-To instruct the proxy to strip extensions, set the following within the `frontends` section of the configuration:
-
-```
-"extensions": { "strip": ["cacheControl", "tracing", "myAwesomeExtension"] }
+```js
+engine.meteorListen(WebApp, { graphqlPaths: [ "/other-graphql" ]});
 ```
 
-By default, Apollo extensions `cacheControl` and `tracing` are stripped.
+<h3 id="lambda">AWS Lambda</h3>
 
-Stripped extensions may still be returned if the client requests them via the `includeInResponse` query extension. To instruct the proxy to never return extensions, set the following within the `frontends` section of the configuration:
+Since Engine relies on some state across requests to do performance tracing and caching, it needs to be run in a different way when you're using lambda that involves running a separate container. Thankfully, you can do this easily in just a few clicks!
 
+Head on over to the [AWS Lambda setup guide](./setup-lambda.html) to learn how to do it.
+
+<h2 id="api">API</h2>
+
+If you need additional configuration, you've come to the right place.
+
+<h3 id="api-apollo-engine" title="new ApolloEngine()">new ApolloEngine(config)</h3>
+
+This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, and work the same way across many platforms.
+
+You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, but here are some useful fields you should know about:
+
+// TODO
+
+<h3 id="api-engine.listen" title="engine.listen()">engine.listen(options, [callback])</h3>
+
+The `listen` method is what actually starts your web server and asks its requests to go through Engine. It accepts a set of options and an optional callback that tells you when Engine and the server have started, or gives you an error:
+
+```js
+const app = express();
+const engine = new ApolloEngine(config);
+
+const port = 3000;
+
+engine.listen({
+  port,
+  expressApp: app,
+  // ... more options go here
+}, () => {
+  console.log(`Listening on port ${port}!`);
+});
 ```
-"extensions": { "blacklist": ["tracing","mySecretExtension"] }
+
+We intentionally made this funciton very similar to how `app.listen` would work, so that you can easily drop Engine into your existing app.
+
+<h3 id="api-engine.on">Event: 'error'</h3>
+
+Much like with the Express `app.listen`, you can find out about server or Engine start-up errors by listening for an `'error'` event on Engine, like so:
+
+```js
+const app = express();
+const engine = new ApolloEngine(config);
+
+engine.on('error', (err) => {
+  console.log('There was an error starting the server or Engine.');
+  console.error(err);
+
+  // The app failed to start, we probably want to kill the server
+  process.exit(1);
+});
+
+engine.listen(options);
 ```
 
-By default, the Apollo extension `tracing` is blacklisted and will never returns extensions to the client.
-
-
+If you don't handle this error event, much like with a regular Express app, it will kill your server with an unhandled error exception.
