@@ -17,7 +17,7 @@ To log the reports sent to the Engine Service UI as JSON, set [`reporting.debugR
 
 We've also added the option to disable reporting of stats and traces to Apollo servers, so that integration tests can run without polluting production data.
 
-To disable reporting, add "disabled": true within the reporting section of the configuration. Reporting is enabled by default.
+To disable reporting, add "disabled": true within the [`reporting` config object](https://www.apollographql.com/docs/engine/proto-doc.html#mdg.engine.config.proto.Config.Reporting). Reporting is enabled by default.
 
 <h3 id="http-headers">Authorization & Cookie HTTP Headers</h3>
 
@@ -25,7 +25,7 @@ We'll **never** collect your applications `Authorization` headers, `Cookie` or `
 
 <h4 id="custom-auth-headers" title="Configure Custom Auth Headers">How to Configure Custom Authorization Headers</h4>
 
-If you perform authorization in another header (like `X-My-API-Key`), be sure to add this to `privateHeaders`.
+If you perform authorization in another header (like `X-My-API-Key`), be sure to add this to `privateHeaders` in your [`reporting` config object](https://www.apollographql.com/docs/engine/proto-doc.html#mdg.engine.config.proto.Config.Reporting).
 
 <h3 id="policies" title="Policies and Agreements">Policies and Agreements</h3>
 
