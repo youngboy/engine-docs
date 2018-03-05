@@ -40,7 +40,7 @@ Engine uses a proxy component written in Go that runs inside your infrastructure
 There are two options for running the Engine proxy:
 
 - **Standalone container**: To have full control over the proxy component, you can easily deploy it as a standalone docker container the same way you deploy other parts of your application.
-- **Sidecar package for Node**: If you're using Node, you can use the Engine Proxy as a [sidecar package](/docs/engine/#sidecar-package) that runs as a child process of your server. This option is simpler to set up and doesn't involve a container.
+- **Sidecar package for Node**: If you're using Node, you can use the Engine Proxy as a [sidecar package](./setup-node.html#single-proxy-with-sidecar) that runs as a child process of your server. This option is simpler to set up and doesn't involve a container.
 
 <h3 id="engine-service">Engine Service</h3>
 
