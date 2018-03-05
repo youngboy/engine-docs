@@ -24,13 +24,11 @@ sidebar_categories:
     - setup-lambda
     - setup-virtual
   Features:
-    - alerts
     - performance
     - error-tracking
     - caching
     - auto-persisted-queries
     - query-batching
-    - data-retention
   Guides:
     - troubleshooting
     - upgrade-optics

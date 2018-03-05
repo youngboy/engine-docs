@@ -38,6 +38,50 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
   cacheControl: true
 }));
 ```
+
+<h4 id="extensions-check-point">Check Point!</h4>
+
+You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions using the `curl` command against your `/graphql` endpoint.
+
+For example, if you were testing with the [GitHunt API](https://github.com/apollographql/GitHunt-API) repo, your `curl` command might look like this:
+
+```
+curl -X POST \
+  http://api.githunt.com/graphql \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '{"query": "{ feed (type: NEW, limit: 5) { repository { owner { login } name } postedBy { login } } }" }'
+```
+
+Tracing and cacheControl extension data should be returned like so:
+
+```
+{
+  "data": {
+    "feed": [
+      {
+        "repository": {
+          "name": "apollo-client"
+        }
+      },
+      {
+        "repository": {
+          "name": "apollo-server"
+        }
+      }
+    ]
+  },
+  "extensions": {
+    "tracing": {
+      // ...
+    },
+    "cacheControl": {
+      // ...
+    }
+  }
+}
+```
+
 Next, set [hints in your schema](#schemaHints), or [dynamically in your resolvers](#resolverHints).
 
 <h2 id="cache-hints" name="cacheHints">2. Add Cache Hints</h2>

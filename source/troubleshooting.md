@@ -3,7 +3,7 @@ title: Setup Troubleshooting
 order: 3
 ---
 
-If you hit any issues in setting up Engine for your GraphQL service, we're here to help! First, follow these troubleshooting steps to check for any obvious issues. If these don't help, please submit a support ticket to [support@apollodata.com](mailto:support@apollodata.com) and we'll work with you to get you up and running!
+If you hit any issues in setting up Engine for your GraphQL service, we're here to help! First, follow these troubleshooting steps to check for any obvious issues. If these don't help, please join the #engine channel in the [Apollo Slack](https://www.apollographql.com/#slack), or submit a support ticket to [support@apollographql.com](mailto:support@apollographql.com) and we'll work with you to get you up and running!
 
 <h2 id="sanity-checks" title="First steps">First Troubleshooting steps</h2>
 
@@ -121,8 +121,9 @@ If using the sidecar deployment configuration - check that you integrated the En
 **I'm receiving an error. What does this mean?**
 
 | Error message | Issue description and resolution steps |
-| 503 error - unable to communicate with backend | This likely means that the origin GraphQL server did not respond to the proxied request. To resolve this, verify the Origin specification in the Engine configuration matches the corresponding GraphQL server location |
-| 403 error - [location unavailable] | Received unsupported Content-Type from origin GraphQL server. This often occurs when a GraphQL server throws an error during resolver execution and sends that error as `text/plain` instead of embedding it within a GraphQL error. This could also be caused by an inaccurate Content-Type header. |
+|---|---|
+| 503 error - unable to communicate with backend | This likely means that the origin GraphQL server did not respond to the proxied request. To resolve this, verify the `origin` specification in the Engine configuration matches the corresponding GraphQL server location |
+| 403 error - [location unavailable] | Received unsupported `Content-Type` from origin GraphQL server. This often occurs when a GraphQL server throws an error during resolver execution and sends that error as `text/plain` instead of embedding it within a GraphQL error. This could also be caused by an inaccurate `Content-Type` header. |
 
 **Where is the data in my dashboard? I followed all installation steps and am sending successful queries.**
 
@@ -132,7 +133,7 @@ Second, check the ordering of your middleware calls. One of the most common reas
 
 Third, we currently support a certain range of language-specific GraphQL servers and middleware implementations in Node.js: Express, Hapi, Koa, Restify, and Lambda. If you are using a middleware like Restify, the proxy may not be supported. 
 
-**What is shown on the Engine Proxy logs?**
+**What shows in the Engine Proxy logs?**
 
 Each time the Engine proxy starts, you should see the following lines in the logs indicating the Engine proxy is healthy: 
 
@@ -143,47 +144,10 @@ Each time the Engine proxy starts, you should see the following lines in the log
      msg: 'Set log level.',
      time: '2018-03-01T12:33:35-08:00' } }
 { proxy:
-   { level: 'debug',
-     msg: 'Created origin.',
-     name: '',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'http',
-     url: 'http://127.0.0.1:3010/graphql' } }
-{ proxy:
-   { host: '127.0.0.1',
-     level: 'debug',
-     msg: 'Creating frontend service.',
-     port: 0,
-     time: '2018-03-01T12:33:35-08:00' } }
-{ proxy:
    { address: '127.0.0.1:64201',
      level: 'info',
      msg: 'Started HTTP server.',
      time: '2018-03-01T12:33:35-08:00' } }
-{ proxy:
-   { configured: 3,
-     current: 0,
-     level: 'debug',
-     msg: 'Synchronizing stores.',
-     time: '2018-03-01T12:33:35-08:00' } }
-{ proxy:
-   { level: 'debug',
-     msg: 'Refreshing store configuration.',
-     storeName: 'publicResponseCache',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'embedded' } }
-{ proxy:
-   { level: 'debug',
-     msg: 'Refreshing store configuration.',
-     storeName: 'privateResponseCache',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'embedded' } }
-{ proxy:
-   { level: 'debug',
-     msg: 'Refreshing store configuration.',
-     storeName: 'pq',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'embedded' } }
 { proxy:
    { level: 'info',
      msg: 'Engine proxy started.',
@@ -197,8 +161,8 @@ These lines are internal to the Engine proxy: the endpoint url that you want wil
 
 Please include the following when submitting an issue to our support team:
 
-* Engine JSON configuration object
+* Engine JSON configuration object - **Minus any API keys!**
 * Type of GraphQL server and whether you are using the `apollo-engine` sidecar or standalone Docker container
-* The query submitted and the full response, including headers
+* Check that no senstive information is included with the query submitted and please include the full request and response, including headers with your support request.
 
-Submit your issue to [support@apollodata.com](mailto:support@apollodata.com) or join our Apollo public slack #engine channel here (https://apollographql.slack.com/).
+Submit your issue, minus all senstive information, to [support@apollodata.com](mailto:support@apollographql.com) or join our Apollo public slack #engine channel here (https://www.apollographql.com/#slack).
