@@ -3,7 +3,7 @@ title: Response Caching
 description: Speed up your GraphQL responses and reduce load on your backends by enabling caching in Engine.
 ---
 
-<h2 id="caching">Caching with Engine</h2>
+<a name="notes-on-caching"></a>
 
 Turning on caching with Engine means that you can use the cache store with Engine, rather than an outside data store. Just set a simple directive either on your schema or in your resolvers to instruct your application to cache dynamically. When your query is called, Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides public. This means that Engine currently executes whole query caching.
 

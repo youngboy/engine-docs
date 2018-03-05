@@ -121,8 +121,9 @@ If using the sidecar deployment configuration - check that you integrated the En
 **I'm receiving an error. What does this mean?**
 
 | Error message | Issue description and resolution steps |
-| 503 error - unable to communicate with backend | This likely means that the origin GraphQL server did not respond to the proxied request. To resolve this, verify the Origin specification in the Engine configuration matches the corresponding GraphQL server location |
-| 403 error - [location unavailable] | Received unsupported Content-Type from origin GraphQL server. This often occurs when a GraphQL server throws an error during resolver execution and sends that error as `text/plain` instead of embedding it within a GraphQL error. This could also be caused by an inaccurate Content-Type header. |
+|---|---|
+| 503 error - unable to communicate with backend | This likely means that the origin GraphQL server did not respond to the proxied request. To resolve this, verify the `origin` specification in the Engine configuration matches the corresponding GraphQL server location |
+| 403 error - [location unavailable] | Received unsupported `Content-Type` from origin GraphQL server. This often occurs when a GraphQL server throws an error during resolver execution and sends that error as `text/plain` instead of embedding it within a GraphQL error. This could also be caused by an inaccurate `Content-Type` header. |
 
 **Where is the data in my dashboard? I followed all installation steps and am sending successful queries.**
 
@@ -141,49 +142,12 @@ Each time the Engine proxy starts, you should see the following lines in the log
    { level: 'info',
      logLevel: 'debug',
      msg: 'Set log level.',
-     time: '2018-03-01T12:33:35-08:00' } }
-{ proxy:
-   { level: 'debug',
-     msg: 'Created origin.',
-     name: '',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'http',
-     url: 'http://127.0.0.1:3010/graphql' } }
-{ proxy:
-   { host: '127.0.0.1',
-     level: 'debug',
-     msg: 'Creating frontend service.',
-     port: 0,
-     time: '2018-03-01T12:33:35-08:00' } }
+     time: '2018-03-01T12:33:35-08:00' }
 { proxy:
    { address: '127.0.0.1:64201',
      level: 'info',
      msg: 'Started HTTP server.',
      time: '2018-03-01T12:33:35-08:00' } }
-{ proxy:
-   { configured: 3,
-     current: 0,
-     level: 'debug',
-     msg: 'Synchronizing stores.',
-     time: '2018-03-01T12:33:35-08:00' } }
-{ proxy:
-   { level: 'debug',
-     msg: 'Refreshing store configuration.',
-     storeName: 'publicResponseCache',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'embedded' } }
-{ proxy:
-   { level: 'debug',
-     msg: 'Refreshing store configuration.',
-     storeName: 'privateResponseCache',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'embedded' } }
-{ proxy:
-   { level: 'debug',
-     msg: 'Refreshing store configuration.',
-     storeName: 'pq',
-     time: '2018-03-01T12:33:35-08:00',
-     type: 'embedded' } }
 { proxy:
    { level: 'info',
      msg: 'Engine proxy started.',
