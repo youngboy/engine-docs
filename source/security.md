@@ -25,9 +25,9 @@ To disable reporting, add "disabled": true within the reporting section of the c
 
 <h3 id="http-headers">Authorization & Cookie HTTP Headers</h3>
 
-We'll **never** collect your applications authorization (`Authorization`) headers or cookie (`Cookie` or `Set-Cookie`) headers. 
+We'll **never** collect your applications `Authorization` headers, `Cookie` or `Set-Cookie` headers. 
 
-<h4 id="custom-auth-headers" title="Configure Custom Auth Headers">How to Configure Custom Authorization Headers</h3>
+<h4 id="custom-auth-headers" title="Configure Custom Auth Headers">How to Configure Custom Authorization Headers</h4>
 
 If you perform authorization in another header (like `X-My-API-Key`), be sure to add this to `privateHeaders`.
 
