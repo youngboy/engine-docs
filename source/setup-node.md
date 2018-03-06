@@ -6,7 +6,7 @@ description: Get Engine running with your Node.js GraphQL server.
 
 With just a few minutes of setup, you can supercharge your Node.js GraphQL server with Apollo Engine to get performance tracing, caching, error tracking, and more. Let's get started!
 
-Our main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/). Engine relies on GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control) to work, which come integrated with Apollo Server. Apollo Server is easy to use with every popular Node.js server middlewares such as Express, Hapi, and Koa.
+Our main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/). Engine relies on GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control) to work, which come integrated with Apollo Server. Apollo Server is easy to use with every popular Node.js web framework such as Express, Hapi, and Koa.
 
 We encourage you to [contact us](mailto:support@apollodata.com) with feedback or help if you encounter problems running Engine in your app. You can also join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
 
@@ -35,7 +35,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 
 If you are using `express-graphql`, we recommend switching to Apollo Server. Both `express-graphql` and Apollo Server use the same [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, so your schema will work in exactly the same way. Switching should only require changing a few lines of code.
 
-#### Check if it worked!
+#### Check if Step 1 worked!
 
 You can test that you've correctly configured Apollo Server's tracing and cacheControl extensions by running a query against your API using GraphiQL.
 
@@ -68,7 +68,7 @@ Then, import the `ApolloEngine` constructor at the top, create a new Engine inst
 
 ```js
 // Import ApolloEngine
-const { ApolloEngine } = require("apollo-engine");
+const { ApolloEngine } = require('apollo-engine');
 
 // Initialize your Express app like before
 const app = express();
@@ -84,7 +84,7 @@ const engine = new ApolloEngine({
 // Call engine.listen instead of app.listen(port)
 engine.listen({
   port: 3000,
-  expressApp: app
+  expressApp: app,
 });
 ```
 
@@ -92,7 +92,7 @@ And you're done!
 
 The code above is specifically for `express`. For other servers, check out the [other servers](#not-express) section of this page for the appropriate snippet.
 
-#### Checking if it worked
+#### Check if Step 3 worked!
 
 Call your endpoint again with GraphiQL, and you should no longer see the `tracing` data in the result since Engine is now consuming it! Check the Engine UI for your new service, and you should see it confirm that the setup worked.
 
@@ -100,7 +100,7 @@ If you see the above, congratulations, you're up and running! Otherwise, look at
 
 #### Configuring the GraphQL path
 
-You can use the `graphqlPaths` option if your GraphQL API responds to requests on a path other than `/graphql`.
+You can use the `graphqlPaths` option if your GraphQL API responds to requests on a path other than `/graphql`, or on more than one path.
 
 ```js
 // For engine.listen
@@ -113,16 +113,16 @@ engine.listen({
 });
 ```
 
-#### Configuring debug logging
+<h4 id="proxy-logging">Configuring the Proxy's internal logging</h4>
 
-If you need some extra debugging information, you can add it with the `logging.level` option as below.
+If Apollo Support suggests you need extra debugging information on Engine's internals, you can add turn it on by setting the `logging.level` option to `DEBUG` as below.  Alternatively, if you'd like to see less logs from Engine (such as only errors or warnings), set it it `ERROR` or `WARN`.
 
 ```javascript
 // For the constructor
 const engine = new ApolloEngine({
   apiKey: "API_KEY_HERE",
   logging: {
-    level: "DEBUG" // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
+    level: "DEBUG" // Engine Proxy logging level. DEBUG, INFO (default), WARN or ERROR.
   }
 });
 ```
@@ -141,20 +141,21 @@ All of these are just one line to set up, and the integration is built right int
 
 #### Connect
 
-Connect is the same as Express.
+Follow the same instructions as for Express, but specify your app with the `connectApp` option instead.
 
 ```js
 const app = new connect();
 
+// Replace your app.listen with engine.listen
 engine.listen({
   port: 3000,
-  expressApp: app
+  connectApp: app,
 });
 ```
 
 #### Koa
 
-Just pass your server into the `koaApp` option:
+Follow the same instructions as for Express, but specify your app with the `koaApp` option instead.
 
 ```js
 const app = new koa();
@@ -162,21 +163,59 @@ const app = new koa();
 // Replace your app.listen with engine.listen
 engine.listen({
   port: 3000,
-  koaApp: app
+  koaApp: app,
 });
 ```
 
-#### Hapi
+#### Restify
 
-This is a little more complex but also built right in!
+Follow the same instructions as for Express, but specify your app (which Restify calls a "server") with the `restifyServer` option instead.
 
 ```js
-TODO
+const server = restify.createServer(...);
+
+// Replace your server.listen with engine.listen
+engine.listen({
+  port: 3000,
+  restifyServer: server,
+});
+```
+
+#### Micro (and Node's built-in `http.Server`)
+
+The app objects in the Micro framework are just instances of Node's built-in `http.Server`. These instructions work for Micro as well as for `http.Server` itself, or any other framework not explicitly supported which gives you access to an `http.Server`.
+
+Follow the same instructions as for Express, but specify your server with the `httpServer` option instead.
+
+```js
+const server = micro(microRouter.post('/graphql', handler));
+
+// Replace your server.listen with engine.listen
+engine.listen({
+  port: 3000,
+  httpServer: server,
+});
+```
+
+
+#### Hapi
+
+This is a little more complex but also built right in! Hapi doesn't have a `listen` method, so you have to provide a special object to the `hapi.Server` constructor, and turn off auto-listening mode. Engine is currently tested with Hapi v17, but we believe it also works with Hapi v16.  Note that this assumes you are running the `engine.hapiListener` line inside an async function, as setting up Hapi servers generally requires calling `await` on a few async methods.
+
+```js
+const engine = new ApolloEngine({apiKey: 'API_KEY'});
+const hapiListener = await engine.hapiListener({port: 3000});
+const hapiServer = new hapi.Server({
+  autoListen: false,
+  listener: hapiListener,
+});
+// ... set up your server ...
+await server.start();
 ```
 
 #### Meteor
 
-Just call `meteorListen` on the built-in `WebApp` server.
+Just call `meteorListen` on the built-in `WebApp` server at the top level of your app's server code:
 
 ```js
 engine.meteorListen(WebApp);
@@ -190,7 +229,7 @@ engine.meteorListen(WebApp, { graphqlPaths: [ "/other-graphql" ]});
 
 <h3 id="lambda">AWS Lambda</h3>
 
-Since Engine relies on some state across requests to do performance tracing and caching, it needs to be run in a different way when you're using lambda that involves running a separate container. Thankfully, you can do this easily in just a few clicks!
+Since Engine relies on tracking some state across requests to do performance tracing and caching, it needs to be run in a different way when you're using Lambda that involves running a separate container. Thankfully, you can do this easily in just a few clicks!
 
 Head on over to the [AWS Lambda setup guide](./setup-lambda.html) to learn how to do it.
 
@@ -200,15 +239,19 @@ If you need additional configuration, you've come to the right place.
 
 <h3 id="api-apollo-engine" title="new ApolloEngine()">new ApolloEngine(config)</h3>
 
-This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, and work the same way across many platforms.
+This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, while working the same way across many platforms.
 
 You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, but here are some useful fields you should know about:
 
 // TODO
 
+You can also specify config as a filename pointing to a JSON file.
+
 <h3 id="api-engine.listen" title="engine.listen()">engine.listen(options, [callback])</h3>
 
-The `listen` method is what actually starts your web server and asks its requests to go through Engine. It accepts a set of options and an optional callback that tells you when Engine and the server have started, or gives you an error:
+The `listen` method is what actually starts your web server and asks its requests to go through Engine. You use it for all supported web frameworks except for Hapi and Meteor.
+
+Just like the `listen` method on `http.Server` and most web framework app objects, it accepts a set of options and an optional callback that tells you when Engine and the server have started, or emits an error:
 
 ```js
 const app = express();
@@ -225,7 +268,23 @@ engine.listen({
 });
 ```
 
-We intentionally made this funciton very similar to how `app.listen` would work, so that you can easily drop Engine into your existing app.
+We intentionally made this funciton very similar to how `app.listen` would work, so that you can easily drop Engine into your existing app.  Like `app.listen`, the callback is only called on success.
+
+All calls to `listen` must provide the `port` option and exactly one of the options that specify your app (`expressApp`, `connectApp`, `koaApp`, `restifyServer`, or `httpServer`).
+
+The `port` option must be a number (or a string containing a number) specifying the TCP port on which the Engine Proxy will listen.  (Engine does not currently support listening on Unix domain sockets.)  `listen` then starts your app's own web server on an ephemeral port.  All HTTP traffic for you app will go directly to the Engine Proxy binary, which will proxy it to your app.  Traffic on paths other than those specified in the `graphqlPaths` option to `listen` will be sent through without modification. The Engine Proxy supports transparently proxying Websockets as well as normal HTTP traffic.
+
+If you set `port` to 0, the Engine Proxy will listen on an ephemeral port. Once the listen callback is called, you can retrieve the port it listened on with `engine.engineListeningAddress.port`. This is useful for running Engine dynamically from tests.
+
+In addition to `port` and the options that specify your app, `listen` has some optional options:
+
+- `graphqlPaths` (non-empty array of strings): Specifies the URL paths which the Engine Proxy will treat as GraphQL instead of proxying transparently without parsing. Defaults to `['/graphql']`.
+- `host` (string): The interface on which the Engine Proxy will accept connections; same as the `host` argument to `net.Server.listen`. Defaults to listening on all interfaces. For example, if your machine is publically accessible on the Internet but you only want processes on your machine to be able to connect to the Engine Proxy, specify the "loopback address" `'127.0.0.1'`.
+- `innerHost` (string): The interface on which your Node server will accept connections from the Engine Proxy. Defaults to `'127.0.0.1'` (the inner Node server is only accessible from your machine).
+- `startOptions.startupTimeout` (number): How many milliseconds to wait for the Engine Proxy to successfully start up and listen before timing how. Defaults to 5000 (5 seconds). Set to 0 to wait forever.
+- `startOptions.proxyStderrStream` ([writable stream](https://nodejs.org/api/stream.html#stream_writable_streams)): By default, the Engine Proxy binary's standard error stream is written to your Node process's standard error. Set this to a writable stream to process it in a different way.  (By default, the Engine Proxy writes its logs to standard error at log level `INFO`. If all you want to do is hide the `INFO` logs, try [configuring the log level](#proxy-logging) instead.)
+- `startOptions.proxyStdoutStream` ([writable stream](https://nodejs.org/api/stream.html#stream_writable_streams)): By default, the Engine Proxy binary's standard output stream is written to your Node process's standard output. Set this to a writable stream to process it in a different way.  (By default, the Engine Proxy does not write anything to standard output.)
+
 
 <h3 id="api-engine.on">Event: 'error'</h3>
 
@@ -235,7 +294,7 @@ Much like with the Express `app.listen`, you can find out about server or Engine
 const app = express();
 const engine = new ApolloEngine(config);
 
-engine.on('error', (err) => {
+engine.on('error', err => {
   console.log('There was an error starting the server or Engine.');
   console.error(err);
 
