@@ -31,6 +31,7 @@ sidebar_categories:
     - query-batching
   Guides:
     - troubleshooting
+    - 1.0-migration
     - upgrade-optics
     - billing
   Reference:
