@@ -5,30 +5,30 @@ description: Speed up your GraphQL responses and reduce load on your backends by
 
 <h2 id="notes-on-caching">Notes on Caching in Engine</h2>
 
-Caching in Engine accepts cache control hints in a fine-grained way, but caches the entire result. Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides public.
+To bring caching to GraphQL, we've developed [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), a new open standard that allows servers to specify exactly what parts of a response can be cached and for how long.
 
-To bring caching to GraphQL, we've developed [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control), a new open standard that allows servers to specify exactly what parts of a response can be cached and for how long. 
+Caching in Engine accepts cache control hints in a fine-grained way, but caches the entire result. Engine computes a cache privacy and expiration date by combining the data from all of the fields returned by the server for a particular request. It errs on the safe side, so shorter `maxAge` results override longer, and `PRIVATE` scope overrides `PUBLIC`.
 
 <h3 id="why-cache">Why Cache?</h3>
 
 API caching is a standard best practice, both to reduce the load on your servers, and to accelerate API responses and decrease page render times. But because GraphQL requests are often sent to a single endpoint with POST requests, existing HTTP caching solutions don’t work well for GraphQL APIs.
 
-Apollo Engine Proxy reads Apollo Cache Control extensions, caching whole query responses based on a computed cacheability of each new query. Engine also includes an intuitive way to see how cache policies impact each query type, making it easy to: 
+Apollo Engine Proxy reads Apollo Cache Control extensions, caching whole query responses based on a computed cacheability of each new query. Engine also includes an intuitive way to see how cache policies impact each query type, making it easy to:
 
 * optimize your queries for cacheability
 * refine field-level cache policies
 * pinpoint slow components that could benefit from caching.
 
 <h3 id="get-started">Get Started</h3>
-These are the the steps to configure response caching:
+There are just a few steps to enable response caching in Engine, and one of them is optional!
 
-1. Enable cache control in the Apollo Server\* options. 
-2. Enable cache control hints
-3. Choose store type, session authorization, and set queryCache options to the Engine config file
+1. Enable cache control in the Apollo Server options.
+2. Annotate your schema and/or resolvers with cache control hints.
+3. Optional: Configure cache options in your Engine configuration.
 
 <h2 id="enable-cache-control">1. Apollo Server: cacheControl</h2>
 
-The only server code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
+If you're using Apollo Server for your Node GraphQL server, the only server code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
 ```js
 app.use('/graphql', bodyParser.json(), graphqlExpress({
@@ -38,11 +38,14 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
   cacheControl: true
 }));
 ```
+
+(Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards. If you are using `express-graphql`, we recommend you switch to Apollo Server to use caching. Both `express-graphql` and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code. We're working with the community to add support for Apollo Cache Control to non-Node GraphQL server libraries. [Contact us](mailto:support@apollographql.com) if you are interested in joining the community to work on support for `express-graphql` or non-Node GraphQL servers.)
+
 Next, set [hints in your schema](#schemaHints), or [dynamically in your resolvers](#resolverHints).
 
 <h2 id="cache-hints" name="cacheHints">2. Add Cache Hints</h2>
 
-There are two ways to add cache hints to your application - either dynamically on your resolvers, or statically on your schema types and fields. Each cacheControl hint has two parameters. 
+There are two ways to add cache hints to your application --- either dynamically on your resolvers, or statically on your schema types and fields. Each cacheControl hint has two parameters.
 
 * The `maxAge` parameter defines the number of seconds that Engine Proxy should serve the cached response.
 * The `scope` parameter declares that a unique response should be cached for every user (`PRIVATE`) or a single response should be cached for all users (`PUBLIC`/default).
@@ -72,12 +75,13 @@ It may optionally return a JSON body:
 * `{"id": "alice"}` to indicate an internal user ID that should be used for identification. By returning a persistent identifier such as a database key, Engine's cache can follow a user across sessions and devices.
 * `{"ttl": 600, "id": "bob"}` to combine both.
 
-In order for authentication checks with `ttl>0` to be cached, a `store` must be specified in `sessionAuth`.
+Authentication checks with `ttl>0` will be cached in a `store` named in `sessionAuth`, or in the default 50MB in-memory store.
 
 <!--
 <h3 id="splitting-queries">Splitting queries to improve caching</h3>
 
 TODO sometimes it makes sense to ask for public scoped data in a separate query so it can be cached, reducing load on your server -->
+
 <h3 id="hints-to-schema" name="schemaHints">Cache Hints in the Schema</h3>
 
 Cache hints can be added to your schema using directives on your types and fields. When executing your query, these hints will be added to the response and interpreted by Engine to compute a cache policy for the response. 
@@ -180,64 +184,48 @@ const resolvers = {
 }
 ```
 
-<h2 id="engine-cache-config">3. Add Required Caching Fields in the Engine Config</h2>
+<h2 id="engine-cache-config">3. Optional: Configure cache options</h2>
 
-There are three fields in the Engine configuration that are particularly relevant when setting up response caching.
+As long as you're using Engine 1.0 or newer, you don't have to configure anything in your Engine configuration to use public response caching.  Engine provides a default 50MB in-memory cache.
 
-Below is an example of an Engine config for caching `scope: PUBLIC` responses, using an in memory cache.
+To enable private response caching or to configure details of how caching works, there are a few fields in the Engine configuration (ie, argument to `new ApolloServer`) that are relevant.
+
+Here is an example of changing the Engine config for caching `scope: PUBLIC` responses to use memcached instead of an in-memory cache.
 Since no `privateFullQueryStore` is provided, `scope: PRIVATE` responses will not be cached.
 
 ```js
-{
-  "stores": [
-    {
-      "name": "publicResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
-      }
-    }
-  ],
-  "queryCache": {
-    "publicFullQueryStore": "publicResponseCache"
-  }
-}
+const engine = new ApolloEngine({
+  stores: [{
+    memcache: {
+      url: 'localhost:4567',
+    },
+  }],
+  // ...
+});
 ```
 
-Below is an example of an Engine config for caching `scope: PUBLIC` and `scope: PRIVATE` responses, using two in memory caches.
-By using unique caches, we guarantee that a response affecting multiple users is never evicted for a response affecting only a single user.
+Below is an example of an Engine config for caching `scope: PUBLIC` and `scope: PRIVATE` responses, using the default (empty-string-named 50MB in-memory cache) for public responses and authorization tokens, and memcached for private responses.
+By using a private response cache, we guarantee that a response affecting multiple users is never evicted for a response affecting only a single user.
 
 ```js
-{
-  "stores": [
-    {
-      "name": "publicResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
-      }
+const engine = new ApolloEngine({
+  stores: [{
+    name: 'privateResponseMemcache',
+    memcache: {
+      url: 'localhost:4567',
     },
-    {
-      "name": "authCache",
-      "inMemory": {
-        "cacheSize": 1048576
-      }
-    },
-    {
-      "name": "privateResponseCache",
-      "inMemory": {
-        "cacheSize": 10485760
-      }
-    }
-  ],
-  "sessionAuth": {
-    "header": "Authorization",
-    "tokenAuthUrl": "https://auth.mycompany.com/engine-auth-check",
-    "store": "authCache"
+  }],
+  sessionAuth: {
+    header: 'Authorization',
+    tokenAuthUrl: 'https://auth.mycompany.com/engine-auth-check',
   },
-  "queryCache": {
-    "publicFullQueryStore": "publicResponseCache",
-    "privateFullQueryStore": "privateResponseCache"
-  }
-}
+  queryCache: {
+    privateFullQueryStore: 'privateResponseMemcache',
+    // By not mentioning publicFullQueryStore, we keep it enabled with
+    // the default empty-string-named in-memory store.
+  },
+  // ...
+});
 ```
 
 
@@ -247,36 +235,42 @@ Here's an explanation of these config fields:
 
 Stores is an array of places for Engine to store data such as: query responses, authentication checks, or persisted queries.
 
-Every store must have a unique `name`.
+Every store must have a unique `name`. The empty string is a valid name; there is a default in-memory 50MB cache with the empty string for its name which is used for any caching feature if you don't specify a store name.  You can specify the name of `"disabled"` to any caching feature to turn off that feature.
 
 Engine supports two types of stores:
 
 * `inMemory` stores provide a bounded LRU cache embedded within the Engine Proxy.
-  Since there's no external servers to configure, in memory stores are the easiest to get started with.
-  Since there's no network overhead, in memory stores are the fastest option.
-  However, if you're running multiple copies of Engine Proxy, their in memory stores won't be shared - a cache hit on one server may be a cache miss on another server.
+  Since there's no external servers to configure, in-memory stores are the easiest to get started with.
+  Since there's no network overhead, in-memory stores are the fastest option.
+  However, if you're running multiple copies of Engine Proxy, their in-memory stores won't be shared --- a cache hit on one server may be a cache miss on another server.
   In memory caches are wiped whenever Engine Proxy restarts.
 
-  The only configuration required for in memory stores is `cacheSize` - an upper limit specified in bytes.
+  The only configuration required for in memory stores is `cacheSize` --- an upper limit specified in bytes. It defaults to 50MB.
 
 * `memcache` stores use external [Memcached](https://memcached.org/) server(s) for persistence.
   This provides a shared location for multiple copies of Engine Proxy to achieve the same cache hit rate.
   This location is also not wiped across Engine Proxy restarts.
 
-  Memcache store configuration requires an array of URLs, `url`, for the memcached servers.
+  Memcache store configuration requires an array of URLs called `url`, for the memcached servers. (This name is misleading: the values are `host:port` without any URL scheme like `http://`.)
   `keyPrefix` may also be specified, to allow multiple environments to share a memcached server (i.e. dev/staging/production).
 
-We suggest developers start with an in memory store, then upgrade to Memcached if the added deployment complexity is worth it for production.
+We suggest developers start with an in-memory store, then upgrade to Memcached if the added deployment complexity is worth it for production.
 This will give you much more control over memory usage and enable sharing the cache across multiple Engine proxy instances.
 
 <h3 id="config.sessionAuth">sessionAuth</h3>
 
-This is useful when you want to do per-session caching with Engine. To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In this example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
+This is useful when you want to do per-session response caching with Engine. To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In this example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
+
+You can specify that the session ID is defined by either a either a header or a cookie. Optionally, you can specify a REST endpoint which the Engine Proxy can use to determine whether a given token is valid.
 
 <h3 id="config.queryCache">queryCache</h3>
 
 This maps the types of result caching Engine performs to the stores you've defined in the `stores` field.
 In this case, we're sending public and private cached data to unique stores, so that responses affecting multiple users will never be evicted for responses affecting a single user.
+
+If you leave `queryCache.publicFullQueryStore` blank, it will use the default 50MB in-memory cache. Set it to `"disabled"` to turn off the cache.
+
+If you configure `sessionAuth` but leave `queryCache.privateFullQueryStore` blank, it will use the default 50MB in-memory cache. Set it to `"disabled"` to turn off the cache.
 
 <h2 id="visualizing">Visualizing caching</h2>
 
@@ -290,8 +284,3 @@ The volume chart now shows how many of your requests hit the cache instead of th
 
 The histogram uses differently-colored bars to represent cache vs. non-cache requests. So you can easily see that the cached requests are much much faster, with Engine responding to those requests in microseconds rather than the 50-100 milliseconds it would take to hit the underlying server.
 
-<h3 id="footnotes" name="footnotes">Footnotes</h3>
-
-> \* Apollo Server includes built-in support for Apollo Cache Control from version 1.2.0 onwards. If you are using `express-graphql`, we recommend you switch to Apollo Server to use caching. Both `express-graphql` and Apollo Server are based on the [`graphql-js`](https://github.com/graphql/graphql-js) reference implementation, and switching should only require changing a few lines of code.
-
-> We're working with the community to add support for Apollo Cache Control to other server libraries. [Contact us](mailto:support@apollographql.com)   if you are interested in joining the community to work on support for `express-graphql`. 

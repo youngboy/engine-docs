@@ -294,13 +294,10 @@ const engine = new ApolloEngine({
     },
   }],
 
-  // Specify storage for caches (in-memory or Memcached). This option
-  // just defines a store, but doesn't use it for any particular feature.
-  // Other options connect named stores to Engine features.
+  // Resize the default in-memory cache.
   stores: [{
-    name: 'cache',
     inMemory: {
-      cacheSize: 10485760,  // 10 MB
+      cacheSize: 104857600,  // 100 MB; defaults to 50MB.
     },
   }],
   sessionAuth: {
@@ -309,17 +306,9 @@ const engine = new ApolloEngine({
     cookie: 'session-id',
   },
   queryCache: {
-    // Use the store (configured above) to cache responses to public
-    // queries.
-    publicFullQueryStore: 'responseCache',
-    // Use the store (configured above) to cache responses to private
-    // queries as well, based on the 'session-id' cookie.
-    privateFullQueryStore: 'responseCache',
-  },
-  persistedQueries: {
-    // Enable Automatic Persisted Queries, storing known queries in
-    // the store (configured above).
-    store: 'cache',
+    // Turn off the public full query cache. The cache is only used for
+    // responses with the 'cache-control' GraphQL extension.
+    publicFullQueryStore: 'disabled',
   },
 
   logging: {
