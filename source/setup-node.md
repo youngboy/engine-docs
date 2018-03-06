@@ -241,9 +241,93 @@ If you need additional configuration, you've come to the right place.
 
 This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, while working the same way across many platforms.
 
-You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, but here are some useful fields you should know about:
+To get started, the only configuration field you need to specify is `apiKey`: the Engine API key copied from the Engine website.
 
-// TODO
+You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, but here are some commonly-used fields worth knowing about:
+
+```js
+const engine = new ApolloEngine({
+  // The only mandatory field!
+  apiKey: process.env.API_KEY,
+
+  // Specify behavior for how the Engine Proxy should connect to the
+  // GraphQL origin (your Node GraphQL server). While the Proxy does
+  // support multiple origins, most users will only put one origin
+  // in this array.
+  origins: [{
+    // If you are using the apollo-link-batch-http package to combine
+    // multiple GraphQL requests into a single HTTP request, set this
+    // to ensure that the Engine Proxy sends them to your Node web
+    // server as a single request as well. (If you don't set this,
+    // the Proxy will split it apart into individual HTTP requests.)
+    supportsBatch: true,
+    // Amount of time to wait for your Node GraphQL server to return
+    // a response before timing out. Defaults to "30s". Specified as
+    // a string containing a number and a unit such as "ms" or "s".
+    requestTimeout: "60s",
+    // HTTP-specific options. (The options above also apply to other
+    // origin types such as Lambda.)
+    http: {
+      // The Engine Proxy will set the following request headers on
+      // all requests it makes to your GraphQL server.
+      overrideRequestHeaders: {
+        // By default, the Engine Proxy preserves the Host header
+        // from the user's request.
+        host: 'mysite.example.com',
+      },
+    }
+  }],
+
+  // Specify behavior for how the Engine Proxy listens as an HTTP
+  // server. While the Proxy does support multiple listening
+  // frontends, most users will only put one frontend in this array.
+  frontends: [{
+    // Specify behavior for handling GraphQL extensions in GraphQL
+    // responses.
+    extensions: {
+      // Extensions which will never be returned to clients.
+      // Defaults to ['tracing'].
+      blacklist: ['tracing', 'cacheControl'],
+      // Extensions to only return to clients if the client requests
+      // them.  Defaults to `['tracing', 'cacheControl']`.
+      strip: ['tracing'],
+    },
+  }],
+
+  // Specify storage for caches (in-memory or Memcached). This option
+  // just defines a store, but doesn't use it for any particular feature.
+  // Other options connect named stores to Engine features.
+  stores: [{
+    name: 'cache',
+    inMemory: {
+      cacheSize: 10485760,  // 10 MB
+    },
+  }],
+  sessionAuth: {
+    // Use the value of the 'session-id' cookie to isolate responses
+    // in the private full query cache from those from other sessions.
+    cookie: 'session-id',
+  },
+  queryCache: {
+    // Use the store (configured above) to cache responses to public
+    // queries.
+    publicFullQueryStore: 'responseCache',
+    // Use the store (configured above) to cache responses to private
+    // queries as well, based on the 'session-id' cookie.
+    privateFullQueryStore: 'responseCache',
+  },
+  persistedQueries: {
+    // Enable Automatic Persisted Queries, storing known queries in
+    // the store (configured above).
+    store: 'cache',
+  },
+
+  logging: {
+    // Only show warnings and errors, not info messages.
+    level: 'WARN',
+  },
+});
+```
 
 You can also specify config as a filename pointing to a JSON file.
 
@@ -281,6 +365,7 @@ In addition to `port` and the options that specify your app, `listen` has some o
 - `graphqlPaths` (non-empty array of strings): Specifies the URL paths which the Engine Proxy will treat as GraphQL instead of proxying transparently without parsing. Defaults to `['/graphql']`.
 - `host` (string): The interface on which the Engine Proxy will accept connections; same as the `host` argument to `net.Server.listen`. Defaults to listening on all interfaces. For example, if your machine is publically accessible on the Internet but you only want processes on your machine to be able to connect to the Engine Proxy, specify the "loopback address" `'127.0.0.1'`.
 - `innerHost` (string): The interface on which your Node server will accept connections from the Engine Proxy. Defaults to `'127.0.0.1'` (the inner Node server is only accessible from your machine).
+- `startOptions` (object): Options which control how we launch the Engine Proxy binary.
 - `startOptions.startupTimeout` (number): How many milliseconds to wait for the Engine Proxy to successfully start up and listen before timing how. Defaults to 5000 (5 seconds). Set to 0 to wait forever.
 - `startOptions.proxyStderrStream` ([writable stream](https://nodejs.org/api/stream.html#stream_writable_streams)): By default, the Engine Proxy binary's standard error stream is written to your Node process's standard error. Set this to a writable stream to process it in a different way.  (By default, the Engine Proxy writes its logs to standard error at log level `INFO`. If all you want to do is hide the `INFO` logs, try [configuring the log level](#proxy-logging) instead.)
 - `startOptions.proxyStdoutStream` ([writable stream](https://nodejs.org/api/stream.html#stream_writable_streams)): By default, the Engine Proxy binary's standard output stream is written to your Node process's standard output. Set this to a writable stream to process it in a different way.  (By default, the Engine Proxy does not write anything to standard output.)
