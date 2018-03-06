@@ -39,8 +39,8 @@ Engine uses a proxy component written in Go that runs inside your infrastructure
 
 There are two options for running the Engine proxy:
 
-- **Standalone container**: To have full control over the proxy component, you can easily deploy it as a standalone docker container the same way you deploy other parts of your application.
-- **Sidecar package for Node**: If you're using Node, you can use the Engine Proxy as a [sidecar package](./setup-node.html#single-proxy-with-sidecar) that runs as a child process of your server. This option is simpler to set up and doesn't involve a container.
+- [**Node web framework integration package**](./setup-node.html): If your GraphQL server is written in Node, you can use the `apollo-engine` npm package's `ApolloEngine` API to automatically run the Engine Proxy in front of your app. This API integrates smoothly with all popular Node web framework to run the Engine Proxy as a child process in front of your server with [just two lines of code](./setup-node.html). This option is simpler to set up and doesn't involve a container.
+- **Standalone proxy**: To have full control over the proxy component, you can easily deploy it as a standalone Docker container or a small Node script the same way you deploy other parts of your application, manually configuring how it connects to the rest of your infrastructure. This option is best for non-Node GraphQL servers.
 
 <h3 id="engine-service">Engine Service</h3>
 
