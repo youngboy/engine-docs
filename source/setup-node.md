@@ -241,7 +241,7 @@ Head on over to the [AWS Lambda setup guide](./setup-lambda.html) to learn how t
 
 If you need additional configuration, you've come to the right place.
 
-<h3 id="api-apollo-engine" title="new ApolloEngine()">new ApolloEngine(config)</h3>
+<h3 id="api-apollo-engine" title="ApolloEngine">new ApolloEngine(config)</h3>
 
 The `ApolloEngine` class is the main API for running the Engine Proxy and integrating it with your Node web framework. This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, while working the same way across many platforms.
 

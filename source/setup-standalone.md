@@ -1,6 +1,6 @@
 ---
 title: Set up Engine with any GraphQL server
-sidebar_title: Non-node servers
+sidebar_title: Non-Node servers
 description: Get Engine running with your Ruby, Java, Scala, or Elixir server.
 ---
 
