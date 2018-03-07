@@ -3,32 +3,26 @@ title: Setup Troubleshooting
 order: 3
 ---
 
-If you hit any issues in setting up Engine for your GraphQL service, we're here to help! First, follow these troubleshooting steps to check for any obvious issues. If these don't help, please submit a support ticket to [support@apollodata.com](mailto:support@apollodata.com) and we'll work with you to get you up and running!
+If you hit any issues in setting up Engine for your GraphQL service, we're here to help! First, follow these troubleshooting steps to check for any obvious issues. If these don't help, please submit a support ticket to [support@apollographql.com](mailto:support@apollographql.com) and we'll work with you to get you up and running!
 
 <h2 id="sanity-checks" title="First steps">First Troubleshooting steps</h2>
 
 <h3> Check that you are on a supported GraphQL server </h3>
 
-Check that your server is one of the supported GraphQL servers listed [here](index.html#apollo-tracing).
+Check that your server is one of the supported GraphQL servers listed [here](apollo-tracing.html).
 
 If it is, please make sure you're running the [currently tested version](https://github.com/apollographql/apollo-engine-js/blob/master/package.json) of Apollo Server and your Node HTTP server package (Express, Connect, Hapi, Koa, etc), and the latest released versions of the Engine and Apollo packages.
 
 You can enter the following into the commandline to see the latest package version, or look in  `package.json`.
+
 ```
 $ npm view apollo-engine version
-0.8.10
 ```
-
-**Supported package versions**
-
-graphql-js 0.10+
-apollo-engine 1.0.1+
-apollo-tracing 0.0.9+
-
 
 <h3> Set debug logging levels for the Proxy</h3>
 
 Support may request that you set the Engine Proxy logging level to DEBUG or higher. These logs will be part of your GraphQL server logs (if Proxy is deployed with the `ApolloEngine` Node API) or in the Proxy process logs (if Proxy is deployed standalone).
+
 ```js
 const engine = new ApolloEngine({
   apiKey: engineApiKey,
@@ -72,7 +66,7 @@ const engine = new ApolloEngine({
 });
 ```
 
-<h2 id="">Submit a support ticket</h2> 
+<h2 id="">Submit a support ticket</h2>
 
 Please include the following when submitting an issue to our support team:
 
@@ -82,4 +76,4 @@ Please include the following when submitting an issue to our support team:
 * Platform of GraphQL server
 * The query submitted and the full response
 
-Submit your issue to [support@apollodata.com](mailto:support@apollodata.com) or join our Apollo public slack #engine channel here (https://apollographql.slack.com/).
+Submit your issue to [support@apollographql.com](mailto:support@apollographql.com) or join our Apollo public slack #engine channel here (https://apollographql.slack.com/).

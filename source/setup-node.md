@@ -14,7 +14,7 @@ We encourage you to [contact us](mailto:support@apollodata.com) with feedback or
 
 To get Engine running with Apollo Server and Express, just follow these three quick steps. This guide assumes you're running your GraphQL server with the `express` web server package for Node. If you're using a different framework, all of the steps are the same except step 3, for which you should check out the [other servers](#not-express) section of this page.
 
-<h3 id="apollo-server-config" title="Apollo Server Config">1. Enable Tracing and Cache Control in Apollo Server</h3>
+<h3 id="apollo-server-config" title="Apollo Server config">1. Enable Tracing and Cache Control in Apollo Server</h3>
 
 Just add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function.
 
@@ -92,11 +92,19 @@ And you're done!
 
 The code above is specifically for `express`. For other servers, check out the [other servers](#not-express) section of this page for the appropriate snippet.
 
-#### Check if Step 3 worked!
+#### Check if Step 3 worked
 
-Call your endpoint again with GraphiQL, and you should no longer see the `tracing` data in the result since Engine is now consuming it! Check the Engine UI for your new service, and you should see it confirm that the setup worked.
+Call your endpoint again with GraphiQL, and you should no longer see the `tracing` data in the result since Engine is now consuming it! If it isn't working yet, try [the extra options documented below](#extra-setup-config).
 
-If you see the above, congratulations, you're up and running! Otherwise, look at some of the options below.
+<h2 id="using-engine" title="Using Engine">Using Engine</h2>
+
+Once your server is set up, navigate to your newly created Engine service in the [Engine UI](https://engine.apollographql.com). It should indicate that you've set everything up successfully. Start sending requests to your Node server to see performance metrics!
+
+To get the most out of Engine, check out the documentation in the "Features" section on the left. In particular, a good next step might be to set up [response caching](./caching.html) which can make your GraphQL server much faster by storing commonly requested data, much like HTTP caching does.
+
+<h2 id="extra-setup-config">Extra options</h2>
+
+If Engine is not yet working after the basic setup steps above, consider the two options below.
 
 #### Configuring the GraphQL path
 
@@ -126,12 +134,6 @@ const engine = new ApolloEngine({
   }
 });
 ```
-
-<h2 id="using-engine" title="Using Engine">Using Engine</h2>
-
-Once your server is set up, navigate to your newly created Engine service in the [Engine UI](https://engine.apollographql.com). It should indicate that you've set everything up successfully. Start sending requests to your Node server to see performance metrics!
-
-To get the most out of Engine, check out the documentation in the "Features" section on the left. In particular, a good next step might be to set up [response caching](./caching.html) which can make your GraphQL server much faster by storing commonly requested data, much like HTTP caching does.
 
 <h2 id="not-express" title="Other Node servers">Node servers other than Express</h2>
 
@@ -231,7 +233,7 @@ engine.meteorListen(WebApp, { graphqlPaths: [ "/other-graphql" ]});
 
 <h2 id="lambda">AWS Lambda</h2>
 
-Since Engine relies on tracking some state across requests to do performance tracing and caching, it needs to be run in a different way when you're using Lambda that involves running a separate container. Thankfully, you can do this easily in just a few clicks!
+Since Engine relies on tracking some state across requests to do performance tracing and caching, it needs to be deployed in a different way when you're using Lambda that involves running a separate container. Thankfully, you can do this easily in just a few clicks!
 
 Head on over to the [AWS Lambda setup guide](./setup-lambda.html) to learn how to do it.
 

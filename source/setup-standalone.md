@@ -1,6 +1,6 @@
 ---
-title: Set up standalone Engine with any GraphQL server
-sidebar_title: Standalone Engine for any GraphQL server
+title: Set up Engine with any GraphQL server
+sidebar_title: Non-node servers
 description: Get Engine running with your Ruby, Java, Scala, or Elixir server.
 ---
 
@@ -11,7 +11,7 @@ To get started with Engine, you will need to:
 2. Get your Engine API key.
 3. Configure and deploy the Engine Proxy using Docker or npm.
 
-<h2 id="supported-servers">1. Instrument your GraphQL server</h2>
+<h2 id="supported-servers">Instrument your server</h2>
 
 A few Engine features, like [automatic persisted queries](./auto-persisted-queries.html) and [query batching](./query-batching.html) work with any GraphQL server, but you'll get the most value out of Engine if your server to supports the [Apollo Tracing](./apollo-tracing.html) GraphQL extension, which is required for [performance tracing](./performance.html) and [error tracking](./error-tracking.html).  Additionally, the  [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control) extension is required for [response caching](./caching.html). These extensions are open specifications that can be implemented by any GraphQL server.
 
@@ -40,11 +40,11 @@ The `"tracing"` field should now be returned as part of the response extensions 
 
 If you see the `tracing` data in the result, move on to the next step!
 
-<h2 id="get-api-key">2. Get your API Key</h2>
+<h2 id="get-api-key">Get your API Key</h2>
 
 [Log into Apollo Engine](http://engine.apollographql.com/) via your browser and create a service to get an API key. We'll put it in our Engine configuration in the next step.
 
-<h2 id="configure-proxy">3. Configure and deploy the Proxy</h2>
+<h2 id="configure-proxy">Run the proxy</h2>
 
 Engine uses a proxy component written in Go that runs inside your infrastructure. This component is designed to allow all of your requests and responses to pass through, while doing things like extracting trace data, caching results, and more. It's designed to handle large volumes of traffic comfortably, without overloading. The Engine proxy component doesn't rely on accessing the Engine cloud service to function.
 
@@ -140,7 +140,7 @@ We recognize that almost every team using Engine has a slightly different deploy
 
 If you need additional configuration, you've come to the right place.
 
-<h3 id="api-apollo-engine-launcher" title="new ApolloEngineLauncher()">new ApolloEngineLauncher(config)</h3>
+<h3 id="api-apollo-engine-launcher" title="ApolloEngineLauncher">new ApolloEngineLauncher(config)</h3>
 
 The `ApolloEngineLauncher` class is a simple Node API for running the Engine Proxy on your machine. It doesn't integrate with Node web frameworks: for that you want [`ApolloEngine`](./setup-node.html#api-apollo-engine).
 
