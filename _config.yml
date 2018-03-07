@@ -17,10 +17,7 @@ sidebar_categories:
     - apollo-tracing
   Setup:
     - setup-node
-    - setup-ruby
-    - setup-java
-    - setup-scala
-    - setup-elixir
+    - setup-standalone
     - setup-lambda
     - setup-virtual
   Features:

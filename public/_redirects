@@ -2,3 +2,8 @@ http://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com
 https://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com/docs/engine/:splat 301!
 
 / /docs/engine/
+
+/docs/engine/setup-ruby.html /docs/engine/setup-standalone.html
+/docs/engine/setup-java.html /docs/engine/setup-standalone.html
+/docs/engine/setup-scala.html /docs/engine/setup-standalone.html
+/docs/engine/setup-elixir.html /docs/engine/setup-standalone.html

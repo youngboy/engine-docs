@@ -239,7 +239,7 @@ If you need additional configuration, you've come to the right place.
 
 <h3 id="api-apollo-engine" title="new ApolloEngine()">new ApolloEngine(config)</h3>
 
-This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, while working the same way across many platforms.
+The `ApolloEngine` class is the main API for running the Engine Proxy and integrating it with your Node web framework. This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, while working the same way across many platforms.
 
 To get started, the only configuration field you need to specify is `apiKey`: the Engine API key copied from the Engine website.
 
@@ -341,7 +341,7 @@ engine.listen({
 });
 ```
 
-We intentionally made this funciton very similar to how `app.listen` would work, so that you can easily drop Engine into your existing app.  Like `app.listen`, the callback is only called on success.
+We intentionally made this function very similar to how `app.listen` would work, so that you can easily drop Engine into your existing app.  Like `app.listen`, the callback is only called on success.
 
 All calls to `listen` must provide the `port` option and exactly one of the options that specify your app (`expressApp`, `connectApp`, `koaApp`, `restifyServer`, or `httpServer`).
 
