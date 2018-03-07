@@ -5,7 +5,7 @@ order: 11
 
 Apollo Engine is the next generation of Optics with new features like error reporting, query caching, and more. To enable support for more GraphQL server languages and unlock features like caching, Engine is built upon a proxy architecture. To upgrade from Optics to Engine you'll need to add the Engine proxy to your stack.
 
-If you're already using Optics, there's an easy upgrade from your current Optics integration to Engine - it's just a few lines of code in your `server.js` and an NPM package upgrade! If you are interested in using other languages, please see our other documentation pages.
+If you're already using Optics, there's an easy upgrade from your current Optics integration to Engine --- it's just a few lines of code in your `server.js` and an NPM package upgrade! If you are interested in using other languages, please see our other documentation pages.
 
 **This** guide assumes you are starting with **a Node.js app **that has Optics already instrumented.
 
@@ -52,7 +52,7 @@ graphqlExpress((req) => {
 
 Remove the Optics Agent NPM package:
 
-```javascript
+```
 npm remove optics-agent
 ```
 
@@ -70,7 +70,7 @@ Name your endpoint and save your **API key**.
 
 **If using Apollo Server**
 
-The only code change required is to add `tracing: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
+The only code change required is to add `tracing: true` and `cacheControl: true` to the options passed to the Apollo Server middleware function for your framework of choice. For example, for Express:
 
 ```javascript
 app.use('/graphql', bodyParser.json(), graphqlExpress({
@@ -78,6 +78,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
   context: {},
   // Enable tracing:
   tracing: true,
+  cacheControl: true,
 }));
 ```
 
@@ -85,62 +86,35 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 
 Using Apollo Tracing with express-graphql requires more manual configuration. See [this section](https://github.com/apollographql/apollo-tracing-js#express-graphql) of the docs for details.
 
-<h3 id="add-engine-middleware" title="Add Engine Middleware">Add Engine Middleware Code to your Server</h3>
+<h3 id="add-engine-middleware" title="Add Engine Middleware">Add Engine framework integration code to your server</h3>
 
-Import the Engine constructor from the apollo-engine NPM package.
+Import the `ApolloEngine` constructor from the apollo-engine NPM package.
 
-```javascript
-import { Engine } from 'apollo-engine';
+```
+npm install --save apollo-engine
 ```
 
-Create a new Engine instance. Set the engine configuration through a JSON object.
-
 ```javascript
-const engine = new Engine({ engineConfig: { apiKey: '<ENGINE_API_KEY>' } });
-
-// Optionally, you can set these other configuration variables:
-const engine = new Engine({
-  engineConfig: {
-    apiKey: '<ENGINE_API_KEY>',
-    logging: {
-      level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
-    }
-  },
-  graphqlPort: process.env.PORT || 8003,  // GraphQL port
-  endpoint: '/graphql',                   // GraphQL endpoint suffix - '/graphql' by default
-  dumpTraffic: true                       // Debug configuration that logs traffic between Proxy and GraphQL server
-});
+import { ApolloEngine } from 'apollo-engine';
 ```
 
-Add this line to your server code to start the Engine proxy, preferably not far from where you instantiated engine:
+Create a new Engine instance. Set the engine configuration, likely just your API key.  If you had lots of extra configuration in Optics, look at the [main Node setup instructionspage](./setup-node.html) to see where the equivalent options go now.
 
 ```javascript
-engine.start();
+const engine = new ApolloEngine({ apiKey: '<ENGINE_API_KEY>' });
 ```
 
-Add the Engine middleware to your app's middleware so that your app can route requests through the Engine proxy. Since the Engine middleware is what sends requests to the Engine proxy, it's important that this is your app's _first middleware_.
-
-The `apollo-engine` package supports the following middlewares:
-1. `expressMiddleware` – use for Express servers.
-2. `connectMiddleware` – use for Restify servers.
-3. `instrumentHapiServer` – use for Hapi servers.
-4. `koaMiddleware` – use for Koa servers.
-
-In an Express server, adding the Engine middleware would look like this:
+Find the line where your Express server `listen`s. (This wasn't a line that Optics instrumented directly.)  (If you're not using Express, follow the [instructions on the main Node setup page](./setup-node.html#not-express).)
 
 ```javascript
-app.use(engine.expressMiddleware());
-// ...
-// other middleware / handlers
-// ...
+// Replace this line:
+app.listen(3000);
+
+// With this line:
+engine.listen({port: 3000, expressApp: app});
 ```
 
-<h2 id="enabling-compression" title="Enabling Compression">[Optional] Enabling Compression</h2>
-
-Once instrumented, the tracing package will increase the size of GraphQL requests traveling between your GraphQL and the Engine proxy, because the requests will be augmented with additional tracing data.
-Because of this, we recommend that you enable gzip compression in your GraphQL server – the added volume from the tracing format compresses well.
-
-See [Enabling Node compression](setup-node.html#enabling-compression-optional) for instructions.
+Note that if your app serves GraphQL on a path other than `/graphql`, you'll need to specify the `graphqlPaths` option.
 
 <h2 id="test" title="Test">Run in localhost to test</h2>
 
