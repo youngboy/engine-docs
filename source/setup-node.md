@@ -200,7 +200,7 @@ engine.listen({
 
 #### Hapi
 
-This is a little more complex but also built right in! Hapi doesn't have a `listen` method, so you have to provide a special object to the `hapi.Server` constructor, and turn off auto-listening mode. Engine is currently tested with Hapi v17, but we believe it also works with Hapi v16.  Note that this assumes you are running the `engine.hapiListener` line inside an async function, as setting up Hapi servers generally requires calling `await` on a few async methods.
+This is a little more complex but also built right in! Hapi doesn't have a `listen` method, so you have to provide a special object to the `hapi.Server` constructor, and turn off auto-listening mode. Note that this assumes you are running the `engine.hapiListener` method inside an async function, as setting up Hapi servers generally requires calling `await` on a few async methods.
 
 ```js
 const engine = new ApolloEngine({apiKey: 'API_KEY'});
@@ -212,6 +212,8 @@ const hapiServer = new hapi.Server({
 // ... set up your server ...
 await server.start();
 ```
+
+The instructions above are for Hapi v17. The Hapi v16 API is slightly different (and also requires you to use a version of `apollo-server-hapi` older than 1.3.0). Engine is currently tested with Hapi v17, but we believe it also works with Hapi v16. We have a [separate example](https://github.com/jbaxleyiii/hapi-16-with-engine) showing how to use `apollo-server-hapi` and `ApolloEngine` with Hapi v16.
 
 #### Meteor
 
@@ -227,7 +229,7 @@ If you want to pass options to the Engine listener, you can pass them as the sec
 engine.meteorListen(WebApp, { graphqlPaths: [ "/other-graphql" ]});
 ```
 
-<h3 id="lambda">AWS Lambda</h3>
+<h2 id="lambda">AWS Lambda</h2>
 
 Since Engine relies on tracking some state across requests to do performance tracing and caching, it needs to be run in a different way when you're using Lambda that involves running a separate container. Thankfully, you can do this easily in just a few clicks!
 
