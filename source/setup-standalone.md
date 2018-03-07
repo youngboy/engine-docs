@@ -50,7 +50,7 @@ Engine uses a proxy component written in Go that runs inside your infrastructure
 
 Apollo distributes the Engine proxy in two forms: as an npm package and as a Docker container. You can use either distribution to run a standalone proxy in front of your GraphQL server, depending on whether it's easier for you to run Node programs or Docker containers.
 
-<h3 id="apollo-engine-launcher">Running a standalone proxy from a Node program</h3>
+<h3 id="apollo-engine-launcher">Running a standalone Proxy using Node</h3>
 
 Even though your GraphQL server may not be implemented in Node, you may find it easier to run a tiny Node program in your hosting environment than to run a Docker container. This deployment method is for you. In addition to the [`ApolloEngine` API](./setup-node.html#api-apollo-engine) that allows you to directly integrate Engine with a Node GraphQL server, the `apollo-engine` npm package also contains the `ApolloEngineLauncher` API, which simply runs the Engine proxy with a given configuration.
 
@@ -96,7 +96,7 @@ If you see the above, congratulations, you're up and running!
 
 In general, the argument to `new ApolloEngineLauncher()` is the same as the argument Node GraphQL users pass to `new ApolloEngine()`, except that you need to specify the origin's HTTP URL yourself with `new ApolloEngineLauncher()`, and the frontend `port` and `graphqlPaths` (if you're not using the default values of `process.env.PORT` and `['/graphql']`) are specified inside the constructor instead of as options to `listen()`.
 
-<h3 id="docker">Running a standalone proxy with Docker</h3>
+<h3 id="docker">Running a standalone Proxy with Docker</h3>
 
 The Engine Proxy is also distributed as a Docker image that you can deploy and manage separate from your server. It does not matter where you choose to deploy and manage your Engine Proxy, though it's more efficient if it is located on the same machine or network as your GraphQL server. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/) and on Google's [Kubernetes Engine](https://cloud.google.com/kubernetes-engine/).
 
