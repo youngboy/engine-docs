@@ -20,14 +20,12 @@ The proto3 JSON mapping is mostly straightforward, but you may want to pay atten
 
 Note that proto3 JSON flattens "oneof" messages, such that: `oneof foobar { bool foo = 1; bool bar = 2; }` is represented as: `{ "foo": true }`.
 
-If you are configuring the Proxy via the `apollo-engine` npm package, this JSON object is passed as the `engineConfig` parameter to the `Engine` constructor.
-
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | apiKey |  string | API key for the service. Get this from your [Engine home](https://engine.apollographql.com). This field is required. |
-| origins | repeated  [Config.Origin](#mdg.engine.config.proto.Config.Origin)  | Origins represent the GraphQL servers to which the Proxy will send requests. If you're using the `apollo-engine` npm package, you don't need to specify origins: the package will generate one automatically for you. |
-| frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of frontends to listen to for GraphQL queries. If you're using the `apollo-engine` npm package, you don't need to specify frontends: the package will generate one automatically for you. |
+| origins | repeated  [Config.Origin](#mdg.engine.config.proto.Config.Origin)  | Origins represent the GraphQL servers to which the Proxy will send requests. If you're using the `ApolloEngine` class from the `apollo-engine` npm package, you don't need to specify origins: the package will generate one automatically for you, or will fill in the url automatically if you have configured other origin properties. |
+| frontends | repeated  [Config.Frontend](#mdg.engine.config.proto.Config.Frontend)  | The list of frontends to listen to for GraphQL queries. If not specified, a frontend will be created with default values. |
 | stores | repeated  [Config.Store](#mdg.engine.config.proto.Config.Store)  | The list of configured stores to cache responses to. |
 | sessionAuth |   [Config.SessionAuth](#mdg.engine.config.proto.Config.SessionAuth)  | The session authorization configuration to use for per-session caching. |
 | logging |   [Config.Logging](#mdg.engine.config.proto.Config.Logging)  | The logging configuration to use. |
@@ -56,17 +54,16 @@ DebugServer configures an HTTP server which can be used to debug the Proxy. If y
 <a name="mdg.engine.config.proto.Config.Frontend"/>
 
 ### Config.Frontend
-Frontend defines a web server run by the Proxy. The Proxy will listen on each frontend for incoming GraphQL requests. If you are not using the `apollo-engine` npm module, you must specify exactly one of `endpoints`, `endpointMap`, or (deprecated) `endpoint`.
+Frontend defines a web server run by the Proxy. The Proxy will listen on each frontend for incoming GraphQL requests.
 
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| host |  string | The address on which to listen. If left blank, this will default to all interfaces. |
-| port |  int32 | The port on which to listen. If left blank, this will attempt to use the port specified in portFromEnv. If portFromEnv is left blank, this will select a random available port. |
+| host |  string | The address on which to listen. If left blank, this will default to all interfaces. (If you are using the `ApolloEngine` class from the `apollo-engine` npm module, this field defaults to the `host` option of the `engine.listen` method.) |
+| port |  int32 | The port on which to listen. If left blank, this will attempt to use the port specified in portFromEnv. If portFromEnv is left blank, this will select a random available port. (If you are using the `ApolloEngine` class from the `apollo-engine` npm module, this field defaults to the `port` option of the `engine.listen` method.) |
 | portFromEnv |  string | The name of the environment variable to use for choosing `port`, usually "PORT". For example, when using a Docker container deployed on Heroku, you should NOT set port, and set portFromEnv to be PORT. See [the Engine docs](https://www.apollographql.com/docs/engine/setup-virtual.html) for a more detailed walkthrough on setting up Apollo Engine on Heroku and similar hosting platforms. |
-| endpoint |  string | URL path on which to listen; often "/graphql". *Deprecated:* use `endpoints`. |
-| endpoints | repeated string | URL paths on which to listen; often `["/graphql"]`. |
-| originName |  string | Name of origin to serve with this frontend. The Proxy will also pass any HTTP requests sent to paths not in `endpoints`/`endpoint` to this origin. If not defined, defaults to the empty string, which is a valid origin name. |
+| endpoints | repeated string | URL paths on which to listen; often `["/graphql"]`. (If you are using the `ApolloEngine` class from the `apollo-engine` npm module, this field defaults to the `graphqlPaths` option of the `engine.listen` method, which itself defaults to `["/graphql"]`.) |
+| originName |  string | Name of origin to serve with this frontend. The Proxy will also pass any HTTP requests sent to paths not in `endpoints` to this origin. If not defined, defaults to the empty string, which is a valid origin name. |
 | endpointMap |  map&lt;string, string&gt; | Map from URL path to origin name. Use this field instead of `endpoints` and `originName` if you want different URL paths on this frontend to serve different origins. If you use this field, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. |
 | extensions |   [Config.Frontend.Extensions](#mdg.engine.config.proto.Config.Frontend.Extensions)  | Configuration for GraphQL response extensions. |
 
@@ -132,7 +129,7 @@ An Origin is a backend that the Proxy can send GraphQL requests to. Can use one 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | requestTimeout |  Duration | Amount of time to wait before timing out request to this origin. If this is left unspecified, it will default to 30 secs for HTTP or use the function's `timeout` for Lambda. |
-| maxConcurrentRequests |   [uint64](#uint64)  | Maximum number of concurrent requests to the origin. All requests beyond the maximum will return 503 errors. If not specified, this will default to 9999. |
+| maxConcurrentRequests |  uint64 | Maximum number of concurrent requests to the origin. All requests beyond the maximum will return 503 errors. If not specified, this will default to 9999. |
 | requestType |   [Config.Protocol](#mdg.engine.config.proto.Config.Protocol)  | The type of the body of a request to this origin. If not specified, will default to JSON. |
 | supportsBatch |  bool | Does this origin support batched query requests, as defined by: https://github.com/apollographql/apollo-server/blob/213acbba/docs/source/requests.md#batching |
 | http |   [Config.Origin.HTTP](#mdg.engine.config.proto.Config.Origin.HTTP)  | Configuration if this is an HTTP origin. |
@@ -150,10 +147,10 @@ Configuration for forwarding GraphQL queries to an HTTP endpoint.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| url |  string | The backend server's GraphQL URL. Required. |
-| headerSecret |  string | If set, all requests to this origin will contain this value in the X-ENGINE-FROM header. This is intended for "sidecar" configurations where the origin proxies requests to the Proxy which then proxies back to the origin. This field is set automatically by the `apollo-engine` npm package. |
+| url |  string | The backend server's GraphQL URL. Required unless using the `ApolloEngine` class from the `apollo-engine` npm module. |
+| useFrontendPath |  bool | If set, the path (endpoint) from the frontend's URL will be appended to this origin's URL. This allows you to set up just one Origin for an HTTP host with multiple paths serving GraphQL, by specifying multiple endpoints on the frontend. Set automatically if `ApolloEngine` is filling in the `url` field for you. |
 | disableCompression |  bool | If set, requests to this origin will not use compression (i.e. gzip, compress, deflate). This is usually a performance improvement if engine is running on the same server as the origin. |
-| maxIdleConnections |   [uint64](#uint64)  | Maximum number of idle connections to keep open. If not specified, this will default to 100. |
+| maxIdleConnections |  uint64 | Maximum number of idle connections to keep open. If not specified, this will default to 100. |
 | trustedCertificates |  string | File path to load trusted X509 CA certificates. This should not be required if your HTTPS origin works in modern browsers. Certificates must be PEM encoded, and multiple certificates can be concatenated into a single file. If specified, only servers with a trust chain to these certificates will be accepted. If not specified, this will default to a certificate bundle included with the proxy binary, which is extracted from Ubuntu Linux. |
 | disableCertificateCheck |  bool | If set, X509 certificate validity (issuer, hostname, expiration) is not verified. This is very insecure, and should only be used for testing. |
 | overrideRequestHeaders |  map&lt;string, string&gt; | If set, requests to this origin will have these headers replaced (or added) with the given values. |
@@ -184,7 +181,7 @@ PersistedQueries defines behaviour of the persistent query cache.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| store |  string | The name of the store to use in caching queries. |
+| store |  string | The name of the store to use in caching queries, or "disabled" to not support automatic persisted queries. |
 | compressionThreshold |  int64 | Minimum size in bytes to trigger compression. If not specified, defaults to 1024. Set to a negative number to disable compression. |
 
 
@@ -198,8 +195,8 @@ QueryResponseCache defines the behaviour of the query response cache.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| publicFullQueryStore |  string | The name of the store to use in caching full query responses containing only public/shared data. |
-| privateFullQueryStore |  string | The name of the store to use in caching full query responses containing only private/per-session data. |
+| publicFullQueryStore |  string | The name of the store (by default, the empty string) to use in caching full query responses containing only public/shared data, or "disabled" to not cache public full query responses. Only responses annotated with the cache-control extension are cached. |
+| privateFullQueryStore |  string | The name of the store (by default, the empty string) to use in caching full query responses containing only private/per-session data, or "disabled" to not cache private full query responses. Only responses annotated with the cache-control extension are cached, and this is ignored unless the sessionAuth field is specified. |
 
 
 
@@ -238,7 +235,7 @@ SessionAuth describes how the Proxy identifies clients for `private` cache respo
 | header |  string | The header that contains an authentication token. Set either this field or "cookie". |
 | cookie |  string | The cookie that contains an authentication token. Set either this field or "header". |
 | tokenAuthUrl |  string | The URL to use in validating the session authentication token. The Proxy will submit an HTTP POST to this URL with a JSON body containing: `{"token": "AUTHENTICATION-TOKEN"}`. The response body should return an integer field "ttl" specifying the number of seconds to continue to consider the session to be valid, and an optional "id" field specifying a longer lived user identifier. This "id" allows the cache to span logins and/or user devices. `{"ttl": 300, "id": "user1"}` This url must respond with an HTTP 2xx for valid authentication tokens. If the returned "ttl" is 0, or no "ttl" is provided, the session is considered valid forever. If the response is an HTTP 401 or 403, or the returned "ttl" is < 0, the session is considered invalid and the request is rejected by the Proxy. |
-| store |  string | The name of the store to use for caching the sessionIDs that have been verified. |
+| store |  string | The name of the store (by default, the empty string) to use for caching the sessionIDs that have been verified, or "disabled" to not cache verified sessionIDs. (This field is ignored unless tokenAuthUrl is set.) |
 
 
 
@@ -252,10 +249,12 @@ Configures a cache for GraphQL and authentication responses. Can use one of:
 
 1. in-memory cache
 
+By default, there exist an in-memory store with the default size and the empty string as a name, which is used by all features that use a store unless they specify a different store name or "disabled".
+
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| name |  string | The name of the store; used in other parts of the config file to reference the store. |
+| name |  string | The name of the store; used in other parts of the config file to reference the store. May be the empty string. |
 | memcache |   [Config.Store.Memcache](#mdg.engine.config.proto.Config.Store.Memcache)  | Memcache configuration |
 | inMemory |   [Config.Store.InMemory](#mdg.engine.config.proto.Config.Store.InMemory)  | In-memory configuration |
 
@@ -270,7 +269,7 @@ Configures in-memory store.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 5MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if values are overflowing this limit. __Changing this value after the proxy has launched will invalidate the current cache.__ |
+| cacheSize |  int64 | The size of the in-memory cache in bytes. Must be greater than 512KB. If not specified, will be 50MB. Note that only values smaller than approximately 1/1024th of the in memory cache size are stored. You'll see `WARN` logs if values are overflowing this limit. __Changing this value after the proxy has launched will invalidate the current cache.__ |
 
 
 

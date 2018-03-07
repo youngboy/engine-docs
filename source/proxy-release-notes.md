@@ -7,30 +7,51 @@ order: 20
 
 The versions given here are the tags for the Docker release of Engine Proxy. The [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) has its own versioning. Its changelog refers to entries in these release notes.
 
-<h3 id="v2018.02-90-g65206681c">2018.02-90-g65206681c - 2018-02-28</h3>
+<h3 id="v1.0.1" title="v1.0.1">1.0.1 - unreleased</h3>
 
-* Bugfix to automatic config reloading.
+v1 of `apollo-engine` has a redesigned streamlined Node API called `ApolloEngine`. See [the 1.0 migration guide](./1.0-migration.html) for details on how to upgrade.  In addition to a simplified API and higher performance, the new API adds support for the Restify and Hapi v16 web frameworks, and it is easy to integrate with any Node web framework that works with `http.Server`.
 
-<h3 id="v2018.02-84-g7a295e631">2018.02-84-g7a295e631 - 2018-02-23</h3>
+If you aren't integrating with a Node GraphQL server but still find Node programs easier to run than Docker Containers, the `apollo-engine` npm module has a new API called `ApolloEngineLauncher` that allows you to run the Engine Proxy with arbitrary configuration without hooking into a Node GraphQL server.
 
-* Unknown fields in the Engine config file (or `engineConfig` option to `new Engine`) now result in an error.
+Features that used to depend on a caching store definition now are on by default, sharing a 50MB in-memory cache. Specifically:
+* The public full-query response cache is enabled by default. Only responses annotated with the `cache-control` extension are cached.
+* The private full-query response cache is enabled by default if `sessionAuth` is configured. Only responses annotated with the `cache-control` extension are cached.
+* Automatic persisted queries are on by default.
+* If `sessionAuth` is configured with a `tokenAuthUrl`, verifications are cacheed by default.
+If you don't like these defaults, you can set each store name field to `"disabled"` to turn off the relevant feature. If you want to change the default cache size in bytes, add `stores: [{inMemory: {cacheSize: 123456}}]` to your Engine config (ie, the argument to `new ApolloEngine()`). If you want to change the default cache to memcached, add `stores: [{memcache: {url: "localhost:1234"}}]` to your Engine config.
 
-<h3 id="v2018.02-72-g882e543b9">2018.02-72-g882e543b9 - 2018-02-22</h3>
+Starting with v1, the Docker container releases use the same version numbers as the `apollo-engine` npm releases. The following changes are mostly relevant to users of the Docker container:
+* It's valid to specify zero frontends. Engine Proxy will default to one with all default values.
+* The deprecated `endpoint` field is removed from `frontends` configuration. Put your endpoint (GraphQL URL path) in a list in `endpoints` instead, or continue to let `apollo-engine` set it for you.
+* The `endpoints` field on frontends now defaults to `["/graphql"]` instead of being required.
+* The header secret feature (required so that double proxying middleware could tell if it's seeing the request for the first or second time) is removed. This was intended only for internal use by `apollo-engine`.
+* If you configure a frontend endpoint as `/graphql`, requests to `/graphql/` should be served also. (The `apollo-engine` `Engine` wrapper previously implemented this; now it is implemented natively inside the Engine Proxy.)
+* A bug that could lead to the warning `Encountered trace without end time. This is a bug in Engine proxy.` has been fixed.
 
+
+(v1.0.0 was a mistakenly published empty package from the beginning of apollo-engine's development. Do not use v1.0.0 --- go directly to v1.0.1!)
+
+<h3 id="v0.9.1" title="v0.9.1">0.9.1 - 2018-03-01</h3>
+
+* The `prettier` package was accidentally added as a dependency rather than a dev-only dependency in 0.9.0. It is now in devDependencies.
+
+<h3 id="v0.9.0" title="v0.9.0">0.9.0 - 2018-03-01</h3>
+
+* Simplify how the apollo-engine npm module communicates with the Engine Proxy binary.  **Backwards-incompatible changes**:
+  - The `logger` option to `new Engine` added in 0.8.9 no longer exists. It is replaced by `proxyStdoutStream` and `proxyStderrStream` options, as well as a `restarting` event on the `Engine` object.
+  - The default log style is now the same as in the Docker container release of Engine Proxy: textual logs over stdout, instead of JSON over stderr.
+* Unknown fields in the Engine config file (or `engineConfig` option to `new Engine`) and unknown options passed to `new Engine` now result in an error.
 * Added support for receiving client-provided GraphQL extensions such as `persistedQuery` over GET requests. To use GET requests (with or without persisted queries), we recommend you upgrade to [`apollo-link-http` 1.5.0](https://www.npmjs.com/package/apollo-link-http) and pass `useGETForQueries: true` to `createHttpLink` in your client code.
-* Improve error messages for GraphQL request parse failures and for several common configuration problems.
-
-<h3 id="v2018.02-50-gef2fc6d4e">2018.02-50-gef2fc6d4e - 2018-02-15</h3>
-
 * Add support for proxying non-GraphQL requests with Lambda origins. This allows serving GraphiQL directly from a Lambda handler.
-  No additional configuration is required to start using this feature.
+No additional configuration is required to start using this feature.
 * Added the ability to define the frontend port (the port Engine proxy will listen on) from an environment variable.
   To define the frontend port via the environment, remove `"port": 1234,` from the frontend configuration, and add `"portFromEnv": "MY_PORT_VARIABLE"`.
   This will cause the proxy to read the `MY_PORT_VARIABLE` environment variable.
   Heroku users in particular should set `"portFromEnv": "PORT"`.
+* Improve error messages for GraphQL request parse failures and for several common configuration problems.
+* Bugfix to automatic config reloading.
 
-<h3 id="v2018.02-37-g678cbb68b">2018.02-37-g678cbb68b – 2018-02-10</h3>
-
+<h3 id="v0.8.10" title="v0.8.10">0.8.10 - 2018-02-12</h3>
 * Added support for GZIP content encoding for responses from Lambda origins.
 * Added support for function qualifiers for Lambda origins.
 * Allows per-endpoint origin specification on frontends via `endpointMap`, a &lt;string,string&gt; map from endpoint path to `originName`. Users can use this field instead of `endpoints` and `originName` to route different URL paths on a frontend to serve different origins. If `endpointMap` is set, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. The proxy will also verify that only one of `endpoint` [deprecated], `endpoints`, and `endpointMap` are set.
@@ -38,18 +59,27 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
 	* For example, if you have two origins with names `[adminOrigin, userOrigin]` and want to forward requests to `/admin` and `/user` respectively, on the `Frontend` config, specify `"endpointMap": {"/admin":"adminOrigin", "/user":"userOrigin"}` and do not specify `endpoint` or `endpoints`.
 * Fixed a bug where all custom extensions were assumed to be maps.
 
-<h3 id="v2018.02-2-g0b77ff3e3">2018.02-2-g0b77ff3e3 – 2018-02-05</h3>
+
+<h3 id="v0.8.9" title="v0.8.9">0.8.9 - 2018-02-06</h3>
 
 * Fixed a bug where `Host` header was still not forwarded to origin servers if present.
 * Exposed stats field to better track Engine proxy memory usage.
+* Properly forward the Host header to the Engine Proxy.
+* New `logger` option to override some aspects of logging in apollo-engine. (Removed in 0.9.0.)
+* Do not override http origin url if set.
+* Allow endpoint to end with '/' or '\'.
 
-<h3 id="v2018.01-54-gce490265c">2018.01-54-gce490265c - 2018-01-31</h3>
+<h3 id="older-versions">Older versions</h3>
+
+Release notes for older versions are listed by an internal version number.
+
+<h4 id="v2018.01-54-gce490265c">2018.01-54-gce490265c - 2018-01-31</h4>
 
 * Fixed a bug where the `Host` header was not forwarded to origin servers. If the `Host` header is present, it will also be sent in the `X-Forwarded-Host` header. Both of these header values can be overridden via the field mentioned below.
 * Added the ability for users to override which headers are sent to their GraphQL origin. Users can do this by specifying the `overrideRequestHeaders` field in `origin.http` in the Engine config object. By default Engine will forward all header values it receives to the origin server. This field is only for users that want to override the default behavior.
   * For example, to override the `Host` header which may need to be done when deploying Engine inside of a PaaS (such as Heroku) follow instructions [here](setup-virtual.html).
 
-<h3 id="v2018.01-43-g1747440e6">2018.01-43-g1747440e6 - 2018-01-29</h3>
+<h4 id="v2018.01-43-g1747440e6">2018.01-43-g1747440e6 - 2018-01-29</h4>
 
 * Fixed an issue where Engine proxy would cache responses that set a cookie, causing cache hits to set the same cookie.
   Engine proxy now skips cache for:
@@ -65,11 +95,11 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
   Note that the pprof server offers no security, so a firewall etc is required if running in production.
   Enabling the debug server should not be necessary unless requested by Apollo support.
 
-<h3 id="v2018.01-17-g9c203510f">2018.01-17-g9c203510f - 2018-01-16</h3>
+<h4 id="v2018.01-17-g9c203510f">2018.01-17-g9c203510f - 2018-01-16</h4>
 
 * Fixed an issue where a data race could cause the proxy to crash.
 
-<h3 id="v2018.01-1-gc024df504">2018.01-1-gc024df504 - 2018-01-04</h3>
+<h4 id="v2018.01-1-gc024df504">2018.01-1-gc024df504 - 2018-01-04</h4>
 
 * Added a flag to disable certificate validation when communicating with HTTPS origins.
   To disable certificate validation, set `disableCertificateCheck: true` within the `http` section of the origin's configuration.
@@ -79,14 +109,14 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
   To use custom certificate authorities, set: `trustedCertificates: /etc/ssl/cert.pem` (or another file path) within the `http` section of the origin's configuration.
   CA certificates must be PEM encoded. Multiple certificates can be included in the same file.
 
-<h3 id="v2017.12-45-g12ba029f9">2017.12-45-g12ba029f9 - 2017-12-20</h3>
+<h4 id="v2017.12-45-g12ba029f9">2017.12-45-g12ba029f9 - 2017-12-20</h4>
 
 * Added support for multiple endpoints per origin through a new `endpoints` setting, deprecated the previous `endpoint` setting.
 * Added a health check URL at `/.well-known/apollo/engine-health`, currently returning HTTP status 200 unconditionally.
 * Fixed an issue where reports would always be sent on shut down, even when reporting was disabled.
 * Fixed issues with reloading of `frontend`s, and dependencies like logging and caches.
 
-<h3 id="v2017.12-28-gcc16cbea7">2017.12-28-gcc16cbea7 - 2017-12-12</h3>
+<h4 id="v2017.12-28-gcc16cbea7">2017.12-28-gcc16cbea7 - 2017-12-12</h4>
 
 * Added a flag to disable compression when communicating with HTTP origins.
   To disable compression, set `disableCompression: true` within the `http` section of the origin's configuration.
@@ -101,12 +131,12 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
 * *Breaking*: Added `name` field to origin configurations. Every defined origin must have a unique name (the empty string is OK).
   This only affects configurations with multiple origins, which should be rare.
 
-<h3 id="v2017.11-137-g908dbec6f">2017.11-137-g908dbec6f - 2017-12-05</h3>
+<h4 id="v2017.11-137-g908dbec6f">2017.11-137-g908dbec6f - 2017-12-05</h4>
 
 * Improved persisted query handling so that cache misses are not treated like other GraphQL errors.
 * Fixed an issue where GraphQL query extensions (like `persistedQuery`) would be forwarded to the origin server. This caused issues with origins other than Apollo Server.
 
-<h3 id="v2017.11-121-g2a0310e1b">2017.11-121-g2a0310e1b - 2017-11-30</h3>
+<h4 id="v2017.11-121-g2a0310e1b">2017.11-121-g2a0310e1b - 2017-11-30</h4>
 
 * Improved performance when reverse proxying non-GraphQL requests.
 * Removed `-restart=true` flag, which spawned and managed a child proxy process. This was only used by the `apollo-engine` Node.js package.
@@ -126,17 +156,17 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
 * Fixed an issue where `Content-Type` values with parameters (e.g. `application/json;charset=utf=8`) would bypass GraphQL instrumentation.
 * Added support for the Automatic Persisted Queries protocol.
 
-<h3 id="v2017.11-84-gb299b9188">2017.11-84-gb299b9188 - 2017-11-20</h3>
+<h4 id="v2017.11-84-gb299b9188">2017.11-84-gb299b9188 - 2017-11-20</h4>
 
 * Fixed GraphQL parsing bugs that prevented handling requests containing list literals and object literals.
 * Added the ability for the proxy to output JSON formatted logs.
 * Fixed a bug with reverse proxying to HTTPS origins.
 
-<h3 id="v2017.11-59-g4ff40ec30">2017.11-59-g4ff40ec30 - 2017-11-14</h3>
+<h4 id="v2017.11-59-g4ff40ec30">2017.11-59-g4ff40ec30 - 2017-11-14</h4>
 
 * Fixed passing through custom fields on GraphQL errors.
 
-<h3 id="v2017.11-40-g9585bfc6">2017.11-40-g9585bfc6 - 2017-11-09</h3>
+<h4 id="v2017.11-40-g9585bfc6">2017.11-40-g9585bfc6 - 2017-11-09</h4>
 
 * Fixed a bug where query parameters would be dropped from requests forwarded to origins.
 
@@ -165,17 +195,17 @@ The versions given here are the tags for the Docker release of Engine Proxy. The
 
 * Fixed a bug where the `X-Engine-From` header was not set in non-GraphQL requests forwarded to origins. This could result in an infinite request loop in the Node.js `apollo-engine` package.
 
-<h3 id="v2017.10-431-gdc135a5d">2017.10-431-gdc135a5d - 2017-10-26</h3>
+<h4 id="v2017.10-431-gdc135a5d">2017.10-431-gdc135a5d - 2017-10-26</h4>
 
 * Fixed an issue with per-type stats reporting.
 
-<h3 id="v2017.10-425-gdd4873ae">2017.10-425-gdd4873ae - 2017-10-26</h3>
+<h4 id="v2017.10-425-gdd4873ae">2017.10-425-gdd4873ae - 2017-10-26</h4>
 
 * Removed empty values in the request to server: `operationName`, `extensions`.
 * Improved error message when handling a request with GraphQL batching. Batching is still not supported at this time.
 
 
-<h3 id="v2017.10-408-g497e1410">2017.10-408-g497e1410</h3>
+<h4 id="v2017.10-408-g497e1410">2017.10-408-g497e1410</h4>
 
 * Removed limit on HTTP responses from origin server.
 * Fixed issue where the `apollo-engine` Node.js package would fail to clean up sidecar processes.
@@ -233,7 +263,7 @@ Is updated to:
 ```
 
 
-<h3 id="v2017.10-376-g0e29d5d5">2017.10-376-g0e29d5d5</h3>
+<h4 id="v2017.10-376-g0e29d5d5">2017.10-376-g0e29d5d5</h4>
 
 * Added (debug) log message to indicate if a query's trace was selected for reporting.
 * Fixed an issue where non-GraphQL errors (i.e. a `500` response with an HTML error page) would not be tracked as errors.

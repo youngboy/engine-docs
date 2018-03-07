@@ -86,30 +86,15 @@ Apollo Client has built-in support for batching queries in your client applicati
 
 <h2 id="apollo-server-batch-support" title="Batching, Apollo Server & Engine">Batching in Apollo Server with Engine</h2>
 
-If your origin supports batching and you'd like to pass entire batches through, set "supportsBatch": true within the origins section of the configuration:
+If your origin supports batching and you'd like to pass entire batches through, set `"supportsBatch": true` within the origins section of the configuration:
 
 ```js
-{
-  "apiKey": "<ENGINE_API_KEY>",
-  "logging": {
-    "level": "DEBUG"
-  },
-  "origins": [
-    {
-      "http": {
-        "url": "http://localhost:3000/graphql"
-      },
-      "supportsBatch": true
-    }
-  ],
-  "frontends": [
-    {
-      "host": "0.0.0.0",
-      "port": 3001,
-      "endpoint": "/graphql"
-    }
-  ]
-}
+const engine = new ApolloEngine({
+  apiKey: "ENGINE_API_KEY",
+  origins: [{
+    supportsBatch": true,
+  }],
+});
 ```
 
 Add this setting, and you're good to go! 
