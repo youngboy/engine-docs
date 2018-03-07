@@ -4,10 +4,10 @@ sidebar_title: Standalone Engine for any GraphQL server
 description: Get Engine running with your Ruby, Java, Scala, or Elixir server.
 ---
 
-The easiest way to get Engine running is our [direct integration with Node.js web frameworks and Apollo Server](./setup-node.html).  But it takes only a little more setup to get Engine working with any GraphQL server.
+The easiest way to get Engine running is our [direct integration with Node.js web frameworks and Apollo Server](./setup-node.html).  But it takes only a little more setup to get Engine working with any GraphQL API by running it as a proxy that processes requests before they hit your server.
 
 To get started with Engine, you will need to:
-1. Instrument your GraphQL server to enable the Apollo Tracing extension.
+1. Instrument your GraphQL server to add Apollo Tracing extension data to its responses.
 2. Get your Engine API key.
 3. Configure and deploy the Engine Proxy using Docker or npm.
 
