@@ -7,7 +7,7 @@ order: 20
 
 The versions given here are the tags for the Docker release of Engine Proxy. The [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) has its own versioning. Its changelog refers to entries in these release notes.
 
-<h3 id="v1.0.1" title="v1.0.1">1.0.1 - unreleased</h3>
+<h3 id="v1.0.1" title="v1.0.1">1.0.1 - 2018-03-07</h3>
 
 v1 of `apollo-engine` has a redesigned streamlined Node API called `ApolloEngine`. See [the 1.0 migration guide](./1.0-migration.html) for details on how to upgrade.  In addition to a simplified API and higher performance, the new API adds support for the Restify and Hapi v16 web frameworks, and it is easy to integrate with any Node web framework that works with `http.Server`.
 
