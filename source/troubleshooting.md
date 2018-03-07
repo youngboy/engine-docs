@@ -76,8 +76,10 @@ const engine = new ApolloEngine({
 
 Please include the following when submitting an issue to our support team:
 
-* Engine JSON configuration object
-* Type of GraphQL server and whether you are using a sidecar or standalone container
+* Platform of GraphQL server
+* Are you using `new ApolloEngine`, `new ApolloEngineLauncher`, or the Docker container?
+* Engine configuration: arguments to `new ApolloEngine` or `new ApolloEngineLauncher`, or the JSON configuration file for the Docker container
+* Platform of GraphQL server
 * The query submitted and the full response
 
 Submit your issue to [support@apollodata.com](mailto:support@apollodata.com) or join our Apollo public slack #engine channel here (https://apollographql.slack.com/).

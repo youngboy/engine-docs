@@ -10,9 +10,11 @@ To get started with Engine, you will need to:
 2. Configure and deploy the Engine proxy docker container.
 3. Send requests to your service – you're all set up!
 
-> NOTE: If using Node, we recommend running the Engine proxy as a sidecar as opposed to within a Docker container inside of a separate app / dyno. For sidecar setup, follow the instructions [here](setup-node.html).  For all other platforms, the only available option is to run the proxy in a standalone docker container.
+> NOTE: If using Node, we recommend running the Engine proxy with direction Web framework integration as opposed to within a Docker container inside of a separate app / dyno. For directly integrated setup, follow the instructions [here](setup-node.html).  For all other platforms, the only available option is to run the proxy in a standalone docker container.
 
-_Interested in writing a sidecar for your platform? [Get in touch](mailto:support@apollodata.com) with us!_
+_Interested in writing direct web framework integration for your platform? [Get in touch](mailto:support@apollodata.com) with us!_
+
+For running on Heroku specifically, see our [Heroku Engine Proxy example repo](https://github.com/apollographql/engine-heroku-example).
 
 <h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Enable Apollo Tracing</h2>
 You will need to instrument your GraphQL server with a [tracing package](apollo-tracing.html) that matches your server platform.  Engine relies on receiving data in this format to create its performance telemetry reports.
@@ -24,7 +26,7 @@ First, get your Engine API key by creating a service on http://engine.apollograp
 <h3 id="create-config-json" title="Create your Config.json">2.2 Follow the [Engine Heroku Example](https://github.com/apollographql/engine-heroku-example) to configure your Proxy</h3>
 The standalone proxy uses a JSON file placed in the Docker container's root folder to get configuration information. Changes to the config.json will cause the proxy to adopt the new configuration without downtime.  
 
-> NOTE: For Virtual Hosted environments where the `PORT` is dynamic, you can follow the guide [here](https://github.com/apollographql/engine-heroku-example) for specific instructions on how to set the port dynamically.
+> NOTE: For Virtual Hosted environments where the `PORT` is dynamically set in an environment variable named `$PORT`, you can leave out the `port` option. If your environment uses a different environment variable, you can name it with the `portFromEnv` option instead.
 
 **Create a JSON configuration file:**
 
@@ -47,8 +49,8 @@ The standalone proxy uses a JSON file placed in the Docker container's root fold
   "frontends": [
     {
       "host": "0.0.0.0",
-      "port": ${PORT}, // You may need to supply this at runtime as per example mentioned above.
-      "endpoint": "/graphql"
+      "port": "3000",
+      "graphqlPaths": ["/graphql"]
     }
   ]
 }
@@ -61,7 +63,7 @@ The standalone proxy uses a JSON file placed in the Docker container's root fold
 4. `origins.http.overrideRequestHeaders.Host`: set to the origin hostname so virtual hosting systems can properly route to the origin.
 5. `frontend.host` : The hostname the proxy should be available on.
 6. `frontend.port` : The port the proxy should bind to.
-7. `frontend.endpoint` : The path for the proxy's GraphQL server . This is usually `/graphql`.
+7. `frontend.graphqlPaths` : The path for the proxy's GraphQL server. Defaults to `['/graphql']`.
 
 For full configuration details see [Proxy config](proto-doc.html).
 
@@ -71,4 +73,3 @@ We recognize that almost every team using Engine has a slightly different deploy
 
 <h2 id="view-metrics-in-engine" title="View Metrics in Engine">3. View Metrics in Engine</h2>
 Once your server is set up, navigate your new Engine service on https://engine.apollographql.com. Start sending requests to your GraphQL server to start seeing performance metrics!
-
