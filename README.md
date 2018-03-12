@@ -11,7 +11,6 @@ This is the documentation for [Apollo Engine](https://www.apollographql.com/engi
 First, clone the repository. Then:
 
 ```
-git submodule init && git submodule update
 npm install
 npm start
 ```
