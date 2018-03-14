@@ -9,7 +9,7 @@ The versions given here are both for the [`apollo-engine` Node.js package](https
 
 <h3 id="v1.0.2" title="v1.0.2">1.0.12 - 2018-03-14</h3>
 
-* Add `overrideGraphqlResponseHeaders` frontend configuration option. This option letst you set HTTP headers to be sent with all GraphQL HTTP responses. For now, this is required to avoid CORS errors if you use [persisted queries](./auto-persisted-queries.html) from clients from a different origin from your GraphQL (Engine) frontend.
+* Add `overrideGraphqlResponseHeaders` frontend configuration option. This option lets you set HTTP headers to be sent with all GraphQL HTTP responses. For now, this is required to avoid CORS errors if you use [persisted queries](./auto-persisted-queries.html) from clients from a different origin from your GraphQL (Engine) frontend.
 * Fix bug where certain malformed GraphQL requests were reported to Engine as having taken multiple millennia.
 * Improve support for `application/graphql` requests. We still recommend sending your requests as JSON, which is supported by more servers and supports variables, operation name, and client-to-server extension, but we now deal better with `application/graphql` requests if you send them.
 * Improve error handling when your GraphQL origin sends Engine an unsupported Content-Type.
