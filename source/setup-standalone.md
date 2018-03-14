@@ -121,10 +121,10 @@ To get started with the Docker container distribution of Engine Proxy, write thi
 
 Make sure you have a working [Docker installation](https://docs.docker.com/engine/installation/), and type the following lines in your shell:
 
-{% codeblock %}
+```
 $ ENGINE_PORT=3000
-$ docker run --env "ENGINE_CONFIG=$(cat engine-config.json)" -p "${ENGINE_PORT}:${ENGINE_PORT}" gcr.io/mdg-public/engine:{% proxyDockerVersion %}
-{% endcodeblock %}
+$ docker run --env "ENGINE_CONFIG=$(cat engine-config.json)" -p "${ENGINE_PORT}:${ENGINE_PORT}" gcr.io/mdg-public/engine:1.0.1
+```
 
 This will run the Engine Proxy via Docker, routing port 3000 inside the container to port 3000 outside the container. (You can also pass `--net=host` instead of the `-p 3000:3000` to just allow the Proxy direct access to your host's network.)
 
