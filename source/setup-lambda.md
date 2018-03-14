@@ -58,6 +58,7 @@ The proxy uses a JSON object to get configuration information.
 ```
 
 **Configuration options:**
+
 1. `apiKey` : The API key for the Engine service you want to report data to.
 2. `logging.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
 3. `origin.lambda.functionArn` : The Lambda function to invoke, in the form: `arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx`
