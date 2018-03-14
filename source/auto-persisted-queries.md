@@ -28,6 +28,19 @@ const client = new ApolloClient({
 
 2. Upgrade to Apollo Engine 1.0.1 or newer. (Older versions supported APQ but required more configuration.)
 
+3. If your GraphQL server will be hosted on a different origin from where it will be accessed, you'll need to tell Engine what [CORS headers](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) to send in order to use APQ. If this step applies to you, then you will have already needed to set up CORS headers inside your app. Generally Engine can just forward your GraphQL server's CORS response headers to clients, but some messages in the APQ protocol don't involve talking to your GraphQL server, so you will need to statically configure Engine instead. (We are hoping to make this more automatic in a future version.) You can do this with the `overrideGraphqlResponseHeaders` options:
+
+```
+const engine = new ApolloEngine({
+  apiKey: process.env.API_KEY,
+  frontends: [{
+    overrideGraphqlResponseHeaders: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  }],
+});
+```
+
 That's it!
 
 Inside Apollo Engine, the query registry is stored in a user-configurable cache.  Just like with response caching, this can either be an in-memory store within the Engine proxy process, or an external memcache store that you operate in your infrastructure. By default, APQ uses a 50MB in-memory cache (shared with other caching features). Read more here about [how to configure caching](caching.html) in Engine.
