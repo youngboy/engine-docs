@@ -7,7 +7,7 @@ order: 20
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
-<h3 id="v1.0.2" title="v1.0.2">1.0.12 - 2018-03-14</h3>
+<h3 id="v1.0.2" title="v1.0.2">1.0.2 - 2018-03-14</h3>
 
 * Add `overrideGraphqlResponseHeaders` frontend configuration option. This option lets you set HTTP headers to be sent with all GraphQL HTTP responses. For now, this is required to avoid CORS errors if you use [persisted queries](./auto-persisted-queries.html) from clients from a different origin from your GraphQL (Engine) frontend.
 * Fix bug where certain malformed GraphQL requests were reported to Engine as having taken multiple millennia.
