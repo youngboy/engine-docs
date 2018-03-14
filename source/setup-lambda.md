@@ -23,7 +23,9 @@ You will need to instrument your Lambda function with a tracing package that fol
 For Node with Apollo Server, just pass the `tracing: true` option to the Apollo Server graphql integration function, just like in our [Node setup instructions](./setup-node.html#apollo-server-config).
 
 <h2 id="configure-proxy" title="Configure the Proxy">Configure the Proxy</h2>
+
 <h3 id="get-api-key" title="Get your API Key">Get your API Key</h3>
+
 First, get your Engine API key by creating a service on https://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
 
 <h3 id="create-config-json" title="Create your Config.json">Create your Proxy's Config.json</h3>
