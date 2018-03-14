@@ -58,6 +58,7 @@ The proxy uses a JSON object to get configuration information.
 ```
 
 **Configuration options:**
+
 1. `apiKey` : The API key for the Engine service you want to report data to.
 2. `logging.level` : Logging level for the proxy. Supported values are `DEBUG`, `INFO`, `WARN`, `ERROR`.
 3. `origin.lambda.functionArn` : The Lambda function to invoke, in the form: `arn:aws:lambda:xxxxxxxxxxx:xxxxxxxxxxxx:function:xxxxxxxxxxxxxxxxxxx`
@@ -74,13 +75,14 @@ For full configuration details see [Proxy config](proto-doc.html).
 The Engine proxy is a docker image that you will deploy and manage separate from your server.
 
 If you have a working [docker installation](https://docs.docker.com/engine/installation/), type the following lines in your shell (variables replaced with the correct values for your environment) to run the Engine proxy:
-```
+
+{% codeblock %}
 engine_config_path=/path/to/engine.json
 proxy_frontend_port=3001
 docker run --env "ENGINE_CONFIG=$(cat "${engine_config_path}")" \
   -p "${proxy_frontend_port}:${proxy_frontend_port}" \
-  gcr.io/mdg-public/engine:1.0.1
-```
+  gcr.io/mdg-public/engine:{% proxyDockerVersion %}
+{% endcodeblock %}
 
 This will make the Engine proxy available at `http://localhost:3001`.
 
