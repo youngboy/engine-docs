@@ -1,6 +1,5 @@
 ---
 title: AWS Lambda
-order: 2
 ---
 
 To get started with Engine for AWS Lambda, you will need to:

@@ -2,7 +2,6 @@
 title: Setup for PaaS Hosting Environments (e.g. Heroku)
 sidebar_title: PaaS (e.g. Heroku)
 description: Get Engine running with your virtually hosted GraphQL server.
-order: 2
 ---
 
 To get started with Engine, you will need to:

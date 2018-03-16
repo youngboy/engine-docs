@@ -1,6 +1,5 @@
 ---
 title: Proxy release notes
-order: 20
 ---
 
 <h2>Proxy release notes</h2>

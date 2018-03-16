@@ -1,6 +1,5 @@
 ---
 title: Proxy configuration
-order: 20
 ---
 
 The Engine Proxy has many configuration options. While all you need to set to get started is your `apiKey`, many aspects of the Proxy's behavior can be fine-tuned. This page describes all the available options.

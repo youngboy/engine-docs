@@ -1,6 +1,5 @@
 ---
 title: Setup Troubleshooting
-order: 3
 ---
 
 If you hit any issues in setting up Engine for your GraphQL service, we're here to help! First, follow these troubleshooting steps to check for any obvious issues. If these don't help, please submit a support ticket to [support@apollographql.com](mailto:support@apollographql.com) and we'll work with you to get you up and running!

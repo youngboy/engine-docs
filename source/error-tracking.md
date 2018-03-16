@@ -1,6 +1,5 @@
 ---
 title: Error Tracking
-order: 3
 ---
 
 The Engine proxy service is designed to accept traces, or resolver execution timings, from your application anytime there is an error, along with various samples of total requests, and bucket these by service time percentile. While the total number of requests are sampled and shown as a percentage of total incoming requests, all errors will be included and shown in the final collection.
