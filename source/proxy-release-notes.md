@@ -60,7 +60,6 @@ No additional configuration is required to start using this feature.
 * Added support for GZIP content encoding for responses from Lambda origins.
 * Added support for function qualifiers for Lambda origins.
 * Allows per-endpoint origin specification on frontends via `endpointMap`, a &lt;string,string&gt; map from endpoint path to `originName`. Users can use this field instead of `endpoints` and `originName` to route different URL paths on a frontend to serve different origins. If `endpointMap` is set, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. The proxy will also verify that only one of `endpoint` [deprecated], `endpoints`, and `endpointMap` are set.
-
 	* For example, if you have two origins with names `[adminOrigin, userOrigin]` and want to forward requests to `/admin` and `/user` respectively, on the `Frontend` config, specify `"endpointMap": {"/admin":"adminOrigin", "/user":"userOrigin"}` and do not specify `endpoint` or `endpoints`.
 * Fixed a bug where all custom extensions were assumed to be maps.
 
