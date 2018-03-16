@@ -34,6 +34,9 @@ github_repo: apollographql/engine-docs
 
 apis:
   segment: awKBAQ3eIgXIChDoy119j6ab4R4tqcXr
+  docsearch:
+    apiKey: 768e823959d35bbd51e4b2439be13fb7
+    indexName: apollodata
 
 nav_links:
   'Engine':
