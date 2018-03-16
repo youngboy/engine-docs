@@ -1,6 +1,5 @@
 ---
 title: Proxy release notes
-order: 20
 ---
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
