@@ -12,7 +12,7 @@ Engine sits between your clients and your GraphQL server, delivering essential c
 ![The Engine Architecture](./img/engine-architecture.svg)
 </div>
 
-To find out more about what it does and how it works, read on! If you're already familiar with Engine, [sign into the Apollo Engine app](https://engine.apollographql.com/) and select your GraphQL server environment for details about how to integrate Engine.
+To find out more about what it does and how it works, read on! If you're already familiar with Engine, sign into the [Apollo Engine Service View](https://engine.apollographql.com/) and select your GraphQL server environment for details about how to integrate Engine.
 
 <h2 id="features">Features</h2>
 
