@@ -21,6 +21,7 @@ sidebar_categories:
     - error-tracking
     - caching
     - auto-persisted-queries
+    - features/schema-analytics
     - query-batching
   Guides:
     - troubleshooting

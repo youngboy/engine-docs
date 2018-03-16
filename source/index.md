@@ -6,11 +6,13 @@ description: Learn how Apollo Engine works, and how to set it up for performance
 
 [Apollo Engine](https://www.apollographql.com/engine/) is a GraphQL gateway that helps you take GraphQL services into production with confidence.
 
-Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, automatic persisted queries, and execution tracing. It works with any spec-compliant GraphQL server, including Apollo Server, GraphQL-Ruby, Sangria, and Absinthe.
+Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, automatic persisted queries, and execution tracing. It works with any spec-compliant GraphQL server, including Apollo Server, GraphQL-Ruby, Sangria, and Absinthe. You can visualize your full GraphQL stack enabled with Engine like this:
 
-To get started, [go to the Apollo Engine app and sign in](https://engine.apollographql.com/).
+<div style="text-align:center">
+![The Engine Architecture](./img/engine-architecture.png)
+</div>
 
-For details about how to integrate Engine into your GraphQL server, select your server language and environment in the sidebar on the left. To find out more about what it does and how it works, read on!
+To find out more about what it does and how it works, read on! If you're already familiar with Engine, [sign into the Apollo Engine app](https://engine.apollographql.com/) and select your GraphQL server environment for details about how to integrate Engine.
 
 <h2 id="features">Features</h2>
 
@@ -20,9 +22,7 @@ Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure.
 1. [Error tracking](./error-tracking.html)
 1. [Response caching](./caching.html)
 1. [Automatic persisted queries](./auto-persisted-queries.html)
-1. Schema analytics
-
-Learn more about the features and how they'll help you work with GraphQL [here](https://www.apollographql.com/engine/).
+1. [Schema analytics](./features/schema-analytics.html)
 
 <h2 id="components">Engine components</h2>
 
@@ -40,8 +40,10 @@ Engine uses a proxy component written in Go that runs inside your infrastructure
 There are two options for running the Engine proxy:
 
 - [**Node web framework integration package**](./setup-node.html): If your GraphQL server is written in Node, you can use the `apollo-engine` npm package's `ApolloEngine` API to automatically run the Engine Proxy in front of your app. This API integrates smoothly with all popular Node web framework to run the Engine Proxy as a child process in front of your server with [just two lines of code](./setup-node.html). This option is simpler to set up and doesn't involve a container.
-- **Standalone proxy**: To have full control over the proxy component, you can easily deploy it as a standalone Docker container or a small Node script the same way you deploy other parts of your application, manually configuring how it connects to the rest of your infrastructure. This option is best for non-Node GraphQL servers.
+- [**Standalone proxy**](./setup-standalone.html): To have full control over the proxy component, you can easily deploy it as a standalone Docker container or a small Node script the same way you deploy other parts of your application, manually configuring how it connects to the rest of your infrastructure. This option is best for [Node power users](./setup-standalone.html) and [non-Node GraphQL servers](./setup-standalone.html).
+
+In addition to deployment as a composed or standalone container, Engine is easily deployed in a serverless environment, such as [AWS Lambda](./setup-lambda.html), or on any [platform as a service](./setup-virtual.html), such as [Heroku](./setup-virtual.html).
 
 <h3 id="engine-service">Engine Service</h3>
 
-The Engine Service is the part of Engine that runs in our cloud. It consumes reports from the proxy, aggregates data, and displays a management UI so you know what's going on inside your GraphQL infrastructure. This is the application that you sign into at <https://engine.apollographql.com/>.
+The Engine Service is the part of Engine that runs in our cloud. It consumes reports from the proxy, aggregates data, and displays a management UI so you know what's going on inside your GraphQL infrastructure. To get started using Engine, sign into the [web portal](https://engine.apollographql.com).
