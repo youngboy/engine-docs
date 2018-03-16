@@ -6,10 +6,10 @@ description: Learn how Apollo Engine works, and how to set it up for performance
 
 [Apollo Engine](https://www.apollographql.com/engine/) is a GraphQL gateway that helps you take GraphQL services into production with confidence.
 
-Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, automatic persisted queries, and execution tracing. It works with any spec-compliant GraphQL server, including Apollo Server, GraphQL-Ruby, Sangria, and Absinthe. You can visualize your full GraphQL stack enabled with Engine like this:
+Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, automatic persisted queries, and execution tracing. It works with any spec-compliant GraphQL server, including Apollo Server, GraphQL-Ruby, Sangria, and Absinthe. You can visualize your GraphQL stack enabled with Engine like this:
 
 <div style="text-align:center">
-![The Engine Architecture](./img/engine-architecture.png)
+![The Engine Architecture](./img/engine-architecture.svg)
 </div>
 
 To find out more about what it does and how it works, read on! If you're already familiar with Engine, [sign into the Apollo Engine app](https://engine.apollographql.com/) and select your GraphQL server environment for details about how to integrate Engine.
