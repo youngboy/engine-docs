@@ -56,6 +56,7 @@ No additional configuration is required to start using this feature.
 * Bugfix to automatic config reloading.
 
 <h2 id="v0.8.10" title="v0.8.10">0.8.10 - 2018-02-12</h2>
+
 * Added support for GZIP content encoding for responses from Lambda origins.
 * Added support for function qualifiers for Lambda origins.
 * Allows per-endpoint origin specification on frontends via `endpointMap`, a &lt;string,string&gt; map from endpoint path to `originName`. Users can use this field instead of `endpoints` and `originName` to route different URL paths on a frontend to serve different origins. If `endpointMap` is set, the Proxy will return a 404 error to HTTP requests sent to paths that don't match one of its keys. The proxy will also verify that only one of `endpoint` [deprecated], `endpoints`, and `endpointMap` are set.
