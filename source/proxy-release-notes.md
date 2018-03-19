@@ -4,6 +4,12 @@ title: Proxy release notes
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
+<h2 id="v1.0.3" title="v1.0.3">1.0.3 - 2018-03-19</h2>
+
+This version only has JS changes: the Docker container release is identical to 1.0.2.
+
+* `engine.listen()` and `launcher.start()` now register handlers for the `exit`, `uncaughtException`, `SIGINT`, `SIGTERM`, and `SIGUSR2` [events on `process`](https://nodejs.org/api/process.html#process_process_events) to kill the Engine Proxy process. You can customize the list of events with the new `processCleanupEvents` option.
+
 <h2 id="v1.0.2" title="v1.0.2">1.0.2 - 2018-03-14</h2>
 
 * Add `overrideGraphqlResponseHeaders` frontend configuration option. This option lets you set HTTP headers to be sent with all GraphQL HTTP responses. For now, this is required to avoid CORS errors if you use [persisted queries](./auto-persisted-queries.html) from clients from a different origin from your GraphQL (Engine) frontend.
