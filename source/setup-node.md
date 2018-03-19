@@ -73,7 +73,7 @@ const { ApolloEngine } = require('apollo-engine');
 // Initialize your Express app like before
 const app = express();
 
-// All of your GraphQL middleware go here
+// All of your GraphQL middleware goes here
 app.use('/graphql', ...);
 
 // Initialize engine with your API key
