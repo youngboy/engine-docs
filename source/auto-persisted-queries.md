@@ -12,7 +12,6 @@ The concept is simple: by sending a query ID or hash instead of an entire GraphQ
 It's easy to get started with APQ:
 
 1. Add the [Automatic Persisted Queries Link](https://github.com/apollographql/apollo-link-persisted-queries) to your client codebase: `npm install apollo-link-persisted-queries`, and add the APQ link to your Apollo Client's link before the HTTP link:
-
 ```js
 import { createPersistedQueryLink } from "apollo-link-persisted-queries";
 import { createHttpLink } from "apollo-link-http";
@@ -25,7 +24,6 @@ const client = new ApolloClient({
   link: link,
 });
 ```
-
 2. Upgrade to Apollo Engine 1.0.1 or newer. (Older versions supported APQ but required more configuration.)
 
 3. If your GraphQL server will be hosted on a different origin from where it will be accessed, you'll need to tell Engine what [CORS headers](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) to send in order to use APQ. If this step applies to you, then you will have already needed to set up CORS headers inside your app. Generally Engine can just forward your GraphQL server's CORS response headers to clients, but some messages in the APQ protocol don't involve talking to your GraphQL server, so you will need to statically configure Engine instead. (We are hoping to make this more automatic in a future version.) You can do this with the `overrideGraphqlResponseHeaders` options:
