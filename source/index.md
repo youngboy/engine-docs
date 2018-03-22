@@ -29,7 +29,7 @@ Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure.
 Engine consists of two parts:
 
 1. **Engine Proxy:** A thin, fast proxy that is deployed into your own cloud or datacenter, sitting in the request path right next to your GraphQL services.
-2. **Engine service:** This runs in our cloud, is centrally managed, monitored, and automatically scaled for you. This is the part that displays the management UI for Engine and stores aggregated data about performance, errors, cache hits, and more.
+2. **Engine Service:** This runs in our cloud, is centrally managed, monitored, and automatically scaled for you. This is the part that displays the management UI for Engine and stores aggregated data about performance, errors, cache hits, and more.
 
 We've designed it in this way so that your application data never leaves your infrastructure. It also allows us to build features that process your GraphQL requests and responses, such as response caching, automatic persisted queries, and more.
 
@@ -46,4 +46,4 @@ In addition to deployment as a composed or standalone container, Engine is easil
 
 <h3 id="engine-service">Engine Service</h3>
 
-The Engine Service is the part of Engine that runs in our cloud. It consumes reports from the proxy, aggregates data, and displays a management UI so you know what's going on inside your GraphQL infrastructure. To get started using Engine, sign into the [web portal](https://engine.apollographql.com).
+The Engine Service is the part of Engine that runs in our cloud. It consumes reports from the proxy, aggregates data, and displays a management UI so you know what's going on inside your GraphQL infrastructure. To get started using Engine, sign into the [Engine UI](https://engine.apollographql.com).
