@@ -6,13 +6,13 @@ description: Learn how Apollo Engine works, and how to set it up for performance
 
 [Apollo Engine](https://www.apollographql.com/engine/) is a GraphQL gateway that helps you take GraphQL services into production with confidence.
 
-Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, automatic persisted queries, and execution tracing. It works with any spec-compliant GraphQL server, including Apollo Server, GraphQL-Ruby, Sangria, and Absinthe. You can visualize your GraphQL stack enabled with Engine like this:
+Engine sits between your clients and your GraphQL server, delivering essential capabilities like query caching, error tracking, automatic persisted queries, execution tracing, and schema analytics. It works with any spec-compliant GraphQL server, including [Apollo Server](https://www.apollographql.com/docs/apollo-server/), GraphQL-Ruby, Sangria, and Absinthe. The data collected by Engine's proxy is aggregated and sent out-of-band to the Engine Service during times of low utilization. You can visualize your GraphQL stack enabled with Engine like this:
 
 <div style="text-align:center">
 ![The Engine Architecture](./img/engine-architecture.svg)
 </div>
 
-To find out more about what it does and how it works, read on! If you're already familiar with Engine, sign into the [Apollo Engine Service View](https://engine.apollographql.com/) and select your GraphQL server environment for details about how to integrate Engine.
+To find out more about what it does and how it works, read on! If you're already familiar with Engine, sign into the [Apollo Engine UI](https://engine.apollographql.com/) and select your GraphQL server environment for details about how to integrate Engine.
 
 <h2 id="features">Features</h2>
 
@@ -42,7 +42,7 @@ There are two options for running the Engine proxy:
 - [**Node web framework integration package**](./setup-node.html): If your GraphQL server is written in Node, you can use the `apollo-engine` npm package's `ApolloEngine` API to automatically run the Engine Proxy in front of your app. This API integrates smoothly with all popular Node web framework to run the Engine Proxy as a child process in front of your server with [just two lines of code](./setup-node.html). This option is simpler to set up and doesn't involve a container.
 - [**Standalone proxy**](./setup-standalone.html): To have full control over the proxy component, you can easily deploy it as a standalone Docker container or a small Node script the same way you deploy other parts of your application, manually configuring how it connects to the rest of your infrastructure. This is the best option for [non-Node GraphQL servers](./setup-standalone.html). The Docker deployment is also great for those who want to compartmentalize their resources or those who have move advanced infrastrucure requirements.
 
-In addition to deployment as a composed or standalone container, Engine is easily deployed in a serverless environment, such as [AWS Lambda](./setup-lambda.html), or on any [platform as a service](./setup-virtual.html), such as [Heroku](./setup-virtual.html).
+In addition to deployment as a composed or standalone container, Engine is easily deployed in a serverless environment, such as [AWS Lambda](./setup-lambda.html), or on any [platform as a service](./setup-virtual.html), such as Heroku.
 
 <h3 id="engine-service">Engine Service</h3>
 

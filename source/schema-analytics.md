@@ -3,7 +3,7 @@ title: Schema Analytics
 description: Understand the performance usage of your GraphQL Schema
 ---
 
-Engine provides a view into your GraphQL schema at two levels of granularity: full service and per operation. These two views are useful for determining your service and operations behavior across queries per field. With cross-query schema knowledge, you are better able to understand the larger context around an individual query in [performance tracing](./performance.html) or [error tracking](./error-tracking.html).
+Engine provides insight into your GraphQL schema at two levels of granularity: full service and per operation. These two views are useful for determining your service and operations behavior across queries per field. With cross-query schema knowledge, you are better able to understand the larger context around an individual query in [performance tracing](./performance.html) or [error tracking](./error-tracking.html).
 
 <h2 id="service">Full Service View</h2>
 
