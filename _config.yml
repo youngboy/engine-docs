@@ -18,10 +18,10 @@ sidebar_categories:
     - setup-virtual
   Features:
     - performance
+    - schema-analytics
     - error-tracking
     - caching
     - auto-persisted-queries
-    - features/schema-analytics
     - query-batching
   Guides:
     - troubleshooting
