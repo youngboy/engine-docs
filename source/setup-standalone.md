@@ -78,11 +78,11 @@ const launcher = new ApolloEngineLauncher({
   // Tell the Proxy on what port to listen, and which paths should
   // be treated as GraphQL instead of transparently proxied as raw HTTP.
   // You can leave out the frontend section if you want: the default for
-  // 'port' is process.env.PORT, and the default for graphqlPaths is
+  // 'port' is process.env.PORT, and the default for endpoints is
   // ['/graphql'].
   frontends: [{
     port: 3000,
-    graphqlPaths: ['/api/graphql'],
+    endpoints: ['/api/graphql'],
   }],
 });
 
@@ -94,7 +94,7 @@ Now run this program with Node. The Proxy should start up and accept connections
 
 If you see the above, congratulations, you're up and running!
 
-In general, the argument to `new ApolloEngineLauncher()` is the same as the argument Node GraphQL users pass to `new ApolloEngine()`, except that you need to specify the origin's HTTP URL yourself with `new ApolloEngineLauncher()`, and the frontend `port` and `graphqlPaths` (if you're not using the default values of `process.env.PORT` and `['/graphql']`) are specified inside the constructor instead of as options to `listen()`.
+In general, the argument to `new ApolloEngineLauncher()` is the same as the argument Node GraphQL users pass to `new ApolloEngine()`, except that you need to specify the origin's HTTP URL yourself with `new ApolloEngineLauncher()`, and the frontend `port` and `endpoints` (if you're not using the default values of `process.env.PORT` and `['/graphql']`) are specified inside the constructor instead of as options to `listen()`.  (We use the name `endpoints` in `ApolloEngineLauncher` instead of `graphqlPaths`; this is an older name and we intend to update it to consistently say `graphqlPaths`.)
 
 <h3 id="docker">Running a standalone Proxy with Docker</h3>
 
@@ -114,7 +114,7 @@ To get started with the Docker container distribution of Engine Proxy, write thi
   }],
   "frontends": [{
     "port": 3000,
-    "graphqlPaths": ["/api/graphql"]
+    "endpoints": ["/api/graphql"]
   }]
 }
 ```
@@ -130,7 +130,7 @@ This will run the Engine Proxy via Docker, routing port 3000 inside the containe
 
 The Proxy should start up and accept connections at http://localhost:3000 and forward all requests to your server at http://localhost:4000. Load GraphiQL through Engine at http://localhost:3000/graphiql (or wherever you have configured your app to serve GraphiQL) and run any query. You should no longer see the `tracing` data in the result since Engine is now consuming it! Check the Engine UI for your new service, and you should see it confirm that the setup worked.
 
-In general, the Engine config file is the same as the argument Node GraphQL users pass to `new ApolloEngine()`, except that you need to specify the origin's HTTP URL yourself with the engine config file, and the frontend `port` and `graphqlPaths` (if you're not using the default values of `process.env.PORT` and `['/graphql']`) are specified inside the constructor instead of as options to `listen()`. (Plus, it needs to be valid JSON: quoted keys, no trailing commas, no comments, etc.) The semantics of the Engine config file are identical to the argument to `new ApolloEngineLauncher()`.
+In general, the Engine config file is the same as the argument Node GraphQL users pass to `new ApolloEngine()`, except that you need to specify the origin's HTTP URL yourself with the engine config file, and the frontend `port` and `endpoints` (if you're not using the default values of `process.env.PORT` and `['/graphql']`) are specified inside the config file instead of as options to `listen()`. (Plus, it needs to be valid JSON: quoted keys, no trailing commas, no comments, etc.) The semantics of the Engine config file are identical to the argument to `new ApolloEngineLauncher()`.  (We use the name `endpoints` in the config JSON file instead of `graphqlPaths`; this is an older name and we intend to update it to consistently say `graphqlPaths`.)
 
 You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, and some commonly-used fields worth knowing about are described below in the [`new ApolloEngineLauncher()` docs](#api-apollo-engine-launcher).
 
@@ -178,7 +178,7 @@ const launcher = new ApolloEngineLauncher({
 
       // If your HTTP server has more than one GraphQL server hosted
       // on different paths, and you've listed them all in your frontend's
-      // graphqlPaths field, set this to true and change the URL above
+      // endpoints field, set this to true and change the URL above
       // to your site's root (eg, 'http://localhost:4000') to tell Engine
       // Proxy to forward each of them to the matching path on this site.
       // (Otherwise, the Proxy will send all requests to the URL specified
@@ -210,7 +210,7 @@ const launcher = new ApolloEngineLauncher({
     // The URL paths which the Engine Proxy will treat as GraphQL
     // instead of proxying transparently without parsing. Defaults to
     // ['/graphql'].
-    graphqlPaths: ['/api1/graphql', '/api2/graphql'],
+    endpoints: ['/api1/graphql', '/api2/graphql'],
     // The interface on which the Engine Proxy will accept connections.
     // Defaults to listening on all interfaces. For example, if your
     // machine is publically accessible on the Internet but you only
