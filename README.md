@@ -16,3 +16,7 @@ npm start
 ```
 
 We use a git submodule to load the documentation theme, which is why you need one extra step.
+
+## Contributing
+
+Issues and PRs are always welcome
