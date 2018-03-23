@@ -4,6 +4,19 @@ title: Proxy release notes
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
+<h2 id="v1.0.4" title="v1.0.4">1.0.4 - 2018-03-23</h2>
+
+* The Engine Proxy now will compress responses to GraphQL queries by default if the client sends the standard HTTP `Accept-Encoding: gzip` header. You can disable this by passing `frontends: [{responseCompression: {disabled: true}}]` to the `ApolloEngine` constructor. (The Engine Proxy continues to accept compressed responses from your GraphQL origin by default as well.) Engine will never proactively compress responses to requests on non-GraphQL paths but will pass through any compression applied by the server it is proxying to.
+* The Engine Proxy has better support for HTTP caching headers:
+    * The Engine Proxy has a better parser for `Cache-Control` and similar headers sent by your GraphQL origin, which it can use to constrain the response's cache policy further than what the GraphQL `cacheControl` extension dictates. We still recommend that Engine users use the `cacheControl` GraphQL extension (if supported by your GraphQL server library) rather than HTTP caching headers so that your GraphQL server will be ready for partial query caching.
+    * The Engine Proxy now sets the `Cache-Control` header on cacheable GraphQL responses.
+    * The Engine Proxy now sets the `Age` header when serving responses from the query response cache.
+    * The Engine Proxy now respects the `Cache-Control: no-cache` HTTP header in client requests.
+* The Engine Proxy has more detailed logging about caching decisions when `logging.level` is set to `DEBUG`.
+* The Engine Proxy binary properly shuts down on the `SIGUSR2` signal (which is sent by the `nodemon` utility).
+* More details about GraphQL errors are included in traces sent to the Engine Service.
+* The `apollo-engine` npm package now includes all the dependencies needed to be included in a TypeScript project.
+
 <h2 id="v1.0.3" title="v1.0.3">1.0.3 - 2018-03-19</h2>
 
 This version only has JS changes: the Docker container release is identical to 1.0.2.
