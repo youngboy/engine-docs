@@ -183,9 +183,9 @@ engine.listen({
 });
 ```
 
-#### Micro (and Node's built-in `http.Server`)
+#### Micro
 
-The app objects in the Micro framework are just instances of Node's built-in `http.Server`. These instructions work for Micro as well as for `http.Server` itself, or any other framework not explicitly supported which gives you access to an `http.Server`.
+The app objects in the Micro framework are just instances of Node's built-in `http.Server`. 
 
 Follow the same instructions as for Express, but specify your server with the `httpServer` option instead.
 
@@ -229,6 +229,22 @@ If you want to pass options to the Engine listener, you can pass them as the sec
 
 ```js
 engine.meteorListen(WebApp, { graphqlPaths: [ "/other-graphql" ]});
+```
+
+#### Other Frameworks (and Node's built-in `http.Server`)
+
+These instructions work for any framework not explicitly supported which gives you access to an `http.Server`, and for `http.Server` itself.
+
+Follow the same instructions as for Express, but specify your server with the `httpServer` option instead.
+
+```js
+const server = micro(microRouter.post('/graphql', handler));
+
+// Replace your server.listen with engine.listen
+engine.listen({
+  port: 3000,
+  httpServer: server,
+});
 ```
 
 <h2 id="lambda">AWS Lambda</h2>
