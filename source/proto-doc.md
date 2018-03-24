@@ -114,12 +114,12 @@ Configuration for GraphQL response extensions.
 <a name="mdg.engine.config.proto.Config.Frontend.ResponseCompression"/>
 
 ## Frontend.ResponseCompression
-Configuration for compressing responses to GraphQL queries.
+Configuration of GraphQL response compression.
 
 
 <dl>
 <dt>disabled (bool)</dt>
-<dd><p>By default, Engine will compress responses to GraphQL queries if the client sends the standard HTTP `Accept-Encoding: gzip` header. Set this to true to ignore `Accept-Encoding: gzip`. This is independent of disabling compression when Engine sends GraphQL queries to your origin, which is configured in `http.disableCompression` on your Origin. Engine will never proactively compress responses to requests on non-GraphQL paths but will pass through any compression applied by the server it is proxying to.</p></dd>
+<dd><p>By default, Engine will respect the `Accept-Encoding` HTTP header and use compression if `gzip` is supported by its client. Set this to true to ignore `Accept-Encoding: gzip`. This is independent of disabling compression when Engine sends GraphQL queries to your origin, which is configured in `http.disableCompression` on your Origin. Engine will never proactively compress responses to requests on non-GraphQL paths but will pass through any compression applied by the server it is proxying to.</p></dd>
 <dt>minSizeToCompress (int32)</dt>
 <dd><p>By default, Engine will not compress responses that are less than 1400 bytes. Set this option to change that threshold.</p></dd>
 <dt>compressionLevel (int32)</dt>
