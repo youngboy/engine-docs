@@ -238,7 +238,11 @@ These instructions work for any framework not explicitly supported which gives y
 Follow the same instructions as for Express, but specify your server with the `httpServer` option instead.
 
 ```js
-const server = micro(microRouter.post('/graphql', handler));
+const http = require('http');
+
+const server = http.createServer((request, response) => {
+  // code goes here!
+});
 
 // Replace your server.listen with engine.listen
 engine.listen({
