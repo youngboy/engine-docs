@@ -64,7 +64,7 @@ The standalone proxy uses a JSON file placed in the Docker container's root fold
 6. `frontend.port` : The port the proxy should bind to.
 7. `frontend.graphqlPaths` : The path for the proxy's GraphQL server. Defaults to `['/graphql']`.
 
-For full configuration details see [Proxy config](proto-doc.html).
+For full configuration details see [Proxy config](proxy-config.html).
 
 It does not matter where you choose to deploy and manage your Engine proxy. We run our own on Amazon's [EC2 Container Service](https://aws.amazon.com/ecs/).
 

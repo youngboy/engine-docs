@@ -132,7 +132,7 @@ The Proxy should start up and accept connections at http://localhost:3000 and fo
 
 In general, the Engine config file is the same as the argument Node GraphQL users pass to `new ApolloEngine()`, except that you need to specify the origin's HTTP URL yourself with the engine config file, and the frontend `port` and `endpoints` (if you're not using the default values of `process.env.PORT` and `['/graphql']`) are specified inside the config file instead of as options to `listen()`. (Plus, it needs to be valid JSON: quoted keys, no trailing commas, no comments, etc.) The semantics of the Engine config file are identical to the argument to `new ApolloEngineLauncher()`.  (We use the name `endpoints` in the config JSON file instead of `graphqlPaths`; this is an older name and we intend to update it to consistently say `graphqlPaths`.)
 
-You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, and some commonly-used fields worth knowing about are described below in the [`new ApolloEngineLauncher()` docs](#api-apollo-engine-launcher).
+You can find the complete set of configuration that Engine accepts in the [full API docs](./proxy-config.html) page, and some commonly-used fields worth knowing about are described below in the [`new ApolloEngineLauncher()` docs](#api-apollo-engine-launcher).
 
 We recognize that almost every team using Engine has a slightly different deployment environment, and encourage you to [contact us](mailto: support@apollodata.com) with feedback or for help if you encounter problems running the Engine Proxy.
 
@@ -150,7 +150,7 @@ To get started, the only configuration fields you need to specify are `apiKey` (
 
 This configuration is identical to the argument to `new ApolloEngine()`, which is the API most of our docs describe, except that you must specify your GraphQL server's origin http URL (or other origin type like [Lambda](./setup-lambda.html)) inside the config argument, and you need to specify the frontend port and GraphQL paths inside the config argument rather than separately (if you're not using the default values of `process.env.PORT` and `['/graphql']`).
 
-You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, but here are some commonly-used fields worth knowing about:
+You can find the complete set of configuration that Engine accepts in the [full API docs](./proxy-config.html) page, but here are some commonly-used fields worth knowing about:
 
 ```js
 const launcher = new ApolloEngineLauncher({

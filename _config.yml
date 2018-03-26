@@ -24,7 +24,7 @@ sidebar_categories:
     - upgrade-optics
     - billing
   Reference:
-    - proto-doc
+    - proxy-config
     - proxy-release-notes
 github_repo: apollographql/engine-docs
 

@@ -267,7 +267,7 @@ The `ApolloEngine` class is the main API for running the Engine Proxy and integr
 
 To get started, the only configuration field you need to specify is `apiKey`: the Engine API key copied from the Engine website.
 
-You can find the complete set of configuration that Engine accepts in the [full API docs](./proto-doc.html) page, but here are some commonly-used fields worth knowing about:
+You can find the complete set of configuration that Engine accepts in the [full API docs](./proxy-config.html) page, but here are some commonly-used fields worth knowing about:
 
 ```js
 const engine = new ApolloEngine({
