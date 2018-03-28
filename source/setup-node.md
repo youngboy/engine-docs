@@ -231,6 +231,19 @@ If you want to pass options to the Engine listener, you can pass them as the sec
 engine.meteorListen(WebApp, { graphqlPaths: [ "/other-graphql" ]});
 ```
 
+#### Nest
+
+Nest's listen function does two things, unlike Express/Connect/etc's which does one thing, so in order to decouple them you have to do this:
+
+```js
+// Replace your app.listen with engine.listen after awaiting app.init()
+await app.init();
+await engine.listen({
+  port: PORT,
+  httpServer: app.getHttpServer(),
+});
+```
+
 #### Other Frameworks (and Node's built-in `http.Server`)
 
 These instructions work for any framework not explicitly supported which gives you access to an `http.Server`, and for `http.Server` itself.
