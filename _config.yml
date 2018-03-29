@@ -16,6 +16,7 @@ sidebar_categories:
     - schema-analytics
     - error-tracking
     - caching
+    - reports
     - auto-persisted-queries
     - query-batching
   Guides:
