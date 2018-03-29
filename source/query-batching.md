@@ -92,7 +92,7 @@ If your origin supports batching and you'd like to pass entire batches through, 
 const engine = new ApolloEngine({
   apiKey: "ENGINE_API_KEY",
   origins: [{
-    supportsBatch": true,
+    supportsBatch: true,
   }],
 });
 ```
