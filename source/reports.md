@@ -34,14 +34,14 @@ At this point, you should receive a confirmation message from Engine in the Slac
 
 If you don't receive a confirmation, please reach out to [support](mailto:support@apollodata.com) so we can help you get things set up!
 
-After a few minutes to an hour, you should see your first report show up in the Slack channel. Congratulations! You'll now get a report from Engine every day at 9 am Pacific time.
+After you should see your first report show up in the Slack channel within 24 hours. Congratulations! You'll now get a report from Engine every day at 9 am Pacific time.
 
 <h2 id="usage">Using the report</h2>
 
 We've constructed the report provided to give you an actionable summary of what's happened in your API in the last 24 hours. Here’s how you can use it to identify issues:
 
-1. **Request rate:** This shows you how many queries are hitting your server every minute, along with a list of the most popular operations. If you see a huge dip in this, it might mean queries aren’t able to reach your server, or some client is down.
-2. **p95 service time:** This shows you how long queries are taking to execute. We selected p95 since it’s the best overall representation of how your users are experiencing your app. You can use this to identify that your API is overloaded and users are seeing long loading delays, or to find out which queries are taking the longest to run.
+1. **Request rate:** This shows you how many queries are hitting your server every minute, along with a list of the most popular operations. If you see a huge dip in this and it's usually a busy time for your app, it might mean that queries aren’t able to reach your server, or some client is down.
+2. **p95 service time:** This shows you how long queries are taking to execute. We selected p95 since it’s the best overall representation of how your users are experiencing your app. You can use this to identify that your API is overloaded and users are seeing long loading delays, or to find out which queries are taking the longest to run. This is usually directly connected to UI performance, so a 500ms query probably means some part of your UI is taking that long to display.
 3. **Error percentage:** This will show you how many of your GraphQL requests end up with an error result. Spikes in errors might be the result of some underlying backend malfunctioning. You can also see which of your operations are most error-prone.
 
 <h3 id="click-operation">Getting operation details</h3>
