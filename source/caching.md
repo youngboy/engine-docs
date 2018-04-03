@@ -184,6 +184,28 @@ const resolvers = {
 }
 ```
 
+<h3 id="default-max-age">Setting a default `maxAge`</h3>
+
+The power of cache hints comes from being able to set them precisely to different values on different types and fields based on your understanding of your implementation's semantics. But when getting started with Apollo Cache Control, you might just want to apply the same `maxAge` to most of your resolvers. You can specify a default max age when you set up `cacheControl` in your server. This max age will be applied to all resolvers which don't explicitly set `maxAge` via schema hints (including schema hints on the type that they return) or the programmatic API. You can override this for a particular resolver or type by setting `@cacheControl(maxAge: 0)`.
+
+Just like when you set `@cacheControl(maxAge: 5)` explicitly on a field or a type, data is considered to be public by default and the cache will be shared among all users of your site, so when using this option, be sure that you're really OK with creating a shared cache for all of your GraphQL queries. You can still override a specific type or resolver to use the private cache by setting `@cacheControl(scope: PRIVATE)`.
+
+For example, for Express:
+
+```javascript
+app.use('/graphql', bodyParser.json(), graphqlExpress({
+  schema,
+  context: {},
+  tracing: true,
+  cacheControl: {
+    defaultMaxAge: 5,
+  },
+}));
+```
+
+Setting `defaultMaxAge` requires `apollo-server-*` 1.3.4 or newer.
+
+
 <h2 id="engine-cache-config">3. Optional: Configure cache options</h2>
 
 As long as you're using Engine 1.0 or newer, you don't have to configure anything in your Engine configuration to use public response caching.  Engine provides a default 50MB in-memory cache.
