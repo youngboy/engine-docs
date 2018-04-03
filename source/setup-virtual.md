@@ -1,6 +1,6 @@
 ---
-title: Setup for PaaS Hosting Environments (e.g. Heroku)
-sidebar_title: PaaS (e.g. Heroku)
+title: Hosting Engine in PaaS Environments (e.g. Heroku)
+sidebar_title: Engine Stand-alone on PaaS
 description: Get Engine running with your virtually hosted GraphQL server.
 ---
 
@@ -23,7 +23,7 @@ You will need to instrument your GraphQL server with a [tracing package](apollo-
 First, get your Engine API key by creating a service on http://engine.apollographql.com/. You will need to log in and click "Add Service" to recieve your API key.
 
 <h3 id="create-config-json" title="Create your Config.json">2.2 Follow the [Engine Heroku Example](https://github.com/apollographql/engine-heroku-example) to configure your Proxy</h3>
-The standalone proxy uses a JSON file placed in the Docker container's root folder to get configuration information. Changes to the config.json will cause the proxy to adopt the new configuration without downtime.  
+The standalone proxy uses a JSON file placed in the Docker container's root folder to get configuration information. Changes to the config.json will cause the proxy to adopt the new configuration without downtime.
 
 > NOTE: For Virtual Hosted environments where the `PORT` is dynamically set in an environment variable named `$PORT`, you can leave out the `port` option. If your environment uses a different environment variable, you can name it with the `portFromEnv` option instead.
 
