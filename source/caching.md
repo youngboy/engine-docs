@@ -306,3 +306,20 @@ The volume chart now shows how many of your requests hit the cache instead of th
 
 The histogram uses differently-colored bars to represent cache vs. non-cache requests. So you can easily see that the cached requests are much much faster, with Engine responding to those requests in microseconds rather than the 50-100 milliseconds it would take to hit the underlying server.
 
+
+<h2 id="http-headers">How HTTP headers affect caching</h2>
+
+The main way that your GraphQL server specifies cache behavior is through the `cacheControl` GraphQL extension, which is rendered in the body of a GraphQL response. However, Engine also understands and sets several caching-related HTTP headers.
+
+#### HTTP headers interpreted by Engine
+
+Engine will never decide to cache responses in its response cache unless you tell it to with the `cacheControl` GraphQL extension. However, Engine does observe some HTTP headers and can use them to restrict caching further than what the extension says.  These headers include:
+
+* `Cache-Control` **response** header: If the `Cache-Control` response header contains `no-store`, `no-cache`, or `private`, Engine will not cache the response. If the `Cache-Control` response header contains `max-age` or `s-maxage` directives, then Engine will not cache any data for longer than the specified amount of time. (That is, data will be cached for the minimum of the header-provided `max-age` and the extension-provided `maxAge`.)  `s-maxage` takes precedence over `max-age`.
+* `Cache-Control` **request** header: If the `Cache-Control` request header contains `no-cache`, Engine will not look in the cache for responses. If the `Cache-Control` request header contains `no-store`, Engine will not cache the response.
+* `Expires` response header: If the `Expires` response header is present, then Engine will not cache any data past the given date.  The `Cache-Control` directives `s-maxage` and `max-age` take precedence over `Expires`.
+* `Vary` response header: If the `Vary` response header is present, then Engine will not return this response to any request whose headers named in the `Vary` header don't match the request that created this response. (For example, if a request had a `Accept-Language: de` header and the response had a `Vary: Accept-Language` header, then that response won't be returned from the cache to any response that does not also have a `Accept-Language: de` header.)  Additionally, Engine uses a heuristic to store requests that have different values for headers that it suspects may show up in the response `Vary` header under different cache keys; currently that heuristic is that it assumes that any header that has ever shown up in a `Vary` header in a GraphQL response may be relevant.
+
+#### HTTP headers set by Engine
+
+When returning a GraphQL response which is eligible for the full-query cache (ie, all of the data has a non-zero `maxAge` set in the `cacheControl` GraphQL extension), Engine sets the `Cache-Control` header with a `max-age` directive equal to the minimum `maxAge` of all data in the response. If any of the data in the response has a `scope: PRIVATE` hint, the `Cache-Control` header will include the `private` directive; otherwise it will include the `public` directive. This header completely replaces any `Cache-Control` and `Expires` headers provided by your GraphQL server.
