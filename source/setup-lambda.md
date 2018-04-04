@@ -69,7 +69,7 @@ The proxy uses a JSON object to get configuration information.
 8. `frontend.port` : The port the proxy should bind to.
 9. `frontend.graphqlPaths` : The paths on which your app serves GraphQL. This defaults to `["/graphql"]`.
 
-5For full configuration details see [Proxy config](proxy-config.html).
+For full configuration details see [Proxy config](proxy-config.html).
 
 <h3 id="run-the-proxy" title="Run the Proxy">2.3 Run the Proxy (Docker Container)</h3>
 
