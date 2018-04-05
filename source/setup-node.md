@@ -135,6 +135,10 @@ const engine = new ApolloEngine({
 });
 ```
 
+<h2 id="deploy" title="Deploy">Deploy</h2>
+
+Now that you have integrated Engine into your GraphQL server, you are ready to deploy your GraphQL service. Follow [these steps](./setup-heroku.html) to put your server into production on Heroku.
+
 <h2 id="not-express" title="Other Node servers">Node servers other than Express</h2>
 
 If you're using one of the Node.js server packages that Apollo Server supports that aren't express, you've come to the right place! Find your server library below for an example.
@@ -185,7 +189,7 @@ engine.listen({
 
 #### Micro
 
-The app objects in the Micro framework are just instances of Node's built-in `http.Server`. 
+The app objects in the Micro framework are just instances of Node's built-in `http.Server`.
 
 Follow the same instructions as for Express, but specify your server with the `httpServer` option instead.
 

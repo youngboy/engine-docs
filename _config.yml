@@ -9,6 +9,7 @@ sidebar_categories:
   Setup:
     - setup-node
     - setup-standalone
+    - setup-heroku
     - setup-lambda
     - setup-virtual
   Features:
