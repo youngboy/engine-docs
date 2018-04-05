@@ -1,21 +1,25 @@
 ---
 title: Hosting Engine in PaaS Environments (e.g. Heroku)
-sidebar_title: Engine Stand-alone on PaaS
-description: Get Engine running with your virtually hosted GraphQL server.
+sidebar_title: Engine standalone on PaaS
+description: Run the Engine container on a Platform as a Service.
 ---
 
-To get started with Engine, you will need to:
+If you want to run Engine separately from your GraphQL server, you can choose to host the Engine Docker container on a platform as a service such as Heroku, and use it as a proxy in front of your API.
+
+To do this, you'll need to:
+
 1. Instrument your server with a supported tracing agent that uses the Apollo Tracing format.
 2. Configure and deploy the Engine proxy docker container.
 3. Send requests to your service – you're all set up!
 
-> NOTE: If using Node, we recommend running the Engine proxy with direction Web framework integration as opposed to within a Docker container inside of a separate app / dyno. For directly integrated setup, follow the instructions [here](setup-node.html).  For all other platforms, the only available option is to run the proxy in a standalone docker container.
+If you're using Node, we recommend running the Engine proxy with direction Web framework integration as opposed to within a Docker container inside of a separate app / dyno. In that case, follow the [Node setup instructions](setup-node.html). For all other platforms, the only available option is to run the proxy in a standalone docker container.
 
-_Interested in writing direct web framework integration for your platform? [Get in touch](mailto:support@apollodata.com) with us!_
+If you're interested in writing direct a direct Engine web framework integration for your platform, [get in touch](mailto:support@apollodata.com) with us!
 
 For running on Heroku specifically, see our [Heroku Engine Proxy example repo](https://github.com/apollographql/engine-heroku-example).
 
 <h2 id="enable-apollo-tracing" title="Enable Apollo Tracing">1. Enable Apollo Tracing</h2>
+
 You will need to instrument your GraphQL server with a [tracing package](apollo-tracing.html) that matches your server platform.  Engine relies on receiving data in this format to create its performance telemetry reports.
 
 <h2 id="configure-proxy" title="Configure the Proxy">2. Configure the Proxy</h2>

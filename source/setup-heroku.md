@@ -4,11 +4,11 @@ sidebar_title: Node with Engine on Heroku
 description: Get your Node.js GraphQL server with Engine deployed on Heroku
 ---
 
-This section describes how to deploy your GraphQL service that is made production ready by Engine. Before starting, make sure you have enabled your GraphQL server with Engine, which you can complete in [three steps](setup-node.html). If you are brand new, you should complete [this tutorial](https://dev-blog.apollodata.com/tutorial-building-a-graphql-server-cddaa023c035) first and then come back when you're ready to deploy!
+This section describes how to deploy your GraphQL service with production-ready Engine features. Before starting, make sure you have [added Engine to your GraphQL server](setup-node.html). If you haven't built a GraphQL server yet, check out [our tutorial](https://dev-blog.apollodata.com/tutorial-building-a-graphql-server-cddaa023c035) first and then come back when you're ready to deploy!
 
 <h3 id="add-engine-key" title="Add Engine Key">1. Add `process.env.ENGINE_API_KEY` to the Engine constructor</h3>
 
-Engine will look for the API key in the process's environment, which we will setup next.
+This way, Engine will get your API key from an environment variable, which we'll configure in the Heroku dashboard in the next step.
 
 ```js
 const engine = new ApolloEngine({
@@ -16,7 +16,7 @@ const engine = new ApolloEngine({
 });
 ```
 
-> An API key represents your services unique id and can be generated on the [Engine UI](https://engine.apollographql.com).
+The API key represents your service's secret ID in Engine. To get one, log into the [Engine UI](https://engine.apollographql.com) and create a service.
 
 <h3 id="configure-heroku" title="Configure Heroku">2. Create and set up a new Heroku application</h3>
 
@@ -50,9 +50,9 @@ Put you Apollo Engine API key in the environment. Under the “Settings” tab, 
 
 <h3 id="test-and-add" title="Test and Expand">3. Try it out and build more!</h3>
 
-Send a query to your GraphQL service at your Heroku Application at `\<APP NAME\>.herokuapp.com/` and then checkout the tracing data in the [Engine UI](http://engine.apollographql.com/). Now check out the [features](./performance.html) to learn how GraphQL execution data is used or if you haven't already, you can add [caching](./caching.html)!
+Send a query to your GraphQL service at your Heroku Application at `<APP NAME>.herokuapp.com` and then check out the tracing data in the [Engine UI](http://engine.apollographql.com/).
 
-<div style="text-align:center">
-<iframe src="https://www.graphqlbin.com" width="100%" height="400"></iframe>
-</div>
+To get the most out of Engine, read on about some of the features:
 
+- [Performance tracing](./performance.html) will help you learn how your GraphQL execution is working.
+- [Caching](./caching.html) will enable you to reduce load on your server and reduce response times.
