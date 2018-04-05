@@ -13,7 +13,7 @@ This release include a variety of changes related to caching.
 * The Engine Proxy now includes `Cache-Control` headers on responses served from its cache, not just on responses it stores to its cache.
 * The Engine Proxy no longer uses a generic HTTP heuristic to generate a max age limit for responses with the HTTP header `Last-Modified` but no other HTTP-level max age specification. This was added accidentally in v1.0.4 and is not necessary given that we only cache data that explicitly requests it in the GraphQL extension.
 * The Engine Proxy now properly comma-separates fields in generated `Cache-Control` response headers.
-* The warning when trying to insert an item too large into an in-memory cache is now more explicit about the size limit.
+* The warning when trying to insert an oversized item into an in-memory cache is now more explicit about the size limit. (Items in the in-memory cache cannot be larger than approximately 1/1024 of the total cache size.)
 
 <h2 id="v1.0.4" title="v1.0.4">1.0.4 - 2018-03-23</h2>
 
