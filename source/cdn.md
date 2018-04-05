@@ -57,6 +57,7 @@ Then, add the persisted queries link to your Apollo Client before the HTTP link:
 import { createPersistedQueryLink } from "apollo-link-persisted-queries";
 import { createHttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloLink } from "apollo-link";
 import ApolloClient from "apollo-client";
 
 ApolloLink.from([
