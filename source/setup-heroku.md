@@ -6,9 +6,9 @@ description: Get your Node.js GraphQL server with Engine deployed on Heroku
 
 This section describes how to deploy your GraphQL service with production-ready Engine features. Before starting, make sure you have [added Engine to your GraphQL server](setup-node.html). If you haven't built a GraphQL server yet, check out [our tutorial](https://dev-blog.apollodata.com/tutorial-building-a-graphql-server-cddaa023c035) first and then come back when you're ready to deploy!
 
-<h3 id="add-engine-key" title="Add Engine Key">1. Add `process.env.ENGINE_API_KEY` to the Engine constructor</h3>
+<h3 id="env-vars" title="Environment variables">1. Configure environment variables</h3>
 
-This way, Engine will get your API key from an environment variable, which we'll configure in the Heroku dashboard in the next step.
+We need to set up Engine to get your API key from an environment variable, which we'll configure in the Heroku dashboard in the next step:
 
 ```js
 const engine = new ApolloEngine({
@@ -17,6 +17,20 @@ const engine = new ApolloEngine({
 ```
 
 The API key represents your service's secret ID in Engine. To get one, log into the [Engine UI](https://engine.apollographql.com) and create a service.
+
+Also, for Heroku we need to make sure to get the port for our application from an environment variable provided by Heroku:
+
+```js
+// Set a default value of 3000 if we don't pass an env var
+const PORT = process.env.PORT || 3000;
+
+engine.listen({
+  port: PORT,
+  expressApp: app
+}, () => {
+  console.log(`Server running on port ${PORT}!`);
+});
+```
 
 <h3 id="configure-heroku" title="Configure Heroku">2. Create and set up a new Heroku application</h3>
 
