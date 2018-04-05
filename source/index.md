@@ -23,6 +23,9 @@ Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure.
 1. [Error tracking](./error-tracking.html)
 1. [Response caching](./caching.html)
 1. [Automatic persisted queries](./auto-persisted-queries.html)
+1. [CDN integration](./cdn.html)
+1. [Daily Slack reports](./reports.html)
+1. [Query batching](./query-batching.html)
 
 <h2 id="components">Engine components</h2>
 

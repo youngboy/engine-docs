@@ -4,6 +4,17 @@ title: Proxy release notes
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
+<h2 id="v1.0.5" title="v1.0.5">1.0.5 - 2018-04-05</h2>
+
+This release include a variety of changes related to caching.
+
+* The Engine Proxy now observes the `Vary` header in HTTP responses. See the new [documentation of cache header support](./caching.html#http-headers) for more details.
+* The Engine Proxy now explicitly requests that "persisted query not found" responses are not cached by CDNs or browsers. (Typically these responses are followed by the client informing Engine of the full matching query, so caching the not-found response was effectively cache poisoning.)
+* The Engine Proxy now includes `Cache-Control` headers on responses served from its cache, not just on responses it stores to its cache.
+* The Engine Proxy no longer uses a generic HTTP heuristic to generate a max age limit for responses with the HTTP header `Last-Modified` but no other HTTP-level max age specification. This was added accidentally in v1.0.4 and is not necessary given that we only cache data that explicitly requests it in the GraphQL extension.
+* The Engine Proxy now properly comma-separates fields in generated `Cache-Control` response headers.
+* The warning when trying to insert an oversized item into an in-memory cache is now more explicit about the size limit. (Items in the in-memory cache cannot be larger than approximately 1/1024 of the total cache size.)
+
 <h2 id="v1.0.4" title="v1.0.4">1.0.4 - 2018-03-23</h2>
 
 * The Engine Proxy now will compress responses to GraphQL queries by default if the client sends the standard HTTP `Accept-Encoding: gzip` header. You can disable this by passing `frontends: [{responseCompression: {disabled: true}}]` to the `ApolloEngine` constructor. (The Engine Proxy continues to accept compressed responses from your GraphQL origin by default as well.) Engine will never proactively compress responses to requests on non-GraphQL paths but will pass through any compression applied by the server it is proxying to.
