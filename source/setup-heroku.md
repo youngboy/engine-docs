@@ -1,7 +1,6 @@
 ---
-title: Running a Server and Engine on Heroku
-sidebar_title: Node with Engine on Heroku
-description: Deploying your Node.js GraphQL server with Engine on Heroku
+title: Node with Engine on Heroku
+description: How to configure and deploy your GraphQL server and Engine
 ---
 
 This section describes how to deploy your GraphQL service with production-ready Engine features. Before starting, make sure you have [added Engine to your GraphQL server](setup-node.html). If you haven't built a GraphQL server yet, check out [our tutorial](https://dev-blog.apollodata.com/tutorial-building-a-graphql-server-cddaa023c035) first and then come back when you're ready to deploy!
