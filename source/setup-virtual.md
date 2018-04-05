@@ -1,7 +1,7 @@
 ---
-title: Hosting Engine in PaaS Environments (e.g. Heroku)
+title: Hosting Engine in PaaS Environments
 sidebar_title: Engine standalone on PaaS
-description: Run the Engine container on a Platform as a Service.
+description: How to run the Engine container separately on a Platform as a Service like Heroku
 ---
 
 If you want to run Engine separately from your GraphQL server, you can choose to host the Engine Docker container on a platform as a service such as Heroku, and use it as a proxy in front of your API.
