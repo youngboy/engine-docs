@@ -89,6 +89,8 @@ const launcher = new ApolloEngineLauncher({
 // Start the Proxy; crash on errors.
 launcher.start().catch(err => { throw err; });
 ```
+> Note: Every deployment has its unique needs, and we provide a variety of configuration options to fulfill them. For example, if your origin GraphQL server is running in a virtual-hosted environment (e.g. Heroku, AWS), you may need to override the `Host` header sent to HTTP origins. For more details and instruction on configuration options, please see the [proxy config docs](./proxy-config.html).
+
 
 Now run this program with Node. The Proxy should start up and accept connections at http://localhost:3000 and forward all requests to your server at http://localhost:4000. Load GraphiQL through Engine at http://localhost:3000/graphiql (or wherever you have configured your app to serve GraphiQL) and run any query. You should no longer see the `tracing` data in the result since Engine is now consuming it! Check the Engine UI for your new service, and you should see it confirm that the setup worked.
 
@@ -118,6 +120,7 @@ To get started with the Docker container distribution of Engine Proxy, write thi
   }]
 }
 ```
+> Note: Every deployment has its unique needs, and we provide a variety of configuration options to fulfill them. For example, if your origin GraphQL server is running in a virtual-hosted environment (e.g. Heroku, AWS), you may need to override the `Host` header sent to HTTP origins. For more details and instruction on configuration options, please see the [proxy config docs](./proxy-config.html).
 
 Make sure you have a working [Docker installation](https://docs.docker.com/engine/installation/), and type the following lines in your shell:
 
