@@ -4,6 +4,11 @@ title: Proxy release notes
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
+<h2 id="v1.0.6" title="v1.0.6">1.0.6 - 2018-04-06</h2>
+
+* New `reporting.noTraceErrors` option to disable sending error traces to Apollo servers. Use this if your error messages may contain [PII](https://en.wikipedia.org/wiki/Personally_identifiable_information). If you are interested in a more fine-grained way to configure this, contact [Apollo support](mailto:support@apollographql.com).
+* Fix problems running `ApolloEngine` when a corporate HTTP proxy is configured with an environment variable such as `$HTTP_PROXY`. (Specifically, make the default [`innerHost` option to `engine.listen`](./setup-node.html#api-engine.listen) actually be `127.0.0.1` as documented rather than the unspecified interface; the previously implemented default was unintentional as well as the cause of the corporate proxy bug.)
+
 <h2 id="v1.0.5" title="v1.0.5">1.0.5 - 2018-04-05</h2>
 
 This release include a variety of changes related to caching.
