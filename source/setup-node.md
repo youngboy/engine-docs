@@ -8,7 +8,7 @@ With just a few minutes of setup, you can supercharge your Node.js GraphQL serve
 
 Our main supported server library is [Apollo Server](https://www.apollographql.com/docs/apollo-server/). Engine relies on GraphQL response extensions like [Apollo Tracing](./apollo-tracing.html) and [Apollo Cache Control](https://github.com/apollographql/apollo-cache-control) to work, which come integrated with Apollo Server. Apollo Server is easy to use with every popular Node.js web framework such as Express, Hapi, and Koa.
 
-We encourage you to [contact us](mailto:support@apollodata.com) with feedback or help if you encounter problems running Engine in your app. You can also join us in the public [#engine Slack Channel](https://www.apollographql.com/#slack).
+We encourage you to [contact us](mailto:support@apollodata.com) with feedback or help if you encounter problems running Engine in your app. You can also join us in the public [#engine Slack Channel](https://www.apollographql.com/slack).
 
 <h2 id="setup-guide">Setup guide for Express</h2>
 

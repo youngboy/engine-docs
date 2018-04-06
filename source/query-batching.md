@@ -99,6 +99,6 @@ const engine = new ApolloEngine({
 
 Add this setting, and you're good to go! 
 
-If you have questions, we're always available in the public [Apollo Slack #engine channel](https://www.apollographql.com/#slack).
+If you have questions, we're always available in the public [Apollo Slack #engine channel](https://www.apollographql.com/slack).
 
 
