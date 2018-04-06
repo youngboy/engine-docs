@@ -304,6 +304,8 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 <dd><p>Names of variables whose values should not be sent to Apollo servers. These are case-sensitive.</p></dd>
 <dt>disabled (bool)</dt>
 <dd><p>Disable sending reports to Apollo servers.</p></dd>
+<dt>noTraceErrors (bool)</dt>
+<dd><p>Disable sending error traces to Apollo servers. This is for special cases when errors contain PII.</p></dd>
 
 </dl>
 
