@@ -26,6 +26,7 @@ Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure.
 1. [CDN integration](./cdn.html)
 1. [Daily Slack reports](./reports.html)
 1. [Query batching](./query-batching.html)
+1. [Datadog Integration](./datadog.html)
 
 <h2 id="components">Engine components</h2>
 
