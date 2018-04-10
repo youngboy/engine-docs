@@ -66,7 +66,7 @@ _In the metric explorer, select `apollo.engine.operations.latency.95percentile` 
 
 ## Monitoring with Datadog
 
-All of the metrics reported to Datadog can be alerted on directly through Apollo Engine via the [Alerts feature](link to the docs for that when it exists), but Datadog can be a powerful partner in enabling more complex alerts.
+All of the metrics reported to Datadog can be alerted on directly through Apollo Engine via the Alerts feature, but Datadog can be a powerful partner in enabling more complex alerts.
 
 **Example**: Suppose you have a query that is run against your GraphQL server with a much higher volume in the morning than in the afternoon. You want to enable monitoring on that query's latency and error rates, but if the query volume is very low, you have a higher tolerance for latency and one error will skew the error rate and make the monitor too noisy.
 
