@@ -39,12 +39,15 @@ Getting set up with Engine's Datadog integration is as simple as providing a Dat
 **Note:** Only Admin users can create API keys. Please contact your administrator if a new key is required.
 
 Create a new API Key for your Engine integration in Datadog:
+
 ![ApiKey](./img/datadog/api-key.png)
 
 Navigate to the settings page for your service from the Engine navbar:
+
 ![SettingsLink](./img/datadog/settings-link.png)
 
 Turn on Datadog integration with this toggle:
+
 ![Settings](./img/datadog/settings-toggle.png)
 
 ## Metrics Exploration
@@ -59,9 +62,9 @@ If you want to aggregate across all operations or zoom in to a particular operat
 
 _In the metric explorer, select `apollo.engine.operations.latency.95percentile` and then choose service where it says “one graph per” and select the two services you'd like to compare. At Apollo, we monitor Engine with Engine on our production and staging environments, so this graph for us looks like the following_:
 
-*To perform more advanced manipulation of metrics, open up the [Metrics notebook](https://app.datadoghq.com/notebook).*
+![Compare p95](./img/datadog/datadog.png)
 
-![Traces](./img/datadog/datadog.png)
+*To perform more advanced manipulation of metrics, open up the [Metrics notebook](https://app.datadoghq.com/notebook).*
 
 ## Monitoring with Datadog
 
