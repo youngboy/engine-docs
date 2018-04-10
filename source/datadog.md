@@ -1,10 +1,8 @@
 ---
 title: Datadog Integration
 sidebar_title: Datadog Integration
-description: Integrating Engine data with Datadog
+description: How to pass data from Engine to Datadog and visualize it along with your other metrics.
 ---
-
-## Overview
 
 Apollo Engine is designed to monitor the performance of your GraphQL infrastructure. If you already have Datadog set up to monitor the rest of your stack, you can easily forward metrics collected by Engine through this integration.
 
