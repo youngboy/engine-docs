@@ -21,6 +21,7 @@ sidebar_categories:
     - cdn
     - reports
     - query-batching
+    - datadog
   Guides:
     - troubleshooting
     - 1.0-migration

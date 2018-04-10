@@ -1,5 +1,5 @@
 ---
-title: Query batching
+title: Query Batching
 sidebar_title: Query Batching 
 description: Query batching recommendations for Engine
 ---
