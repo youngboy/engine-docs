@@ -19,8 +19,9 @@ sidebar_categories:
     - caching
     - auto-persisted-queries
     - cdn
-    - reports
     - query-batching
+    - alerts
+    - reports
     - datadog
   Guides:
     - troubleshooting

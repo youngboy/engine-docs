@@ -18,14 +18,23 @@ To find out more about what it does and how it works, read on! If you're already
 
 Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure. It provides the following features today:
 
+<h3 id="analytics">Analytics</h3>
+
 1. [Performance tracing](./performance.html)
 1. [Schema analytics](./schema-analytics.html)
 1. [Error tracking](./error-tracking.html)
+
+<h3 id="performance">Perfomance</h3>
+
 1. [Response caching](./caching.html)
 1. [Automatic persisted queries](./auto-persisted-queries.html)
 1. [CDN integration](./cdn.html)
-1. [Daily Slack reports](./reports.html)
 1. [Query batching](./query-batching.html)
+
+<h3 id="reporting">Reporting</h3>
+
+1. [Proactive Alerts](./alerts.html)
+1. [Daily Slack reports](./reports.html)
 1. [Datadog Integration](./datadog.html)
 
 <h2 id="components">Engine components</h2>
