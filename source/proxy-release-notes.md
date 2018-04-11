@@ -4,6 +4,15 @@ title: Proxy release notes
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
+<h2 id="v1.1.0" title="v1.1.0">1.1.0 - 2018-04-10</h2>
+
+Because this is a minor release, if you are using Engine via the Docker container and have specified the `1.0` tag, you'll need to change to the `1.1` tag to upgrade to this release.
+
+* The Engine Proxy now supports serving HTTPS over TLS, including HTTP/2.
+* You may now set your API key with the environment variable `ENGINE_API_KEY` in addition to with the `apiKey` configuration option.
+* The Engine Proxy now sets the `X-Apollo-Engine` header on requests it proxies so that your origin GraphQL server can tell if it is running behind Engine. (This is primarily intended to improve diagnostics if Engine is misconfigured.)
+
+
 <h2 id="v1.0.6" title="v1.0.6">1.0.6 - 2018-04-06</h2>
 
 * New `reporting.noTraceErrors` option to disable sending error traces to Apollo servers. Use this if your error messages may contain [PII](https://en.wikipedia.org/wiki/Personally_identifiable_information). If you are interested in a more fine-grained way to configure this, contact [Apollo support](mailto:support@apollographql.com).

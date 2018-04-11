@@ -24,7 +24,6 @@ Support may request that you set the Engine Proxy logging level to DEBUG or high
 
 ```js
 const engine = new ApolloEngine({
-  apiKey: engineApiKey,
   logging: {
     level: 'DEBUG'   // Engine Proxy logging level. DEBUG, INFO, WARN or ERROR
   },
@@ -58,7 +57,6 @@ These lines say what port Engine is listening on and the internal version number
 
 ```js
 const engine = new ApolloEngine({
-  apiKey: engineApiKey,
   logging: {
     level: 'WARN',
   },

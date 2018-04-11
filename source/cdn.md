@@ -77,7 +77,7 @@ If your GraphQL server will be hosted on a different origin from where it will b
 
 ```
 const engine = new ApolloEngine({
-  apiKey: process.env.API_KEY,
+  apiKey: process.env.ENGINE_API_KEY,
   frontends: [{
     overrideGraphqlResponseHeaders: {
       'Access-Control-Allow-Origin': '*',

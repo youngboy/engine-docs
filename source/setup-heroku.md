@@ -7,12 +7,11 @@ This section describes how to deploy your GraphQL service with production-ready 
 
 <h3 id="env-vars" title="Environment variables">1. Configure environment variables</h3>
 
-We need to set up Engine to get your API key from an environment variable, which we'll configure in the Heroku dashboard in the next step:
+Engine will get your API key from the `ENGINE_API_KEY` environment variable by default, so you just need to create an `ApolloEngine` with no options:
 
 ```js
-const engine = new ApolloEngine({
-  apiKey: process.env.ENGINE_API_KEY
-});
+import { ApolloEngine } from 'apollo-engine';
+const engine = new ApolloEngine();
 ```
 
 The API key represents your service's secret ID in Engine. To get one, log into the [Engine UI](https://engine.apollographql.com) and create a service.
@@ -54,7 +53,7 @@ Select a deployment method. GitHub is a common choice, which requires selecting 
 <br></br>
 </div>
 
-Put you Apollo Engine API key in the environment. Under the “Settings” tab, click “Reveal Config Vars". Next copy your key from the [Engine UI](http://engine.apollographql.com/) as the value for ENGINE_API_KEY.
+Put you Apollo Engine API key in the environment. Under the “Settings” tab, click “Reveal Config Vars". Next copy your key from the [Engine UI](http://engine.apollographql.com/) as the value for `ENGINE_API_KEY`.
 
 <div style="text-align:center">
 ![Add Engine Api Key Screenshot](img/setup-heroku/add-engine-key.png)

@@ -7,7 +7,7 @@ The Engine Proxy has many configuration options. While all you need to set to ge
 
 If you are using the `apollo-engine` npm package, the parameters described here are the options to the `new ApolloEngine` and `new ApolloEngineLauncher` constructors. If you are using the Docker container distribution, the parameters described here go into your `engine-config.json` file.
 
-The `ApolloEngine` class in the `apollo-engine` npm package takes care of filling in a few important parameters for you automatically: `frontends.host`, `frontends.port`, `frontends.endpoints`, `origins.http.url`, and `origins.http.useFrontendPath`. If you are using that class, all you need is your `apiKey` to get started.
+The `ApolloEngine` class in the `apollo-engine` npm package takes care of filling in a few important parameters for you automatically: `frontends.host`, `frontends.port`, `frontends.endpoints`, `origins.http.url`, and `origins.http.useFrontendPath`. If you are using that class, all you need is your `apiKey` to get started (which can also be set with the `ENGINE_API_KEY` environment variable).
 
 All Durations are represented as strings consisting of a number of seconds followed by the letter `s`, such as `"30s"` or `".5s"`.
 
@@ -25,7 +25,7 @@ These are the top-level options for the `new ApolloEngine()` or `new ApolloEngin
 
 <dl>
 <dt>apiKey (string)</dt>
-<dd><p>API key for the service. Get this from [Engine](https://engine.apollographql.com) by logging in and creating a service. __Required__.</p></dd>
+<dd><p>API key for the service. Get this from [Engine](https://engine.apollographql.com) by logging in and creating a service. You may also specify this with the `ENGINE_API_KEY` environment variable; the config file takes precedence. __Required__.</p></dd>
 <dt>origins (array of [Origin](#mdg.engine.config.proto.Config.Origin))</dt>
 <dd><p>Origins represent the GraphQL servers to which the Proxy will send requests. If you're using the `ApolloEngine` class from the `apollo-engine` npm package, you don't need to specify origins: the package will generate one automatically for you, or will fill in the url automatically if you have configured other origin properties. Otherwise this field is __required__.</p></dd>
 <dt>frontends (array of [Frontend](#mdg.engine.config.proto.Config.Frontend))</dt>
@@ -90,6 +90,8 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 <dd><p>Configuration for GraphQL response extensions.</p></dd>
 <dt>responseCompression ([Frontend.ResponseCompression](#mdg.engine.config.proto.Config.Frontend.ResponseCompression))</dt>
 <dd><p>Configuration for compressing GraphQL responses if requested by the client via the HTTP Accept-Encoding header.</p></dd>
+<dt>tls ([Frontend.TLS](#mdg.engine.config.proto.Config.Frontend.TLS))</dt>
+<dd><p>Configuration for TLS/HTTPS termination by the proxy.</p></dd>
 
 </dl>
 
@@ -124,6 +126,24 @@ Configuration of GraphQL response compression.
 <dd><p>By default, Engine will not compress responses that are less than 1400 bytes. Set this option to change that threshold.</p></dd>
 <dt>compressionLevel (int32)</dt>
 <dd><p>Set this to a number from 1 to 9 to change the gzip compression level, where 1 is the fastest and 9 produces the smallest outputs. The default is 6.</p></dd>
+
+</dl>
+
+
+
+<a name="mdg.engine.config.proto.Config.Frontend.TLS"/>
+
+## Frontend.TLS
+Configuration for TLS/HTTPS connections. TLS configuration can not be changed at runtime.
+
+
+<dl>
+<dt>certificateFile (string)</dt>
+<dd><p>Path to a file containing a PEM-encoded public certificate, followed by any intermediate certificates.</p></dd>
+<dt>keyFile (string)</dt>
+<dd><p>Path to a file containing a PEM-encoded private key.</p></dd>
+<dt>redirectFromUnencryptedPorts (array of int32)</dt>
+<dd><p>Additional ports to spawn HTTP listeners that automatically redirect to HTTPS. If you wish to serve both HTTP and HTTPS traffic, create multiple frontends. Note that all redirects go to the domain in the incoming request's Host header without a specified port, not to the port that this frontend is listening on, because we assume that all end-user HTTPS requests are going across the network on port 443.</p></dd>
 
 </dl>
 
@@ -296,6 +316,8 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 <dd><p>Override for hostname reported to backend.</p></dd>
 <dt>noTraceVariables (bool)</dt>
 <dd><p>Don't include variables in query traces.</p></dd>
+<dt>noTraceErrors (bool)</dt>
+<dd><p>Disable sending error traces to Apollo servers. Errors are still returned in responses, but not reported to Apollo Engine cloud storage. This is for special cases when errors contain [PII](https://en.wikipedia.org/wiki/Personally_identifiable_information).</p></dd>
 <dt>privateHeaders (array of string)</dt>
 <dd><p>Headers that should not be sent to Apollo servers. These are case-sensitive.</p></dd>
 <dt>proxyUrl (string)</dt>
@@ -303,9 +325,7 @@ The reporting configuration to use. Reports about the GraphQL queries and respon
 <dt>privateVariables (array of string)</dt>
 <dd><p>Names of variables whose values should not be sent to Apollo servers. These are case-sensitive.</p></dd>
 <dt>disabled (bool)</dt>
-<dd><p>Disable sending reports to Apollo servers.</p></dd>
-<dt>noTraceErrors (bool)</dt>
-<dd><p>Disable sending error traces to Apollo servers. This is for special cases when errors contain PII.</p></dd>
+<dd><p>Disable sending all reports to Apollo servers.</p></dd>
 
 </dl>
 

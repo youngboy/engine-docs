@@ -62,12 +62,14 @@ npm install --save apollo-engine
 
 Then write a small Node program that uses it.
 
-```bash
+```js
 const { ApolloEngineLauncher } = require('apollo-engine');
 
 // Define the Engine configuration.
 const launcher = new ApolloEngineLauncher({
-  apiKey: 'API_KEY_HERE',  // from step 2 above
+  // Enter your API key from step 2 above. You can also provide this
+  // in the ENGINE_API_KEY environment variable.
+  apiKey: 'API_KEY_HERE',
   origins: [{
     http: {
       // The URL that the Proxy should use to connect to your
@@ -131,6 +133,8 @@ $ docker run --env "ENGINE_CONFIG=$(cat engine-config.json)" -p "${ENGINE_PORT}:
 
 This will run the Engine Proxy via Docker, routing port 3000 inside the container to port 3000 outside the container. (You can also pass `--net=host` instead of the `-p 3000:3000` to just allow the Proxy direct access to your host's network.)
 
+We use [semver](https://semver.org/) to name Engine Proxy release versions, and we release version 1.2.3 under the tags `1.2.3`, `1.2`, and `1`.  If you want to pin to a precise version, use the `1.2.3` tag. If you'd like to take patch upgrades but not minor upgrades, use the `1.2` tag. If you'd like to take minor upgrades, use the `1` tag.
+
 The Proxy should start up and accept connections at http://localhost:3000 and forward all requests to your server at http://localhost:4000. Load GraphiQL through Engine at http://localhost:3000/graphiql (or wherever you have configured your app to serve GraphiQL) and run any query. You should no longer see the `tracing` data in the result since Engine is now consuming it! Check the Engine UI for your new service, and you should see it confirm that the setup worked.
 
 In general, the Engine config file is the same as the argument Node GraphQL users pass to `new ApolloEngine()`, except that you need to specify the origin's HTTP URL yourself with the engine config file, and the frontend `port` and `endpoints` (if you're not using the default values of `process.env.PORT` and `['/graphql']`) are specified inside the config file instead of as options to `listen()`. (Plus, it needs to be valid JSON: quoted keys, no trailing commas, no comments, etc.) The semantics of the Engine config file are identical to the argument to `new ApolloEngineLauncher()`.  (We use the name `endpoints` in the config JSON file instead of `graphqlPaths`; this is an older name and we intend to update it to consistently say `graphqlPaths`.)
@@ -149,7 +153,7 @@ The `ApolloEngineLauncher` class is a simple Node API for running the Engine Pro
 
 This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, while working the same way across many platforms.
 
-To get started, the only configuration fields you need to specify are `apiKey` (the Engine API key copied from the Engine website) and `origins.http.url` (your GraphQL server's locally accessible URL).
+To get started, the only configuration fields you need to specify are `apiKey` (the Engine API key copied from the Engine website) and `origins.http.url` (your GraphQL server's locally accessible URL).  (You can also provide the API key in the `ENGINE_API_KEY` environment variable.)
 
 This configuration is identical to the argument to `new ApolloEngine()`, which is the API most of our docs describe, except that you must specify your GraphQL server's origin http URL (or other origin type like [Lambda](./setup-lambda.html)) inside the config argument, and you need to specify the frontend port and GraphQL paths inside the config argument rather than separately (if you're not using the default values of `process.env.PORT` and `['/graphql']`).
 
@@ -158,7 +162,7 @@ You can find the complete set of configuration that Engine accepts in the [full 
 ```js
 const launcher = new ApolloEngineLauncher({
   // One of only two mandatory fields.
-  apiKey: process.env.API_KEY,
+  apiKey: 'my-api-key',
 
   // Specify behavior for how the Engine Proxy should connect to the
   // GraphQL origin (your Node GraphQL server). While the Proxy does

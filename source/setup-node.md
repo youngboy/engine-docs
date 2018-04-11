@@ -76,7 +76,9 @@ const app = express();
 // All of your GraphQL middleware goes here
 app.use('/graphql', ...);
 
-// Initialize engine with your API key
+// Initialize engine with your API key. Alternatively,
+// set the ENGINE_API_KEY environment variable when you
+// run your program.
 const engine = new ApolloEngine({
   apiKey: 'API_KEY_HERE'
 });
@@ -128,12 +130,12 @@ If Apollo Support suggests you need extra debugging information on Engine's inte
 ```javascript
 // For the constructor
 const engine = new ApolloEngine({
-  apiKey: "API_KEY_HERE",
   logging: {
     level: "DEBUG" // Engine Proxy logging level. DEBUG, INFO (default), WARN or ERROR.
-  }
+  },
 });
 ```
+
 
 <h2 id="deploy" title="Deploy">Deploy</h2>
 
@@ -274,6 +276,48 @@ Since Engine relies on tracking some state across requests to do performance tra
 
 Head on over to the [AWS Lambda setup guide](./setup-lambda.html) to learn how to do it.
 
+<h2 id="https">Serving HTTPS and HTTP/2</h2>
+
+If you'd like the Engine Proxy to serve HTTPS (aka "TLS") traffic directly from the Engine Proxy, you'll need to generate a public certificate and private key in PEM format, and point Engine at those files. You can optionally ask it to run an unencrypted HTTP server on another port that redirects all traffic to HTTPS.  This server will listen on the port that you pass to `engine.listen`.  When serving HTTPS, the Engine Proxy supports HTTP/2 as well as HTTP/1.1!
+
+```js
+const engine = new ApolloEngine({
+  frontends: [{
+    tls: {
+      // This file should contain your site's certificate, followed by any intermediate
+      // certificates (but not the root certificate) that go along with it.
+      certificateFile: 'certificate.pem',
+      // This file should contain your site's private key.
+      keyFile: 'key.pem',
+      // Optional: Engine will also listen on this port with an unencrypted HTTP
+      // server and redirect all traffic to https.  Note that this must be specified
+      // as a number, not a string.
+      redirectFromUnencryptedPorts: [+(process.env.HTTP_REDIRECT_PORT)],
+    }
+  }],
+});
+engine.listen({port: process.env.HTTPS_PORT, expressApp: app});
+```
+
+If instead of a redirect you'd like the Engine Proxy to serve query results over both HTTP and HTTPS on different ports, you need to specify two separate frontend records:
+
+```js
+const engine = new ApolloEngine({
+  frontends: [{
+    // This frontend has no specific configuration and inherits its port from the
+    // listen call.
+  }, {
+    port: process.env.HTTPS_PORT,
+    tls: {
+      certificateFile: 'certificate.pem',
+      keyFile: 'key.pem',
+    }
+  }],
+});
+engine.listen({port: process.env.HTTP_PORT, expressApp: app});
+```
+
+
 <h2 id="api">API</h2>
 
 If you need additional configuration, you've come to the right place.
@@ -282,14 +326,14 @@ If you need additional configuration, you've come to the right place.
 
 The `ApolloEngine` class is the main API for running the Engine Proxy and integrating it with your Node web framework. This is where you pass in configuration for how Engine should work. Even though you set up Engine as an npm package, it's actually a Go binary, which enables it to do things that would be harder to do in a performant way with purely Node.js code, while working the same way across many platforms.
 
-To get started, the only configuration field you need to specify is `apiKey`: the Engine API key copied from the Engine website.
+To get started, the only configuration field you need to specify is `apiKey`: the Engine API key copied from the Engine website. (You can leave this out if you specify the API key in the `ENGINE_API_KEY` environment variable instead.)
 
 You can find the complete set of configuration that Engine accepts in the [full API docs](./proxy-config.html) page, but here are some commonly-used fields worth knowing about:
 
 ```js
 const engine = new ApolloEngine({
-  // The only mandatory field!
-  apiKey: process.env.API_KEY,
+  // The only mandatory field!  (Can be set via ENGINE_API_KEY instead.)
+  apiKey: 'my-api-key',
 
   // Specify behavior for how the Engine Proxy should connect to the
   // GraphQL origin (your Node GraphQL server). While the Proxy does
