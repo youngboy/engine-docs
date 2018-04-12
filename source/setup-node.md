@@ -307,7 +307,9 @@ const engine = new ApolloEngine({
     // This frontend has no specific configuration and inherits its port from the
     // listen call.
   }, {
-    port: process.env.HTTPS_PORT,
+    // This frontend is the HTTPS server. Note that port inside the `new ApolloEngine()`
+    // constructor needs to be a number, not a string..
+    port: +(process.env.HTTPS_PORT),
     tls: {
       certificateFile: 'certificate.pem',
       keyFile: 'key.pem',
