@@ -289,7 +289,7 @@ engine.listen({
 });
 ```
 
-`start` has some optional options. Note that these are the same as the options in the `launcherOptions` option to [`ApolloEngine.listen()`](/setup-node.html#api-engine.listen)... now you know why that option has that name!
+`start` has some optional options. Note that these are the same as the options in the `launcherOptions` option to [`ApolloEngine.listen()`](./setup-node.html#api-engine.listen)... now you know why that option has that name!
 
 - `startupTimeout` (number): How many milliseconds to wait for the Engine Proxy to successfully start up and listen before timing how. Defaults to 5000 (5 seconds). Set to 0 to wait forever.
 - `proxyStderrStream` ([writable stream](https://nodejs.org/api/stream.html#stream_writable_streams)): By default, the Engine Proxy binary's standard error stream is written to your Node process's standard error. Set this to a writable stream to process it in a different way.  (By default, the Engine Proxy writes its logs to standard error at log level `INFO`. If all you want to do is hide the `INFO` logs, try configuring the log level instead.)
