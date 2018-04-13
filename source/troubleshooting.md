@@ -73,4 +73,4 @@ Please include the following when submitting an issue to our support team:
 * Platform of GraphQL server
 * The query submitted and the full response
 
-Submit your issue to [support@apollographql.com](mailto:support@apollographql.com) or join our Apollo public slack #engine channel here (https://apollographql.slack.com/).
+Submit your issue to [support@apollographql.com](mailto:support@apollographql.com) or join our Apollo public slack [#engine channel](https://apollographql.slack.com/messages/C7FFYGLQG).
