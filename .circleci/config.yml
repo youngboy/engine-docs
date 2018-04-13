@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  CompleteFlow:
+    docker: [ { image: 'circleci/node:8' } ]
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-npm
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run ci
+
+workflows:
+  version: 2
+  Build and Test:
+    jobs:
+      - CompleteFlow
