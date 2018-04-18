@@ -219,7 +219,7 @@ Since no `privateFullQueryStore` is provided, `scope: PRIVATE` responses will no
 const engine = new ApolloEngine({
   stores: [{
     memcache: {
-      url: 'localhost:4567',
+      url: ['localhost:4567'],
     },
   }],
   // ...
@@ -234,7 +234,7 @@ const engine = new ApolloEngine({
   stores: [{
     name: 'privateResponseMemcache',
     memcache: {
-      url: 'localhost:4567',
+      url: ['localhost:4567'],
     },
   }],
   sessionAuth: {
@@ -273,7 +273,7 @@ Engine supports two types of stores:
   This provides a shared location for multiple copies of Engine Proxy to achieve the same cache hit rate.
   This location is also not wiped across Engine Proxy restarts.
 
-  Memcache store configuration requires an array of URLs called `url`, for the memcached servers. (This name is misleading: the values are `host:port` without any URL scheme like `http://`.)
+  Memcache store configuration requires an array of addresses called `url`, for the memcached servers. (This name is misleading: the values are `host:port` without any URL scheme like `http://`.) The AWS Elasticache discovery protocol is not currently supported.
   `keyPrefix` may also be specified, to allow multiple environments to share a memcached server (i.e. dev/staging/production).
 
 We suggest developers start with an in-memory store, then upgrade to Memcached if the added deployment complexity is worth it for production.

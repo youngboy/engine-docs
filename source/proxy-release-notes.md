@@ -66,7 +66,7 @@ Features that used to depend on a caching store definition now are on by default
 * The private full-query response cache is enabled by default if `sessionAuth` is configured. Only responses annotated with the `cache-control` extension are cached.
 * Automatic persisted queries are on by default.
 * If `sessionAuth` is configured with a `tokenAuthUrl`, verifications are cacheed by default.
-If you don't like these defaults, you can set each store name field to `"disabled"` to turn off the relevant feature. If you want to change the default cache size in bytes, add `stores: [{inMemory: {cacheSize: 123456}}]` to your Engine config (ie, the argument to `new ApolloEngine()`). If you want to change the default cache to memcached, add `stores: [{memcache: {url: "localhost:1234"}}]` to your Engine config.
+If you don't like these defaults, you can set each store name field to `"disabled"` to turn off the relevant feature. If you want to change the default cache size in bytes, add `stores: [{inMemory: {cacheSize: 123456}}]` to your Engine config (ie, the argument to `new ApolloEngine()`). If you want to change the default cache to memcached, add `stores: [{memcache: {url: ["localhost:1234"]}}]` to your Engine config.
 
 Starting with v1, the Docker container releases use the same version numbers as the `apollo-engine` npm releases. The following changes are mostly relevant to users of the Docker container:
 * It's valid to specify zero frontends. Engine Proxy will default to one with all default values.
