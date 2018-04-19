@@ -273,7 +273,7 @@ Engine supports two types of stores:
   This provides a shared location for multiple copies of Engine Proxy to achieve the same cache hit rate.
   This location is also not wiped across Engine Proxy restarts.
 
-  Memcache store configuration requires an array of addresses called `url`, for the memcached servers. (This name is misleading: the values are `host:port` without any URL scheme like `http://`.) The AWS Elasticache discovery protocol is not currently supported.
+  Memcache store configuration requires an array of addresses called `url`, for the memcached servers. (This name is misleading: the values are `host:port` without any URL scheme like `http://`.) All addresses must contain both host and port, even if using the default memcached port. The AWS Elasticache discovery protocol is not currently supported.
   `keyPrefix` may also be specified, to allow multiple environments to share a memcached server (i.e. dev/staging/production).
 
 We suggest developers start with an in-memory store, then upgrade to Memcached if the added deployment complexity is worth it for production.
