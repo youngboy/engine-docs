@@ -1,36 +1,71 @@
 ---
 title: Billing
-description: Start using Apollo Engine for free. Upgrade to a paid plan as your usage grows.
+description: Detailed information about Apollo Engine plans and billing.
 ---
 
-You can begin using Apollo Engine for free through a Community plan which includes core features like performance tracing, query caching, error tracking, and more. There's no fee or credit card required to use Engine Community up to a million queries a month.
+<h2 id="selecting-plan">Selecting your Engine plan</h2>
 
-<h2 id="utility">Paid Engine Plans</h2>
+#### Can I get a free trial of the Standard or Pro versions of Engine?
 
-Sending over 1 million queries per month or need access to advanced features like configurable alerts or longer data retention? [Select a paid plan (Standard or Pro)](https://www.apollographql.com/engine/) or [start a free trial of Engine Pro](https://engine.apollographql.com/trypro) to continue using Engine beyond 1 million queries per month or access advanced features. 
+Yes, you can start a trial of Engine Pro — our most advanced plan — any time, no credit card required. At the end of the free trial you can select which version to continue with.
 
-Engine has two paid plans, Standard and Pro. They are priced based on your query volume and start at $99/month for Standard and $449/month for Pro. You can [try Engine Pro functionality for free](https://engine.apollographql.com/trypro) with no credit card required.
+#### Is there a discount if I pre-pay for my Engine plan?
 
-<h2 id="other-billing">Other Billing Details</h2>
+Yes, you can receive a 20% discount off month-to-month billing plans through a pre-paid, annual plan. You can switch from a monthly plan to an annual plan at any time. Get in touch with us from within the app or support@apollographql.com and we'll set it up for you.
 
-* **Billing frequency:** Billing occurs at the start of your Engine subscription (monthly or annually) based on the billing term you select for your paid plan, charged by GitHub organization or user
-* **Payment methods:** Accepted payment methods include major credit cards or PayPal
-* **Invoices:** Invoices will be issued when paid charges occur and can be found in the Settings page of your Engine account. 
+#### Can I start on an Engine monthly plan and switch to annual later?
 
-<h2 id="faq">FAQ</h2>
+Absolutely, you can start on a monthly billing plan for Engine and switch to a pre-paid annual plan at any time. Get in touch with us from within the app or support@apollographql.com and we'll set it up for you.
 
-<h3 id="crossing-million" title="Crossing 1 million queries">What happens when I cross the 1 million free queries for the first time when I'm on the free Engine Community plan?</h3>
+#### How do I know what Engine plan I'm on and my current query volume?
 
-Once your Engine Community account crosses the 1 million query threshold for the first time, you will not be able to access any performance metrics or error reporting features. You will be prompted to start a free trial or select a paid plan at which point you will be able to begin using Engine again; no data will be lost. 
+You can view your Engine plan name and current query volume total for the current monthly period in the Settings page of your Engine account.
 
-<h3 id="prepaid-discounts" title="Prepaid discounts">Do you offer prepaid discounts?</h3>
+#### How do I request a downgrade to a lower volume plan or cancel my Engine plan?
 
-Yes, please contact [sales@apollographql.com](mailto:sales@apollographql.com) for more information on prepaid discounts and annual payment options.
+* *Monthly plan customers:* You may request a downgrade or cancellation at any time during a monthly term. The downgrade or cancellation will take effect on your next monthly renewal date.
+* *Annual plan customers:* Downgrades or cancellations are not possible during an annual term. Any downgrades or cancellations will take effect on your next annual renewal date.
 
-<h3 id="cancelling" title="Cancellation">How do I cancel my Engine subscription?</h3>
+#### Can I downgrade from a paid plan to a free Community plan?
 
-To request an account cancellation, click “Cancel Subscription” in “Settings” under the organization's drop down menu in the upper left-hand corner: See “Cancel Account” in the “Danger Zone” and cancel the subscription. Be aware that by cancelling, **all members in your Github organization will also lose Engine access**.
+Yes, you may request a downgrade from any paid plan to the free Engine Community plan (limited to 1M queries per month). Like other downgrades, this will take place at your next renewal date of your current paid plan (monthly or annual).
 
-![Account billing](./img/account.billing.nav.png)
+<h2 id="query-volume">Query volume</h2>
 
-Cancelling your account means your Engine account no longer accept data from any service; you will also lose access to all Engine features and historic data. Depending on your subscription plan, you may be responsible for charges for the remainder of your current billing term.
+#### What happens if I exceed the query volume limit for the paid Engine plan I'm on?
+
+* *Monthly plan customers:* We will automatically upgrade your monthly plan to the appropriate volume tier when you exceed the query volume limit for a plan during a monthly billing period. Your will be billed a pro-rated amount for the initial upgrade and the full amount of the new plan for subsequent monthly periods at your next billing date which remains unchanged.
+* *Annual plan customers:* Engine will keep working if you exceed your volume tier during your annual subscription. Our team will work with you on upgrading your plan based on your expected volumes. We also reserve the right to automatically upgrade your account to the appropriate tier, prorated for the remaining duration of your initial annual billing period.
+
+#### What happens if my query volume decreases? Will Engine automatically downgrade my plan to a lower tier?
+
+If your query volume decreases to a different volume tier, you may request a downgrade to take place at your next renewal date (monthly or annual). Engine will not automatically downgrade you to a lower volume plan.
+
+#### Do I get one million “free” queries in a paid Engine plan?
+
+No, free queries are only available in the free Engine Community plan (up to one million per monthly usage period).
+
+#### Can I “rollover” or get credit for unused query volume?
+
+No, Engine query volume in your plan is based on a “use-it-or-lose it” maximum limit — there is no “rollover” or credit for unused monthly volume for monthly or annual plan customers.
+
+<h2 id="payment">Billing and payment</h2>
+
+You will be charged for your Engine subscription plan at the beginning of each usage period, based on your request volume, and billing term you select (monthly or annually). Your Engine subscription plan automatically renews each billing term.
+
+#### What payment methods can I use to pay for an Engine plan?
+
+Accepted payment methods include major credit cards (Visa, MasterCard, American Express, and Discover) or PayPal.
+
+#### How do I change the payment method associated with my Engine account?
+
+You can view and update your payment method in the Settings page of your Engine account.
+
+#### Can I pay via check or ACH instead of a credit card?
+
+Depending on the size of the invoice and billing term, you may arrange for alternative payment methods. Please contact our solutions team for more details.
+
+#### Where do I find invoice statements of past payments?
+
+You can access all past invoices for your Engine account in the Settings page of your account. The billing contact of your account will also receive a statement via email.
+
