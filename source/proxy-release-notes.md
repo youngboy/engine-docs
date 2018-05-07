@@ -4,6 +4,13 @@ title: Proxy release notes
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
+<h2 id="v1.1.1" title="v1.1.1">1.1.1 - 2018-05-07</h2>
+
+* The Engine Proxy now sanitizes invalid UTF-8 in HTTP headers and variables, fixing the error `Error reporting traces. error="POST https://engine-report.apollodata.com/api/ss/traces giving up after 6 attempts"`.
+* You may now use Engine with named pipes on Windows machines to support Node server deployments to Microsoft Azure. Instead of using the `port` argument in `engine.listen({port: process.env.PORT, httpServer: foo})`, you can now specify the `pipePath` argument to listen on a named pipe such as `engine.listen({pipePath: "\\.\pipe\bar", httpServer: foo})`. In Microsoft Azure, `process.env.PORT` is an acceptable input to `pipePath`.
+* The Engine Proxy now differentiates request timeouts from failed requests. This will remove the “Unable to communicate with backend” error and replace it with two errors: one for no response or refused connection, and one for request timeouts.
+* The Engine Proxy now sets the `X-Forwarded-For` header and does string appending to other `X-Forwarded-` headers if they are already set.
+
 <h2 id="v1.1.0" title="v1.1.0">1.1.0 - 2018-04-10</h2>
 
 Because this is a minor release, if you are using Engine via the Docker container and have specified the `1.0` tag, you'll need to change to the `1.1` tag to upgrade to this release.

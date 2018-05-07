@@ -75,9 +75,11 @@ Frontend defines a web server run by the Proxy. The Proxy will listen on each fr
 <dt>host (string)</dt>
 <dd><p>The address on which to listen. If left blank, this will default to all interfaces. (If you are using the `ApolloEngine` class from the `apollo-engine` npm module, this field defaults to the `host` option of the `engine.listen` method.)</p></dd>
 <dt>port (int32)</dt>
-<dd><p>The port on which to listen. If left blank, this will attempt to use the port specified in portFromEnv. If portFromEnv is left blank, this will select a random available port. (If you are using the `ApolloEngine` class from the `apollo-engine` npm module, this field defaults to the `port` option of the `engine.listen` method.)</p></dd>
+<dd><p>The port on which to listen. If left blank, this will attempt to use the port specified in portFromEnv. If portFromEnv is left blank, this will select a random available port. (If you are using the `ApolloEngine` class from the `apollo-engine` npm module, this field defaults to the `port` option of the `engine.listen` method.) Only one of `port`, `portFromEnv`, and `pipePath` may be set.</p></dd>
+<dt>pipePath (string)</dt>
+<dd><p>The pipe to the path to listen on. Engineproxy can listen on a named pipe on a Windows OS instead of over TCP. Only one of `port`, `portFromEnv`, and `pipePath` may be set.</p></dd>
 <dt>portFromEnv (string)</dt>
-<dd><p>The name of the environment variable to use for choosing `port`, usually "PORT". For example, when using a Docker container deployed on Heroku, you should NOT set port, and set portFromEnv to be PORT. See [the Engine docs](https://www.apollographql.com/docs/engine/setup-virtual.html) for a more detailed walkthrough on setting up Apollo Engine on Heroku and similar hosting platforms.</p></dd>
+<dd><p>The name of the environment variable to use for choosing `port`, usually "PORT". For example, when using a Docker container deployed on Heroku, you should NOT set port, and set portFromEnv to be PORT. See [the Engine docs](https://www.apollographql.com/docs/engine/setup-virtual.html) for a more detailed walkthrough on setting up Apollo Engine on Heroku and similar hosting platforms. Only one of `port`, `portFromEnv`, and `pipePath` may be set.</p></dd>
 <dt>endpoints (array of string)</dt>
 <dd><p>URL paths on which to listen; often `["/graphql"]`. (If you are using the `ApolloEngine` class from the `apollo-engine` npm module, this field defaults to the `graphqlPaths` option of the `engine.listen` method, which itself defaults to `["/graphql"]`.)</p></dd>
 <dt>originName (string)</dt>
