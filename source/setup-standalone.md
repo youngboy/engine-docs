@@ -270,24 +270,7 @@ The `start` method is what actually starts the Engine Proxy. It's an async metho
 
 When you run this method, it starts up Engine Proxy and waits for it to successfully listen for connections. The Promise it returns is resolved when it is listening. If it crashes due to invalid config, the Promise will reject. If it does not manage to start listening in 5 seconds (a very generous timeout), the Promise will reject.
 
-If the Proxy exits for any reason (other than invalid config) during its execution, the launcher will restart it. When this happens, the launcher will emit a `restarting` event with more information,, or log a message if there are no `restarting` listeners.
-
-Just like the `listen` method on `http.Server` and most web framework app objects, it accepts a set of options and an optional callback that tells you when Engine and the server have started, or emits an error:
-
-```js
-const app = express();
-const engine = new ApolloEngine(config);
-
-const port = 3000;
-
-engine.listen({
-  port,
-  expressApp: app,
-  // ... more options go here
-}, () => {
-  console.log(`Listening on port ${port}!`);
-});
-```
+If the Proxy exits for any reason (other than invalid config) during its execution, the launcher will restart it. When this happens, the launcher will emit a `restarting` event with more information, or log a message if there are no `restarting` listeners.
 
 `start` has some optional options. Note that these are the same as the options in the `launcherOptions` option to [`ApolloEngine.listen()`](./setup-node.html#api-engine.listen)... now you know why that option has that name!
 
