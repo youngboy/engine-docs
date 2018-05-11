@@ -20,11 +20,12 @@ Apollo Engine Proxy reads Apollo Cache Control extensions, caching whole query r
 * pinpoint slow components that could benefit from caching.
 
 <h3 id="get-started">Get Started</h3>
+
 There are just a few steps to enable response caching in Engine, and one of them is optional!
 
 1. Enable cache control in the Apollo Server options.
-2. Annotate your schema and/or resolvers with cache control hints.
-3. Optional: Configure cache options in your Engine configuration.
+1. Annotate your schema and/or resolvers with cache control hints.
+1. Optional: Configure cache options in your Engine configuration.
 
 <h2 id="enable-cache-control">1. Apollo Server: cacheControl</h2>
 
