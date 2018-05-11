@@ -284,7 +284,7 @@ This will give you much more control over memory usage and enable sharing the ca
 
 This is useful when you want to do per-session response caching with Engine. To be able to cache results for a particular user, Engine needs to know how to identify a logged-in user. In this example, we've configured it to look for an `Authorization` header, so private data will be stored with a key that's specific to the value of that header.
 
-You can specify that the session ID is defined by either a either a header or a cookie. Optionally, you can specify a REST endpoint which the Engine Proxy can use to determine whether a given token is valid.
+You can specify that the session ID is defined by either a header or a cookie. Optionally, you can specify a REST endpoint which the Engine Proxy can use to determine whether a given token is valid.
 
 <h3 id="config.queryCache">queryCache</h3>
 
