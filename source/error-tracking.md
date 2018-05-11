@@ -6,7 +6,7 @@ The Engine proxy service is designed to accept traces, or resolver execution tim
 
 ![Errors](./img/error.png)
 
-Errors from your application include the **error type**, **class**, and **message. Service time** represents the time it takes for a query is received on the server, until the time that it sends the response back, also known as processing time. 
+Errors from your application include the **error type**, **class**, and **message. Service time** represents the time it takes from when a query is received on the server until the time that it sends the response back, also known as processing time. 
 
 Without any operation selected, or on the first time that you view the dashboard, all errors and sampled traces are shown. **Select** an operation to see specifics, or **deselect** the operation that is selected to go back to all operations.
 
