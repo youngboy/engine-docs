@@ -10,7 +10,7 @@ Errors from your application include the **error type**, **class**, and **messag
 
 Without any operation selected, or on the first time that you view the dashboard, all errors and sampled traces are shown. **Select** an operation to see specifics, or **deselect** the operation that is selected to go back to all operations.
 
-Select an operation to view specific errors for that operation, or, you can select a specific error under all operations, and you can view the operation that was affected by the error.
+Select an operation to view specific errors for that operation, or you can select a specific error under all operations, and you can view the operation that was affected by the error.
 
 Each operation can have multiple requests that return errors over the timeframe on each query, and will list these. Each error listed that has one trace can have multiple errors under each resolver.
 
