@@ -54,7 +54,7 @@ At the top of the Trace view, right under the timing histogram, you can see a li
 
 <h3 id="critical-path">Critical path</h3>
 
-When you first open the trace view, some of the fields are collapsed and some are open. It's not random; in fact the default view is showing you a very helpful piece of information which is the "critical path" of the query. This is the set if fields and resolvers which is the longest sequence in the query. Therefore, if you are trying to speed up your execution this is the set of fields you should probably look into first.
+When you first open the trace view, some of the fields are collapsed and some are open. It's not random; in fact the default view is showing you a very helpful piece of information which is the "critical path" of the query. This is the set of fields and resolvers which is the longest sequence in the query. Therefore, if you are trying to speed up your execution this is the set of fields you should probably look into first.
 
 <h3 id="expanding">Expanding fields</h3>
 
