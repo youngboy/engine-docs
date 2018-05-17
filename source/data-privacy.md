@@ -37,7 +37,7 @@ Let's walk through Engine's default behavior for reporting on fields in a typica
 ```
 // GraphQL Response
 {
-  "data": { ... },          // Engine does not read this field, but might cache the response.
+  "data": { ... },          // Contents of this field are never sent to the engine cloud service.
   "errors": [ ... ],        // Engine uses this field to report on errors in your service.
   "extensions": {
     "tracing": { ... },     // Engine uses this field for service performance reporting.
