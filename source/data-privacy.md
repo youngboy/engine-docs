@@ -26,7 +26,7 @@ Engine reports the query variables for every trace sample it stores. You can tel
 
 <h4 id="http-headers">Authorization & Cookie HTTP Headers</h4>
 
-We'll **never** collect your application's `Authorization`, `Cookie`, or `Set-Cookie` headers.
+We'll **never** collect your application's `Authorization`, `Cookie`, or `Set-Cookie` headers. Engine collects all other headers for every trace sample it stores.
 
 If you perform authorization in another header (like `X-My-API-Key`), be sure to add this to `privateHeaders` in your [`reporting` config object](./proxy-config.html#mdg.engine.config.proto.Config.Reporting). Note that unlike headers in general, this configuration option *is* case-sensitive.
 
