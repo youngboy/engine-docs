@@ -14,9 +14,23 @@ Engine is composed of two components:
 
 Setting up Engine in your app is all about getting the proxy set up in front of your GraphQL server and configuring it to behave the way you want it to. You install and run the engine proxy in your own environment on-prem, either as a [sidecar next to your Node server](./setup-node.html) or as a [separately hosted process](./setup-standalone.html) that you route your client requests through. As your clients make requests to your server, the proxy reads response extension data to make caching decisions and aggregates tracing and error information into reports to send to the Engine cloud service.
 
-### Engine Proxy
+## Engine Proxy
 
 While the Engine proxy sees your client request data and service response data, it only collects and forwards data that goes into the reports you see in the Engine dashboards. All information that is sent from your on-prem proxy to the out-of-band Engine cloud service is configurable and can be turned off through config options. Data is aggregated and sent approximately every 5 seconds.
+
+### Request
+
+#### Variables
+
+Engine reports the query variables for every trace sample it stores. You can tell Engine to ignore private variables using the [`privateVariables`](./proxy-config.html#Reporting) configuration option in the proxy or you can prevent all variables from being reported with [`noTraceVariables`](./proxy-config.html#Reporting).
+
+<h4 id="http-headers">Authorization & Cookie HTTP Headers</h4>
+
+We'll **never** collect your application's `Authorization`, `Cookie`, or `Set-Cookie` headers.
+
+If you perform authorization in another header (like `X-My-API-Key`), be sure to add this to `privateHeaders` in your [`reporting` config object](./proxy-config.html#mdg.engine.config.proto.Config.Reporting). Note that unlike headers in general, this configuration option *is* case-sensitive.
+
+### Response
 
 Let's walk through Engine's default behavior for reporting on fields in a typical GraphQL response:
 
@@ -38,8 +52,6 @@ The Engine proxy will never send the contents of this to the Engine cloud servic
 
 If you've configured Engine caching and Engine determines that a response it sees is cacheable, then the response will be stored in your [Engine cache](./caching.html#config.stores) (either in memory or as an external memcache you configure).
 
-Engine reports the query variables for every trace sample it stores. You can tell Engine to ignore private variables using the [`privateVariables`](./proxy-config.html#Reporting) configuration option in the proxy or you can prevent all variables from being reported with [`noTraceVariables`](./proxy-config.html#Reporting).
-
 #### `response.errors`
 
 If the proxy sees a response with an `"errors"` field, it will read the `message` and `locations` fields if they exist and report them to the Engine cloud service.
@@ -52,15 +64,7 @@ We've added the option to disable reporting of stats and traces to Apollo server
 
 To disable all reporting, use the [`disabled`](./proxy-config.html#Reporting) option.
 
-<h3 id="http-headers">Authorization & Cookie HTTP Headers</h3>
-
-We'll **never** collect your application's `Authorization` headers, `Cookie`, or `Set-Cookie` headers.
-
-<h4 id="custom-auth-headers" title="Configure Custom Auth Headers">How to Configure Custom Authorization Headers</h4>
-
-If you perform authorization in another header (like `X-My-API-Key`), be sure to add this to `privateHeaders` in your [`reporting` config object](./proxy-config.html#mdg.engine.config.proto.Config.Reporting). Note that unlike headers in general, this configuration option *is* case-sensitive.
-
-<h3 id="policies" title="Policies and Agreements">Policies and Agreements</h3>
+<h2 id="policies" title="Policies and Agreements">Policies and Agreements</h2>
 
 To learn about other ways that we protect your data, please read over our Terms of Service and Privacy Policy.
 
