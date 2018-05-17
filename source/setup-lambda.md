@@ -52,7 +52,7 @@ The proxy uses a JSON object to get configuration information.
     {
       "host": "0.0.0.0",
       "port": 3001,
-      "graphqlPaths": ["/graphql"]
+      "endpoints": ["/graphql"]
     }
   ]
 }
@@ -67,7 +67,7 @@ The proxy uses a JSON object to get configuration information.
 5. `origin.lambda.awsSecretAccessKey` : Your Secret Access Key.
 7. `frontend.host` : The hostname the proxy should be available on. For Docker, this should always be `0.0.0.0`.
 8. `frontend.port` : The port the proxy should bind to.
-9. `frontend.graphqlPaths` : The paths on which your app serves GraphQL. This defaults to `["/graphql"]`.
+9. `frontend.endpoints` : The endpoints on which your app serves GraphQL. This defaults to `["/graphql"]`.
 
 For full configuration details see [Proxy config](proxy-config.html).
 
