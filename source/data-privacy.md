@@ -14,7 +14,7 @@ Engine is composed of two components:
 
 Setting up Engine in your app is all about getting the proxy set up in front of your GraphQL server and configuring it to behave the way you want it to. You install and run the engine proxy in your own environment on-prem, either as a [sidecar next to your Node server](./setup-node.html) or as a [separately hosted process](./setup-standalone.html) that you route your client requests through. As your clients make requests to your server, the proxy reads response extension data to make caching decisions and aggregates tracing and error information into reports to send to the Engine cloud service.
 
-<h2 id="proxy">Engine Proxy</h2>
+<h2 id="data-collection">Data collection</h2>
 
 While the Engine proxy sees your client request data and service response data, it only collects and forwards data that goes into the reports you see in the Engine dashboards. All information that is sent from your on-prem proxy to the out-of-band Engine cloud service is configurable and can be turned off through config options. Data is aggregated and sent approximately every 5 seconds.
 
