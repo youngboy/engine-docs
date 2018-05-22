@@ -1,11 +1,13 @@
 ---
-title: AWS Lambda
+title: Serverless
 ---
 
-To get started with Engine for AWS Lambda, you will need to:
-1. Instrument your function with a tracing agent that uses the Apollo Tracing format.
-2. Configure and deploy the Engine proxy docker container.
+To get started with Engine for serverless environments, you will need to:
+1. Instrument your function to respond with a tracing extension that follows the Apollo Tracing format.
+2. Configure and deploy the Engine proxy docker container _separately_ as a standalone server. Because Engine proxy is stateful, it should not be deployed along with your cloud function, but separately.
 3. Send requests to your service –-- you're all set up!
+
+>Note: The remainder of these docs are framed specifically for AWS Lambda, for which we have a special "origin" type, but other cloud functions are supported with the standard HTTP invocation. For non-AWS cloud functions, see [the standalone docs](https://www.apollographql.com/docs/engine/setup-standalone.html#apollo-engine-launcher) for instructions on setting up the Engine proxy as a standalone API Gateway to your cloud function.
 
 The Engine proxy will invoke the Lambda function as if it was called from [API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-simple-proxy-for-lambda-input-format), and the function should return a value suitable for [API Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-set-up-simple-proxy.html#api-gateway-simple-proxy-for-lambda-output-format).
 
