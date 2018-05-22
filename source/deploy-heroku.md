@@ -1,9 +1,14 @@
 ---
-title: Node with Engine on Heroku
-description: How to configure and deploy your GraphQL server and Engine
+title: Deploying Node to Heroku
+description: How to configure and deploy your GraphQL server with Engine to Heroku
 ---
 
 This section describes how to deploy your GraphQL service with production-ready Engine features. Before starting, make sure you have [added Engine to your GraphQL server](setup-node.html). If you haven't built a GraphQL server yet, check out [our tutorial](https://dev-blog.apollodata.com/tutorial-building-a-graphql-server-cddaa023c035) first and then come back when you're ready to deploy!
+
+> This guide is specifically made for Node GraphQL servers. For non-Node servers, we recommend using the 
+[launcher API](https://deploy-preview-170--engine-docs.netlify.com/docs/engine/setup-standalone.html#apollo-engine-launcher)
+which is a small Node script packaged with [`apollo-engine`](https://www.npmjs.com/package/apollo-engine) used to run Engine as a standalone proxy
+server.
 
 <h3 id="env-vars" title="Environment variables">1. Configure environment variables</h3>
 

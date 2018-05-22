@@ -5,3 +5,4 @@ keys.json
 public/*
 !public/_redirects
 _multiconfig.yml
+*.iml

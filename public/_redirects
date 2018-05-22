@@ -7,5 +7,6 @@ https://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.co
 /docs/engine/setup-java.html /docs/engine/setup-standalone.html
 /docs/engine/setup-scala.html /docs/engine/setup-standalone.html
 /docs/engine/setup-elixir.html /docs/engine/setup-standalone.html
+/docs/engine/setup-heroku.html /docs/engine/deploy-heroku.html
 
 /docs/engine/proto-doc.html /docs/engine/proxy-config.html

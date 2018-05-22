@@ -139,7 +139,10 @@ const engine = new ApolloEngine({
 
 <h2 id="deploy" title="Deploy">Deploy</h2>
 
-Now that you have integrated Engine into your GraphQL server, you are ready to deploy your GraphQL service. Follow [these steps](./setup-heroku.html) to put your server into production on Heroku.
+Now that you have integrated Engine into your GraphQL server, you are ready to deploy your GraphQL service. We have deployment instructions for these cloud platforms:
+
+- [Heroku](./deploy-heroku.html)
+- [Now](./deploy-now.html)
 
 <h2 id="not-express" title="Other Node servers">Node servers other than Express</h2>
 

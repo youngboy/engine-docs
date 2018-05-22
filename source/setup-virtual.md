@@ -1,5 +1,5 @@
 ---
-title: Hosting Engine in PaaS Environments
+title: Hosting Engine as a standalone server in PaaS Environments
 sidebar_title: Engine standalone on PaaS
 description: How to run the Engine container separately on a Platform as a Service like Heroku
 ---
