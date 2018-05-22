@@ -29,14 +29,16 @@ Since Datadog metrics merge statistics from multiple instances of the proxy, per
 
 Getting set up with Engine's Datadog integration is as simple as providing a Datadog API key to Engine. There's no further configuration required! You will need to have an account with administrator access to Datadog to acquire that API key.
 
-1. Go to The [Datadog API integrations page](https://app.datadoghq.com/account/settings#api) and navigate to the API Keys section. You'll need to give Engine a Datadog API key to report to. You can either create a new one or use an existing one. If using an existing one, copy it into your clipboard and skip step 2. Otherwise, scroll to the bottom of the section, where you'll see a form to create a new API key or a note that you do not have administrator access to Datadog. If you do not have administrator access, you will not be able to create an API key.
-2. If creating a new API key, choose a good name, like “Apollo Engine Metrics Forwarding” and click **Create API key**. You can change the name you've chosen at any point. The generated API Key should appear above — copy it into your clipboard.
-3. Navigate to the [Apollo Engine service(s)](https://engine.apollographql.com/) you would like to enable Datadog metrics for. You can use the same API key for all Apollo Engine services as all metrics are tagged with a service ID (`service:<service-id>`). Go to the /settings page for that service and you should see an Integrations section at the bottom of the page. Toggle the Datadog integration to turn it on, paste the API key, and press **Done**.
+1. Go to The [Datadog integrations page](https://app.datadoghq.com/account/settings) and search for Apollo Engine.
+2. Click the "+Available" button and go the the "Configuration" tab. Copy the API key from the "Configuration" tab, click "Install Integration" at the bottom, and go to the [service](https://engine.apollographql.com) you'd like to enable Datadog Metric Forwarding for.
+3. In the settings for the service, scroll to Integrations, and toggle Datadog to ON. When prompted, paste in the API key.
 4. Go to your Datadog metric explorer and start to see the metrics flow in! Please allow up to five minutes for metrics to be visible.
 
-**Note:** Only Admin users can create API keys. Please contact your administrator if a new key is required.
+Navigate to the Apollo Engine Integration in Datadog
 
-Create a new API Key for your Engine integration in Datadog:
+![IntegrationTile](./img/datadog/integration-tile.png)
+
+Get the API Key from the Configuration tab before clicking "Install Integration":
 
 ![ApiKey](./img/datadog/api-key.png)
 
