@@ -33,6 +33,7 @@ sidebar_categories:
   Reference:
     - proxy-config
     - proxy-release-notes
+    - gdpr
 github_repo: apollographql/engine-docs
 
 apis:
