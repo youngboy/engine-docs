@@ -6,7 +6,7 @@ If you hit any issues in setting up Engine for your GraphQL service, we're here 
 
 <h2 id="sanity-checks" title="First steps">First Troubleshooting steps</h2>
 
-<h3> Check that you are on a supported GraphQL server </h3>
+<h3 id="check-server-support"> Check that you are on a supported GraphQL server </h3>
 
 Check that your server is one of the supported GraphQL servers listed [here](apollo-tracing.html).
 
@@ -18,7 +18,7 @@ You can enter the following into the commandline to see the latest package versi
 $ npm view apollo-engine version
 ```
 
-<h3> Set debug logging levels for the Proxy</h3>
+<h3 id="proxy-debug-levels"> Set debug logging levels for the Proxy</h3>
 
 Support may request that you set the Engine Proxy logging level to DEBUG or higher. These logs will be part of your GraphQL server logs (if Proxy is deployed with the `ApolloEngine` Node API) or in the Proxy process logs (if Proxy is deployed standalone).
 
@@ -30,11 +30,11 @@ const engine = new ApolloEngine({
 });
 ```
 
-<h3> Ensure you enabled Apollo Tracing </h3>
+<h3 id="ensure-tracing-enabled"> Ensure you enabled Apollo Tracing </h3>
 
 Test that you enabled Apollo Tracing by checking if your GraphQL server returns trace extensions in GraphQL responses when not executed through Engine. If it does, it's is a sign that Apollo Tracing is properly configured.
 
-<h2 id="">Troubleshooting FAQs</h2>
+<h2 id="troubleshooting-faqs">Troubleshooting FAQs</h2>
 
 **I'm getting an error saying “The query failed!”, how do I fix it?**
 
@@ -43,6 +43,10 @@ This may mean you need to upgrade an NPM package. Check that your package versio
 **Why isn't data showing up in my dashboard?**
 
 We recommend double-checking that the Engine API key for the correct service is specified in the `ApolloEngine` constructor.
+
+**How do I check that the Engine Proxy is up and running?**
+
+There is a health check URL at `[engine-frontend-url]/.well-known/apollo/engine-health`, which returns an HTTP status of 200 if the server is running.
 
 **What is shown on the Engine Proxy logs?**
 
@@ -63,7 +67,7 @@ const engine = new ApolloEngine({
 });
 ```
 
-<h2 id="">Submit a support ticket</h2>
+<h2 id="get-support">Submit a support ticket</h2>
 
 Please include the following when submitting an issue to our support team:
 
