@@ -20,6 +20,7 @@ Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure.
 
 <h3 id="analytics">Analytics</h3>
 
+1. [Query tracking](./query-tracking.html)
 1. [Performance tracing](./performance.html)
 1. [Schema analytics](./schema-analytics.html)
 1. [Error tracking](./error-tracking.html)

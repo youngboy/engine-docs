@@ -3,7 +3,7 @@ title: Performance Tracing
 description: Understand the performance of your GraphQL operations and resolvers, and how it changes over time.
 ---
 
-The first feature of Engine, and one of the most commonly used, is the ability to get fine-grained understanding of the performance of your GraphQL execution. Without GraphQL, performance is often tracked on a per-endpoint basis, but now that your data is accessed through GraphQL queries that approach isn't as effective.
+One of the most powerful Engine features is the ability to get fine-grained understanding of the performance of your GraphQL execution. Without GraphQL, performance is often tracked on a per-endpoint basis, but now that your data is accessed through GraphQL queries, that approach isn't as effective.
 
 Engine's performance features are focused around two main concepts:
 
