@@ -11,20 +11,23 @@ When Engine deems that a particular sample is interesting enough to be recorded 
 
 <h2 id="operation-signatures">Operation Signatures</h2>
 
-Engine tracks operation strings in a normalized "signature" form, which might look a little bit different than the full operation string that your clients send. These signatures are generated in real-time as the proxy is handling GraphQL traffic, and include additional transforms that help with doing statistical aggregation of operations that have the same basic shape.
+In Engine, we want to group requests making the same operation together, and treat different queries distinctly. But what does it mean for two operations to be "the same"?  And what if you don't want to send the full text of the operation to Apollo Engine's servers, either because it contains sensitive data or because it contains extraneous operations or fragments?
 
-<h3 id="transformations">Transformations</h3>
-The following transformations may be performed when generating a signature:
+To solve these problems, Engine has the concept of "signatures". We don't (by default) send the full operation string to the Engine servers. Instead, each reported operation trace sends its operation string in a normalized "signature" form.
+
+<h3 id="transformations">Current signature algorithm</h3>
+
+The current signature algorithm performs the following transformations when generating a signature. (Future improvements to Engine will allow users to customize the signature algorithm.)
 
 - Input argument values are mapped according to the following rules:
-  - `Variable`, `BooleanValue`, `EnumValue` preserved
+  - `Variable`, `BooleanValue`, and `EnumValue` preserved
   - `IntValue` and `FloatValue` replaced by `0`
   - `StringValue` replaced by `""`
   - `ListValue` replaced by `[]`
   - `ObjectValue` replaced by `{}`
 - [Ignored tokens](http://facebook.github.io/graphql/draft/#sec-Source-Text.Ignored-Tokens) are removed, including redundant `WhiteSpace`. Single spaces are only preserved when required for parsing the request.
 - Only the `OperationDefinition` corresponding to the requested operation and reachable `FragmentDefinition`s are included.
-  The operation appears first, fragment definitions appear in order of first reachability when traversing spread-first, depth-second.
+  The operation appears first. Fragment definitions appear in order of first reachability when traversing spread-first, depth-second.
 - `Alias`es are removed.
 - In `SelectionSet`, fields appear before fragment spreads, fragment spreads appear before inline fragments.
 - Otherwise, elements are sorted by name alphanumerically, including `Argument` and `Directive`.
@@ -51,9 +54,15 @@ becomes
 query Foo{user(id:""){name timezone...Baz}}fragment Baz on User{dob}
 ```
 
-> A reference implementation of query signatures is available [here](https://github.com/apollographql/optics-agent/blob/master/reference/QuerySignatures.kt).
+> A reference implementation of query signatures is available [here](https://github.com/apollographql/apollo-engine-reporting/blob/master/src/signature.ts).
 
-These transformations make it possible to aggregate statistics about how your API is being used.  It also happens that normalizing away the argument values is a means to achieve greater data privacy within Engine, however the primary goal is to better identify queries that have an equivalent field structure.  Where possible, we strongly advise that you keep sensitive data in variables (instead of in literal arguments in the query body), as you can more easily control which variables should be stripped out of the Engine reporting pathway for privacy purposes.  See [Data Privacy]('data-privacy.html) for further detail on how this works.
+<h3 id="signatures-sensitive-data">Signatures and sensitive data</h3>
+
+The signature algorithm is primarily designed to make it possible to treat operations that differ only in trivial ways as the same operation.  It also happens that removing the content of string literals appears to achieve greater data privacy within Engine, but this is not the primary goal. In fact, Engine also sends the full raw query along with traces (though it does not currently expose them in the user interface), so relying on the signature to ensure sensitive data never hits Engine's servers is inappropriate.
+
+Future versions of Engine are likely change this default algorithm to leave string literals alone, though it will still be easy to configure your server to remove string literals like in the current implementation. We also intend to stop sending the full raw query in future versions of Engine, so that the signature algorithm really can be used to avoid sending sensitive data in queries to Engine.
+
+But where possible, we strongly advise that you keep sensitive data in GraphQL variables instead of in literal arguments in the query body, as you can more easily control which variables should be stripped out of the Engine reporting pathway for privacy purposes.  See [Data Privacy](data-privacy.html) for further detail on how this works.
 
 <h2 id="tracking-subs">A Note on GraphQL Subscriptions</h2>
 

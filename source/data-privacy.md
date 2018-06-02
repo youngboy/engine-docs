@@ -22,9 +22,13 @@ While the Engine proxy sees your client request data and service response data, 
 
 In this section, we'll go over which parts of your GraphQL HTTP requests are collected by Engine.
 
+#### Query operation string
+
+The Engine proxy reports the full operation string along with trace requests. It also reports a normalized ["signature"](./query-tracking.html#operation-signatures).  Because of this, you should be careful to put any sensitive data in GraphQL variables rather than in the operation string itself.
+
 #### Variables
 
-Engine reports the query variables for every trace sample it stores. You can tell Engine to ignore private variables using the [`privateVariables`](./proxy-config.html#Reporting) configuration option in the proxy or you can prevent all variables from being reported with [`noTraceVariables`](./proxy-config.html#Reporting).
+The Engine proxy reports the query variables for every trace sample it stores. You can tell Engine to ignore private variables using the [`privateVariables`](./proxy-config.html#Reporting) configuration option in the proxy or you can prevent all variables from being reported with [`noTraceVariables`](./proxy-config.html#Reporting).
 
 <h4 id="http-headers">Authorization & Cookie HTTP Headers</h4>
 
