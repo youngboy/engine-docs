@@ -155,7 +155,7 @@ All of these are just one line to set up, and the integration is built right int
 Follow the same instructions as for Express, but specify your app with the `connectApp` option instead.
 
 ```js
-const app = new connect();
+const app = connect();
 
 // Replace your app.listen with engine.listen
 engine.listen({
@@ -169,7 +169,7 @@ engine.listen({
 Follow the same instructions as for Express, but specify your app with the `koaApp` option instead.
 
 ```js
-const app = new koa();
+const app = new Koa();
 
 // Replace your app.listen with engine.listen
 engine.listen({
