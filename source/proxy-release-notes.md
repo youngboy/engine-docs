@@ -4,6 +4,11 @@ title: Proxy release notes
 
 The versions given here are both for the [`apollo-engine` Node.js package](https://www.npmjs.com/package/apollo-engine) and the `gcr.io/mdg-public/engine` Docker container.
 
+<h2 id="v1.1.2" title="v1.1.2">1.1.2 - 2018-06-08</h2>
+
+* Fixes bug involving the X-Forwarded-For header not being set.
+* Simplified API for users of the `pipePath` argument in `engine.listen(...)` with the apollo-engine `npm` package. Now, rather than needing to explicitly specify the `pipePath` argument in the call, an string argument to `port` that begins with `\\.\pipe\` will result in listening on the specified named pipe. Thus, calls such as `engine.listen({pipePath: "\\.\pipe\bar", httpServer: foo})` can be replaced by `engine.listen({port: "\\.\pipe\bar", httpServer: foo})`, which should help users developing locally using TCP and deploying to servers using IISNode, such as Microsoft Azure.
+
 <h2 id="v1.1.1" title="v1.1.1">1.1.1 - 2018-05-07</h2>
 
 * The Engine Proxy now sanitizes invalid UTF-8 in HTTP headers and variables, fixing the error `Error reporting traces. error="POST https://engine-report.apollodata.com/api/ss/traces giving up after 6 attempts"`
