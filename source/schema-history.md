@@ -21,7 +21,7 @@ npm i -g apollo
 
 <h3 id="publish-schema">Publish schema</h3>
 
-Once you have the Apollo CLI installed, the next step is to publish your schema. The CLI can read a schema from a running GraphQL endpoint that does not have introspection disabled, or from a file with either the introspection query result, or an SDL of the schema. the quickest way to publish the current version of your schema is to run the following command:
+Once you have the Apollo CLI installed, the next step is to publish your schema. The CLI can read a schema from a running GraphQL endpoint that has introspection enabled, or from a file with either the introspection query result, or an SDL of the schema. the quickest way to publish the current version of your schema is to run the following command:
 
 ```bash
 apollo schema:publish --service="<ENGINE_API_KEY>" --endpoint="https://example.com/graphql"
@@ -53,7 +53,7 @@ Engine will report back three types of changes:
 2. **Warning:** there are potential problems that may come from this change, but no clients are immediately impacted
 3. **Notice:** this change is safe to make and will not break any current usage
 
-The more usage information that Engine has through [reporting metrics](./metrics), the better the report of these changes will become.
+The more usage information that Engine has through [reporting performance metrics](./performance.html), the better the report of these changes will become.
 
 XXX screenshot
 
