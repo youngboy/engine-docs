@@ -184,6 +184,6 @@ OPTIONS
   --json                   output successful publish result as JSON
 ```
 
-<h3 id="choosing-and-endpoint">Choosing an endpoint</h3>
+<h3 id="choosing-an-endpoint">Choosing an endpoint</h3>
 
 All schema commands take an option to specify the endpoint of your schema for the CLI to access. Typically this will be a running GraphQL server, but in some cases you may have a file with SDL (Schema Definition Language) or the result of an introspection query. Apollo CLI can use both of those as endpoints. To use an SDL file, pass the location of the file to the `--endpoint` flag. To use an introspectionQuery result, you will also pass the file name to the `--endpoint` flag, but make sure that the file extension is `.json`.
