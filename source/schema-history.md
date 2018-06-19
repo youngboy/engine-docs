@@ -9,7 +9,6 @@ In order to do this safely, it is critical to know how clients are actually usin
 
 For more information and best practices about versioning your GraphQL endpoint over time, check out our in-depth [guide](https://www.apollographql.com/docs/guides/versioning.html).
 
-XXX screenshot
 
 <h2 id="setup">Publishing a schema</h2>
 
@@ -45,7 +44,7 @@ When running this command, replace the `<ENGINE_API_KEY>` with the api key from 
 
 As your schema grows and evolves to meet the needs of your product, it is helpful to see a history of changes for a team. This allows everyone to know when new features were introduced, when old fields were removed, and even link back to the commit that caused the change. Engine provides all the tooling needed to track this history in a simple way. Everytime your schema is updated, you can simply run the [publish](#publish-schema) command again to keep an up to date history of your schema.
 
-XXX screenshot
+![Schema History View](./img/schema-history/schema-history.png)
 
 <h2 id="schema-validation">Schema Validation</h2>
 
@@ -69,9 +68,11 @@ Engine will report back three types of changes:
 
 The more usage information that Engine has through [reporting performance metrics](./performance.html), the better the report of these changes will become.
 
-XXX screenshot
+![Schema Check View](./img/schema-history/schema-check.png)
 
 <h2 id="github">Github Integration</h2>
+
+![Github Status View](./img/schema-history/github-check.png)
 
 Schema validation is best used when integrated with your teams development workflow. To make this easy, Apollo Engine integrates with Github to provide status checks on pull requests when you make schema changes. To enable schema validation in Github, follow these steps:
 
@@ -81,9 +82,17 @@ Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-eng
 
 <h3 id="check-schema-on-ci">Run Validation on Commit</h3>
 
-Within your CI (continuous integration such as Circle CI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.
+Within your CI (continuous integration such as Circle CI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.0;23M0;23m
 
-To run the validation command, you will need to run your server to enable introspection, and then run the `schema:check` command. Below is a sample configuration for Circle CI:
+To run the validation command, you will need to run your server to enable introspection, and then run the `schema:check` command.
+
+![Github Diff View](./img/schema-history/github-diff.png)
+
+<h3 id="publish-on-master">Publish on Master</h3>
+
+In order to keep your schema up to date, it is good practice to run the `schema:publish` when you deploy your schema. This can be done by setting your CI to run publish on any merge into master.
+
+Below is a sample configuration for validation and publishing using Circle CI:
 
 ```yaml
 version: 2
@@ -118,8 +127,6 @@ jobs:
             fi
 ```
 
-
-XXX screenshot
 
 <h2 id="cli-commands">CLI Usage</h2>
 
@@ -184,3 +191,6 @@ OPTIONS
   --json                   output successful publish result as json
 ```
 
+<h3 id="choosing-and-endpoint">Choosing an Endpoint</h3>
+
+All schema commands take an option to specify the endpoint of your schema for the CLI to access. Typically this will be a running GraphQL server, but in some cases you may have a file with SDL (Schema Definition Language) or the result of an introspection query. Apollo CLI can use both of those as endpoints. To use an SDL file, pass the location of the file to the `--endpoint` flag. To use an introspectionQuery result, you will also pass the file name to the `--endpoint` flag, but make sure that the file extension is `.json`.
