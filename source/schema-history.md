@@ -122,11 +122,10 @@ jobs:
 
       # When running on the 'master' branch, publish the latest version
       # of the schema to Apollo Engine.
-      - run:
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              apollo schema:publish
-            fi
+      - run: |
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            apollo schema:publish
+          fi
 ```
 
 
