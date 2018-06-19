@@ -133,11 +133,11 @@ jobs:
 
 <h2 id="cli-commands">CLI usage</h2>
 
-* [`apollo help [COMMAND]`](#apollo-help-command)
-* [`apollo schema:check`](#apollo-schema-check)
-* [`apollo schema:publish`](#apollo-schema-publish)
+* [`apollo help [COMMAND]`](#cli-help)
+* [`apollo schema:check`](#cli-schema-check)
+* [`apollo schema:publish`](#cli-schema-publish)
 
-<h3 id="apollo-help-command">`apollo help [COMMAND]`</h3>
+<h3 id="cli-help">`apollo help [COMMAND]`</h3>
 
 Display help for the Apollo CLI:
 
@@ -152,7 +152,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-<h3 id="apollo-schema-check">`apollo schema:check`</h3>
+<h3 id="cli-schema-check">`apollo schema:check`</h3>
 
 Check a schema against the version registered in Apollo Engine.
 
@@ -168,7 +168,7 @@ OPTIONS
   --json                   output result as JSON
 ```
 
-<h3 id="apollo-schema-publish">`apollo schema:publish`</h3>
+<h3 id="cli-schema-publish">`apollo schema:publish`</h3>
 
 Publish a schema to Apollo Engine
 
