@@ -96,7 +96,7 @@ To run the validation command, the GraphQL server must have introspection enable
 
 <h3 id="publish-on-deploy">Publish to Apollo Engine after deploying</h3>
 
-In order to keep provide accurate analysis of breaking changes, it important to run the `apollo schema:publish` command each time the schema is deployed. This can be done by configuring continuous integration to run `apollo schema:publish` automatically on the `master` branch.
+In order to keep provide accurate analysis of breaking changes, it important to run the `apollo schema:publish` command each time the schema is deployed. This can be done by configuring continuous integration to run `apollo schema:publish` automatically on the `master` branch (or the appropriate mainline branch).
 
 Below is a sample configuration for validation and publishing using CircleCI:
 
