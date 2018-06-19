@@ -167,17 +167,7 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
   -h, --help               show CLI help
-<<<<<<< HEAD
   --apiKey=apiKey          The API key for the Apollo Engine service
-||||||| parent of 8894b31... Lots of copy edit.
-
-  -s, --service=service    The API key for the Apollo Engine service
-
-=======
-
-      --apiKey=key         The API key for the Apollo Engine service
-
->>>>>>> 8894b31... Lots of copy edit.
   --header=header          Additional headers to send to server for introspectionQuery
   --json                   output result as JSON
 ```
@@ -193,17 +183,7 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
   -h, --help               show CLI help
-<<<<<<< HEAD
   --apiKey=apiKey          The API key for the Apollo Engine service
-||||||| parent of 8894b31... Lots of copy edit.
-
-  -s, --service=service    The API key for the Apollo Engine service
-
-=======
-
-      --apiKey=key         The API key for the Apollo Engine service
-
->>>>>>> 8894b31... Lots of copy edit.
   --header=header          Additional headers to send to server for introspectionQuery
   --json                   output successful publish result as JSON
 ```
