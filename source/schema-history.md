@@ -19,7 +19,7 @@ To get started with schema history in Apollo Engine, you need to publish the cur
 Schemas are published to Apollo Engine using the Apollo command line interface. To use this, you can either install the CLI globally, or as a development dependency. To install the Apollo CLI globally, run the following command in your terminal:
 
 ```bash
-npm i --global apollo
+npm install --global apollo
 ```
 
 Note that you'll need to have `node` and `npm` installed on your machine.
