@@ -66,7 +66,7 @@ apollo schema:check --apiKey="<API_KEY>" --endpoint="http://localhost:4000/graph
 
 > For accuracy, it's best to retrieve the schema from a running GraphQL server (with introspection enabled), though the `--endpoint` can also reference a local file.  See [schema sources](#schema-sources) for more information.
 
-After analyzing the changes against current usage metrics, Apollo Engine will report identify three categories of changes:
+After analyzing the changes against current usage metrics, Apollo Engine will identify three categories of changes and report them to the developer on the command line or within a GitHub pull-request:
 
 1. **Failure**: Either the schema is invalid or the changes _will_ break current clients.
 2. **Warning**: There are potential problems that may come from this change, but no clients are immediately impacted.
