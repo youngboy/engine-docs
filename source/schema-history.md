@@ -82,7 +82,7 @@ Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-eng
 
 <h3 id="check-schema-on-ci">Run Validation on Commit</h3>
 
-Within your CI (continuous integration such as Circle CI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.0;23M0;23m
+Within your CI (continuous integration such as Circle CI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.
 
 To run the validation command, you will need to run your server to enable introspection, and then run the `schema:check` command.
 
