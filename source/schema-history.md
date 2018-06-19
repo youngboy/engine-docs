@@ -90,7 +90,7 @@ To run the validation command, you will need to run your server to enable intros
 
 <h3 id="publish-on-master">Publish on Master</h3>
 
-In order to keep your schema up to date, it is good practice to run the `apollo schema:publish` when you deploy your schema. This can be done by setting your CI to run publish on any merge into master.
+In order to keep your schema up to date, it is good practice to run the `apollo schema:publish` command when you deploy your schema. This can be done by setting your CI to run publish on any merge into master.
 
 Below is a sample configuration for validation and publishing using CircleCI:
 
