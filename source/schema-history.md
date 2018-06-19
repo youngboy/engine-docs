@@ -40,13 +40,13 @@ apollo schema:publish --apiKey="<ENGINE_API_KEY>" --endpoint="https://example.co
 
 When running this command, replace the `<ENGINE_API_KEY>` with the api key from your service in Engine, and replace the url with the location of your GraphQL endpoint.
 
-<h2 id="history">Version History</h2>
+<h2 id="history">Version history</h2>
 
 As your schema grows and evolves to meet the needs of your product, it is helpful to see a history of changes for a team. This allows everyone to know when new features were introduced, when old fields were removed, and even link back to the commit that caused the change. Engine provides all the tooling needed to track this history in a simple way. Everytime your schema is updated, you can simply run the [publish](#publish-schema) command again to keep an up to date history of your schema.
 
 ![Schema History View](./img/schema-history/schema-history.png)
 
-<h2 id="schema-validation">Schema Validation</h2>
+<h2 id="schema-validation">Schema validation</h2>
 
 GraphQL schemas can change in a number of ways between releases. Some of these changes are safe for clients, some could lead to unexpected edge cases, and some will immediately break current usage.
 
@@ -80,7 +80,7 @@ Schema validation is best used when integrated with your teams development workf
 
 Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Engine integration on the GitHub profile or organization of your choice.
 
-<h3 id="check-schema-on-ci">Run Validation on Commit</h3>
+<h3 id="check-schema-on-ci">Run validation on commit</h3>
 
 Within your CI (continuous integration such as Circle CI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.
 
@@ -128,7 +128,7 @@ jobs:
 ```
 
 
-<h2 id="cli-commands">CLI Usage</h2>
+<h2 id="cli-commands">CLI usage</h2>
 
 * [`apollo help [COMMAND]`](#apollo-help-command)
 * [`apollo schema:check`](#apollo-schemacheck)
@@ -181,6 +181,6 @@ OPTIONS
   --json                   output successful publish result as JSON
 ```
 
-<h3 id="choosing-and-endpoint">Choosing an Endpoint</h3>
+<h3 id="choosing-and-endpoint">Choosing an endpoint</h3>
 
 All schema commands take an option to specify the endpoint of your schema for the CLI to access. Typically this will be a running GraphQL server, but in some cases you may have a file with SDL (Schema Definition Language) or the result of an introspection query. Apollo CLI can use both of those as endpoints. To use an SDL file, pass the location of the file to the `--endpoint` flag. To use an introspectionQuery result, you will also pass the file name to the `--endpoint` flag, but make sure that the file extension is `.json`.
