@@ -39,7 +39,7 @@ To publish a schema, start the GraphQL server and run the following command, sub
 > An API key can be obtained from a service's _Settings_ menu within the [Apollo Engine dashboard](https://engine.apollographql.com/).
 
 ```bash
-apollo schema:publish --apiKey="<API_KEY>" --endpoint="https://example.com/graphql"
+apollo schema:publish --key="<API_KEY>" --endpoint="https://example.com/graphql"
 ```
 
 > For accuracy, it's best to retrieve the schema from a running GraphQL server (with introspection enabled), though the `--endpoint` can also reference a local file.  See [schema sources](#schema-sources) for more information.
@@ -61,7 +61,7 @@ To check and see the difference between the current published schema and a new v
 > An API key can be obtained from a service's _Settings_ menu within the [Apollo Engine dashboard](https://engine.apollographql.com/).
 
 ```bash
-apollo schema:check --apiKey="<API_KEY>" --endpoint="http://localhost:4000/graphql"
+apollo schema:check --key="<API_KEY>" --endpoint="http://localhost:4000/graphql"
 ```
 
 > For accuracy, it's best to retrieve the schema from a running GraphQL server (with introspection enabled), though the `--endpoint` can also reference a local file.  See [schema sources](#schema-sources) for more information.
@@ -167,9 +167,9 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
   -h, --help               show CLI help
-  --apiKey=apiKey          The API key for the Apollo Engine service
   --header=header          Additional headers to send to server for introspectionQuery
   --json                   output result as JSON
+  --key=key                The API key for the Apollo Engine service
 ```
 
 <h3 id="cli-schema-publish">`apollo schema:publish`</h3>
@@ -183,9 +183,9 @@ USAGE
 OPTIONS
   -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
   -h, --help               show CLI help
-  --apiKey=apiKey          The API key for the Apollo Engine service
   --header=header          Additional headers to send to server for introspectionQuery
   --json                   output successful publish result as JSON
+  --key=key                The API key for the Apollo Engine service
 ```
 
 <h3 id="schema-sources">Schema sources</h3>
