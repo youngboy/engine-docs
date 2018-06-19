@@ -3,20 +3,22 @@ title: Schema history
 description: Safely evolve your schema over time
 ---
 
-GraphQL makes evolving an API much easier than it used to be with REST. As the demands of a client change, types, fields, and arguments fields can be added and removed , without breaking the previous consumers of the API.  In order to do this safely, it is critical to know how current clients are using the schema.
+GraphQL makes evolving an API much easier than it used to be with REST. As the demands of a client change, types, fields, and arguments can be added and removed without breaking the previous consumers of the API.  In order to do this safely, it is critical to know how current clients are using the schema.
 
 Apollo Engine's schema history allows developers to confidently iterate a GraphQL schema by validating the new schema against field-level usage data from the previous schema.  By knowing exactly which clients will be broken by a new schema, developers can avoid inadvertently deploying a breaking change.
 
-In addition strengthening the API, schema history allows developers to locate which commit introduced a change to a schema.
+In addition to avoiding breaking changes, schema history allows developers to trace schema changes back to the original commit and find what else it may have been associated with.
 
-For more information and best practices about versioning your GraphQL endpoint over time, check out our in-depth [guide](https://www.apollographql.com/docs/guides/versioning.html).
+For more information and best practices about iterating a GraphQL endpoint over time, check out the in-depth [versioning guide](https://www.apollographql.com/docs/guides/versioning.html).
 
 
 <h2 id="setup">Setup</h2>
 
 To begin using schema history, a schema is published to Apollo Engine using the `apollo` command line interface (CLI).  This is best accomplished from automatic steps within a continuous integration workflow.
 
-Each time a schema is published, it becomes the basis for comparison for validating future schema and avoiding breaking changes.  Therefore, a schema should be re-published to Apollo Engine each time a new schema is deployed.
+Each time a schema is published, it becomes the basis for comparison for validating future schemata and avoiding breaking changes.  Therefore, a schema should be re-published to Apollo Engine each time a new schema is deployed.
+
+The `apollo` command helps facilitate the publishing and updating of schema within Apollo Engine.  To configure it, follow the steps below!
 
 <h3 id="install-apollo-cli">Install Apollo CLI</h3>
 
