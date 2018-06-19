@@ -80,11 +80,11 @@ The more [performance metrics](./performance.html) that Apollo Engine has, the b
 
 ![GitHub Status View](./img/schema-history/github-check.png)
 
-Schema validation is best used when integrated with your team's development workflow. To make this easy, Apollo Engine integrates with GitHub to provide status checks on pull requests when you make schema changes. To enable schema validation in GitHub, follow these steps:
+Schema validation is best used when integrated in a team's development workflow. To make this easy, Apollo Engine integrates with GitHub to provide status checks on pull requests when schema changes are proposed. To enable schema validation in GitHub, follow these steps:
 
 <h3 id="install-github">Install GitHub application</h3>
 
-Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Apollo Engine integration on the GitHub profile or organization of your choice.
+Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Apollo Engine integration on the appropriate GitHub profile or organization.
 
 <h3 id="check-schema-on-ci">Run validation on commit</h3>
 
