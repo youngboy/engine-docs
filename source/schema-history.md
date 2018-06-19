@@ -19,7 +19,7 @@ To get started with schema history in Engine, you need to publish the current ve
 Schemas are published to Engine using the Apollo command line interface. To use this, you can either install the CLI globally, or as a development dependency. To install the Apollo CLI globally, run the following command in your terminal:
 
 ```bash
-npm i -g apollo
+npm i --global apollo
 ```
 
 Note that you'll need to have `node` and `npm` installed on your machine.
@@ -35,7 +35,7 @@ Once you have the Apollo CLI installed, the next step is to publish your schema.
 The quickest way to publish the current version of your schema is to run the following command, pointed at your GraphQL server:
 
 ```bash
-apollo schema:publish --service="<ENGINE_API_KEY>" --endpoint="https://example.com/graphql"
+apollo schema:publish --apiKey="<ENGINE_API_KEY>" --endpoint="https://example.com/graphql"
 ```
 
 When running this command, replace the `<ENGINE_API_KEY>` with the api key from your service in Engine, and replace the url with the location of your GraphQL endpoint.
@@ -55,7 +55,7 @@ To safely evolve your schema, it is critical to know what is different between t
 To check and see the difference between the current published schema and a new version, run the following command:
 
 ```bash
-apollo schema:check --service="<ENGINE_API_KEY>" --endpoint="http://localhost:4000/graphql"
+apollo schema:check --apiKey="<ENGINE_API_KEY>" --endpoint="http://localhost:4000/graphql"
 ```
 
 When running this command, replace the `<ENGINE_API_KEY>` with the api key from your service in Engine, and replace the url with the location of a GraphQL endpoint running the new schema.
@@ -70,15 +70,15 @@ The more usage information that Engine has through [reporting performance metric
 
 ![Schema Check View](./img/schema-history/schema-check.png)
 
-<h2 id="github">Github Integration</h2>
+<h2 id="github">GitHub Integration</h2>
 
-![Github Status View](./img/schema-history/github-check.png)
+![GitHub Status View](./img/schema-history/github-check.png)
 
-Schema validation is best used when integrated with your teams development workflow. To make this easy, Apollo Engine integrates with Github to provide status checks on pull requests when you make schema changes. To enable schema validation in Github, follow these steps:
+Schema validation is best used when integrated with your teams development workflow. To make this easy, Apollo Engine integrates with GitHub to provide status checks on pull requests when you make schema changes. To enable schema validation in GitHub, follow these steps:
 
-<h3 id="install-github">Install Github Application</h3>
+<h3 id="install-github">Install GitHub Application</h3>
 
-Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Engine integration on the Github profile or organization of your choice.
+Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Engine integration on the GitHub profile or organization of your choice.
 
 <h3 id="check-schema-on-ci">Run Validation on Commit</h3>
 
@@ -86,7 +86,7 @@ Within your CI (continuous integration such as Circle CI) environment, you will 
 
 To run the validation command, you will need to run your server to enable introspection, and then run the `schema:check` command.
 
-![Github Diff View](./img/schema-history/github-diff.png)
+![GitHub Diff View](./img/schema-history/github-diff.png)
 
 <h3 id="publish-on-master">Publish on Master</h3>
 
@@ -151,44 +151,34 @@ OPTIONS
 
 <h3 id="apollo-schemacheck">`apollo schema:check`</h3>
 
-Check a schema against previous published schema.
+Check a schema against the version registered in Apollo Engine.
 
 ```
 USAGE
   $ apollo schema:check
 
 OPTIONS
-  -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The location of the server to from which to fetch
-                           the schema
-
+  -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
   -h, --help               show CLI help
-
-  -s, --service=service    ENGINE_API_KEY for the Engine service
-
+  --apiKey=apiKey          The API key for the Apollo Engine service
   --header=header          Additional headers to send to server for introspectionQuery
-
-  --json                   output result as json
+  --json                   output result as JSON
 ```
 
 <h3 id="apollo-schemapublish">`apollo schema:publish`</h3>
 
-Publish a schema to Engine.
+Publish a schema to Apollo Engine
 
 ```
 USAGE
   $ apollo schema:publish
 
 OPTIONS
-  -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The location of the server to from which to fetch
-                           the schema
-
+  -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
   -h, --help               show CLI help
-
-  -s, --service=service    ENGINE_API_KEY for the Engine service
-
+  --apiKey=apiKey          The API key for the Apollo Engine service
   --header=header          Additional headers to send to server for introspectionQuery
-
-  --json                   output successful publish result as json
+  --json                   output successful publish result as JSON
 ```
 
 <h3 id="choosing-and-endpoint">Choosing an Endpoint</h3>
