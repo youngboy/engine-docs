@@ -165,10 +165,10 @@ USAGE
   $ apollo schema:check
 
 OPTIONS
-  -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
-  -h, --help               show CLI help
+  -h, --help               Show command help
+  --endpoint=endpoint      [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
   --header=header          Additional headers to send to server for introspectionQuery
-  --json                   output result as JSON
+  --json                   Output result as JSON
   --key=key                The API key for the Apollo Engine service
 ```
 
@@ -181,10 +181,10 @@ USAGE
   $ apollo schema:publish
 
 OPTIONS
+  -h, --help               Show command help
   -e, --endpoint=endpoint  [default: http://localhost:4000/graphql] The URL of the server to fetch the schema from
-  -h, --help               show CLI help
   --header=header          Additional headers to send to server for introspectionQuery
-  --json                   output successful publish result as JSON
+  --json                   Output successful publish result as JSON
   --key=key                The API key for the Apollo Engine service
 ```
 
