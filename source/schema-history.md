@@ -112,7 +112,8 @@ jobs:
       - checkout
 
       - run: npm install
-      - run: npm install --global apollo
+      # CircleCI needs global installs to be sudo
+      - run: sudo npm install --global apollo
 
       # Start the GraphQL server.  If a different command is used to
       # start the server, use it in place of `npm start` here.
@@ -120,6 +121,10 @@ jobs:
           name: Starting server
           command: npm start
           background: true
+
+      # make sure the server has enough time to start up before running
+      # commands against it
+      - run: sleep 5
 
       # This will authenticate using the `ENGINE_API_KEY` environment
       # variable. If the GraphQL server is available elsewhere than
