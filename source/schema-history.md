@@ -110,14 +110,16 @@ jobs:
       - run: npm install
       - run: npm install --global apollo
 
-      # Start the GraphQL server.  Apollo Server 2.0 will respond on
-      # http://localhost:4000/graphql by default.
+      # Start the GraphQL server.  If a different command is used to
+      # start the server, use it in place of `npm start` here.
       - run:
           name: Starting server
           command: npm start
           background: true
 
-      # This will authenticate using the `ENGINE_API_KEY` environment variable.
+      # This will authenticate using the `ENGINE_API_KEY` environment
+      # variable. If the GraphQL server is available elsewhere than
+      # http://localhost:4000/graphql, set it with `--endpoint=<URL>`.
       - run: apollo schema:check
 
       # When running on the 'master' branch, publish the latest version
