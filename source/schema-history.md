@@ -72,7 +72,7 @@ After analyzing the changes against current usage metrics, Apollo Engine will id
 2. **Warning**: There are potential problems that may come from this change, but no clients are immediately impacted.
 3. **Notice**: This change is safe and will not break current clients.
 
-The more usage information that Apollo Engine has through [reporting performance metrics](./performance.html), the better the report of these changes will become.
+The more [performance metrics](./performance.html) that Apollo Engine has, the better the report of these changes will become.
 
 ![Schema Check View](./img/schema-history/schema-check.png)
 
