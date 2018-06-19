@@ -86,7 +86,7 @@ Schema validation is best used when integrated in a team's development workflow.
 
 Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Apollo Engine integration on the appropriate GitHub profile or organization.
 
-<h3 id="check-schema-on-ci">Run validation on commit</h3>
+<h3 id="check-schema-on-ci">Run validation on each commit</h3>
 
 By enabling schema validation in a continuous integration workflow (e.g. CircleCI, etc.), validation can be performed automatically and potential problems can be displayed directly on a pull-request's status checks — providing feedback to developers where they can appreciate it the most.
 
@@ -94,7 +94,7 @@ To run the validation command, the GraphQL server must have introspection enable
 
 ![GitHub Diff View](./img/schema-history/github-diff.png)
 
-<h3 id="publish-on-master">Publish on Master</h3>
+<h3 id="publish-on-deploy">Publish to Apollo Engine after deploying</h3>
 
 In order to keep provide accurate analysis of breaking changes, it important to run the `apollo schema:publish` command each time the schema is deployed. This can be done by configuring continuous integration to run `apollo schema:publish` automatically on the `master` branch.
 
