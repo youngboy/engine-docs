@@ -84,13 +84,13 @@ Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-eng
 
 Within your CI (continuous integration such as CircleCI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.
 
-To run the validation command, you will need to run your server to enable introspection, and then run the `schema:check` command.
+To run the validation command, you will need to run your server to enable introspection, and then run the `apollo schema:check` command.
 
 ![GitHub Diff View](./img/schema-history/github-diff.png)
 
 <h3 id="publish-on-master">Publish on Master</h3>
 
-In order to keep your schema up to date, it is good practice to run the `schema:publish` when you deploy your schema. This can be done by setting your CI to run publish on any merge into master.
+In order to keep your schema up to date, it is good practice to run the `apollo schema:publish` when you deploy your schema. This can be done by setting your CI to run publish on any merge into master.
 
 Below is a sample configuration for validation and publishing using CircleCI:
 
