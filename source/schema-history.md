@@ -38,7 +38,7 @@ The quickest way to publish the current version of your schema is to run the fol
 apollo schema:publish --apiKey="<ENGINE_API_KEY>" --endpoint="https://example.com/graphql"
 ```
 
-When running this command, replace the `<ENGINE_API_KEY>` with the api key from your service in Engine, and replace the url with the location of your GraphQL endpoint.
+When running this command, replace the `<ENGINE_API_KEY>` with the API key from your service in Apollo Engine, and replace the URL with the location of your GraphQL endpoint.
 
 <h2 id="history">Version history</h2>
 
@@ -58,7 +58,7 @@ To check and see the difference between the current published schema and a new v
 apollo schema:check --apiKey="<ENGINE_API_KEY>" --endpoint="http://localhost:4000/graphql"
 ```
 
-When running this command, replace the `<ENGINE_API_KEY>` with the api key from your service in Engine, and replace the url with the location of a GraphQL endpoint running the new schema.
+When running this command, replace the `<ENGINE_API_KEY>` with the API key from your service in Engine, and replace the URL with the location of a GraphQL endpoint running the new schema.
 
 Engine will report back three types of changes:
 
