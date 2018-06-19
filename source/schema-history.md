@@ -16,13 +16,15 @@ To get started with schema history in Apollo Engine, you need to publish the cur
 
 <h3 id="install-apollo-cli">Install Apollo CLI</h3>
 
-Schemas are published to Apollo Engine using the Apollo command line interface. To use this, you can either install the CLI globally, or as a development dependency. To install the Apollo CLI globally, run the following command in your terminal:
+Schemas are published to Apollo Engine using the `apollo` command line interface (CLI). To use this, you can either install `apollo` globally, or as a development dependency.
+
+To install the Apollo CLI globally, run the following command in your terminal:
 
 ```bash
 npm install --global apollo
 ```
 
-Note that you'll need to have `node` and `npm` installed on your machine.
+> Note: To install `apollo`, it's necessary to have `node` and `npm` already installed.
 
 <h3 id="publish-schema">Publish schema</h3>
 
@@ -42,7 +44,7 @@ When running this command, replace the `<ENGINE_API_KEY>` with the API key from 
 
 <h2 id="history">Version history</h2>
 
-As your schema grows and evolves to meet the needs of your product, it is helpful to see a history of changes for a team. This allows everyone to know when new features were introduced, when old fields were removed, and even link back to the commit that caused the change. Apollo Engine provides all the tooling needed to track this history in a simple way. Everytime your schema is updated, you can simply run the [publish](#publish-schema) command again to keep an up to date history of your schema.
+As your schema grows and evolves to meet the needs of your product, it is helpful to see a history of changes for a team. This allows everyone to know when new features were introduced, when old fields were removed, and even link back to the commit that caused the change. Apollo Engine provides all the tooling needed to track this history in a simple way. Every time your schema is updated, you can simply run the [publish](#publish-schema) command again to keep an up to date history of your schema.
 
 ![Schema History View](./img/schema-history/schema-history.png)
 
@@ -74,7 +76,7 @@ The more usage information that Apollo Engine has through [reporting performance
 
 ![GitHub Status View](./img/schema-history/github-check.png)
 
-Schema validation is best used when integrated with your teams development workflow. To make this easy, Apollo Engine integrates with GitHub to provide status checks on pull requests when you make schema changes. To enable schema validation in GitHub, follow these steps:
+Schema validation is best used when integrated with your team's development workflow. To make this easy, Apollo Engine integrates with GitHub to provide status checks on pull requests when you make schema changes. To enable schema validation in GitHub, follow these steps:
 
 <h3 id="install-github">Install GitHub application</h3>
 
@@ -90,7 +92,7 @@ To run the validation command, you will need to run your server to enable intros
 
 <h3 id="publish-on-master">Publish on Master</h3>
 
-In order to keep your schema up to date, it is good practice to run the `apollo schema:publish` command when you deploy your schema. This can be done by setting your CI to run publish on any merge into master.
+In order to keep your schema up to date, it is good practice to run the `apollo schema:publish` command when you deploy your schema. This can be done by setting your CI to run `apollo schema:publish` automatically on the `master` branch.
 
 Below is a sample configuration for validation and publishing using CircleCI:
 
@@ -108,18 +110,18 @@ jobs:
       - run: npm install
       - run: npm install --global apollo
 
-      # npm start will start a server running at http://localhost:4000/graphql
-      # this is the default for apollo-server 2.0
+      # Start the GraphQL server.  Apollo Server 2.0 will respond on
+      # http://localhost:4000/graphql by default.
       - run:
           name: Starting server
           command: npm start
           background: true
 
-      # this assumes that ENGINE_API_KEY is set in the environment variables
+      # This will authenticate using the `ENGINE_API_KEY` environment variable.
       - run: apollo schema:check
 
-      # this command will publish the latest version of the schema
-      # to Apollo Engine but only on the master branch
+      # When running on the 'master' branch, publish the latest version
+      # of the schema to Apollo Engine.
       - run:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
