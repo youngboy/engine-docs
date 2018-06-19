@@ -12,11 +12,11 @@ For more information and best practices about versioning your GraphQL endpoint o
 
 <h2 id="setup">Publishing a schema</h2>
 
-To get started with schema history in Engine, you need to publish the current version of your schema. Here's how:
+To get started with schema history in Apollo Engine, you need to publish the current version of your schema. Here's how:
 
 <h3 id="install-apollo-cli">Install Apollo CLI</h3>
 
-Schemas are published to Engine using the Apollo command line interface. To use this, you can either install the CLI globally, or as a development dependency. To install the Apollo CLI globally, run the following command in your terminal:
+Schemas are published to Apollo Engine using the Apollo command line interface. To use this, you can either install the CLI globally, or as a development dependency. To install the Apollo CLI globally, run the following command in your terminal:
 
 ```bash
 npm i --global apollo
@@ -42,7 +42,7 @@ When running this command, replace the `<ENGINE_API_KEY>` with the API key from 
 
 <h2 id="history">Version history</h2>
 
-As your schema grows and evolves to meet the needs of your product, it is helpful to see a history of changes for a team. This allows everyone to know when new features were introduced, when old fields were removed, and even link back to the commit that caused the change. Engine provides all the tooling needed to track this history in a simple way. Everytime your schema is updated, you can simply run the [publish](#publish-schema) command again to keep an up to date history of your schema.
+As your schema grows and evolves to meet the needs of your product, it is helpful to see a history of changes for a team. This allows everyone to know when new features were introduced, when old fields were removed, and even link back to the commit that caused the change. Apollo Engine provides all the tooling needed to track this history in a simple way. Everytime your schema is updated, you can simply run the [publish](#publish-schema) command again to keep an up to date history of your schema.
 
 ![Schema History View](./img/schema-history/schema-history.png)
 
@@ -58,15 +58,15 @@ To check and see the difference between the current published schema and a new v
 apollo schema:check --apiKey="<ENGINE_API_KEY>" --endpoint="http://localhost:4000/graphql"
 ```
 
-When running this command, replace the `<ENGINE_API_KEY>` with the API key from your service in Engine, and replace the URL with the location of a GraphQL endpoint running the new schema.
+When running this command, replace the `<ENGINE_API_KEY>` with the API key from your service in Apollo Engine, and replace the URL with the location of a GraphQL endpoint running the new schema.
 
-Engine will report back three types of changes:
+Apollo Engine will report back three types of changes:
 
 1. **Failure:** either the schema is not valid, or current client usage will break with these changes
 2. **Warning:** there are potential problems that may come from this change, but no clients are immediately impacted
 3. **Notice:** this change is safe to make and will not break any current usage
 
-The more usage information that Engine has through [reporting performance metrics](./performance.html), the better the report of these changes will become.
+The more usage information that Apollo Engine has through [reporting performance metrics](./performance.html), the better the report of these changes will become.
 
 ![Schema Check View](./img/schema-history/schema-check.png)
 
@@ -78,7 +78,7 @@ Schema validation is best used when integrated with your teams development workf
 
 <h3 id="install-github">Install GitHub application</h3>
 
-Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Engine integration on the GitHub profile or organization of your choice.
+Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Apollo Engine integration on the GitHub profile or organization of your choice.
 
 <h3 id="check-schema-on-ci">Run validation on commit</h3>
 
@@ -119,7 +119,7 @@ jobs:
       - run: apollo schema:check
 
       # this command will publish the latest version of the schema
-      # to Engine but only on the master branch
+      # to Apollo Engine but only on the master branch
       - run:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
