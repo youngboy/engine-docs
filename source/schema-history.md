@@ -76,13 +76,13 @@ The more usage information that Engine has through [reporting performance metric
 
 Schema validation is best used when integrated with your teams development workflow. To make this easy, Apollo Engine integrates with GitHub to provide status checks on pull requests when you make schema changes. To enable schema validation in GitHub, follow these steps:
 
-<h3 id="install-github">Install GitHub Application</h3>
+<h3 id="install-github">Install GitHub application</h3>
 
 Go to [https://github.com/apps/apollo-engine](https://github.com/apps/apollo-engine) and click the `Configure` button to install the Engine integration on the GitHub profile or organization of your choice.
 
 <h3 id="check-schema-on-ci">Run validation on commit</h3>
 
-Within your CI (continuous integration such as Circle CI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.
+Within your CI (continuous integration such as CircleCI) environment, you will want to run the [schema validation](#schema-validation) command on every branch. This will report the proposed schema changes back to GitHub, and you'll be able to see them as part of that PR's status check info.
 
 To run the validation command, you will need to run your server to enable introspection, and then run the `schema:check` command.
 
@@ -92,7 +92,7 @@ To run the validation command, you will need to run your server to enable intros
 
 In order to keep your schema up to date, it is good practice to run the `schema:publish` when you deploy your schema. This can be done by setting your CI to run publish on any merge into master.
 
-Below is a sample configuration for validation and publishing using Circle CI:
+Below is a sample configuration for validation and publishing using CircleCI:
 
 ```yaml
 version: 2
