@@ -111,7 +111,7 @@ jobs:
       # npm start will start a server running at http://localhost:4000/graphql
       # this is the default for apollo-server 2.0
       - run:
-          name: Running Server
+          name: Starting server
           command: npm start
           background: true
 
