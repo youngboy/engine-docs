@@ -106,7 +106,7 @@ jobs:
       - checkout
 
       - run: npm install
-      - run: npm i -g apollo
+      - run: npm install --global apollo
 
       # npm start will start a server running at http://localhost:4000/graphql
       # this is the default for apollo-server 2.0
