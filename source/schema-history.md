@@ -1,5 +1,5 @@
 ---
-title: Schema history
+title: Schema History
 description: Safely evolve your schema over time
 ---
 
