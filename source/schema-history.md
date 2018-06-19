@@ -14,7 +14,7 @@ For more information and best practices about iterating a GraphQL endpoint over 
 
 <h2 id="setup">Setup</h2>
 
-To begin using schema history, a schema is published to Apollo Engine using the `apollo` command line interface (CLI).  This is best accomplished from automatic steps within a continuous integration workflow.
+To begin using schema history, a schema is published to Apollo Engine using the `apollo` command line interface (CLI).  This is best accomplished from automatic steps within a continuous integration workflow and an example CircleCI configuration is available below.
 
 Each time a schema is published, it becomes the basis for comparison for validating future schemata and avoiding breaking changes.  Therefore, a schema should be re-published to Apollo Engine each time a new schema is deployed.
 
