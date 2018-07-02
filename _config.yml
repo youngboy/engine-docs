@@ -27,11 +27,12 @@ sidebar_categories:
     - reports
     - datadog
   Guides:
-    - troubleshooting
-    - 1.0-migration
-    - upgrade-optics
+    - accounts
     - billing
     - deployment
+    - 1.0-migration
+    - troubleshooting
+    - upgrade-optics
   Reference:
     - proxy-config
     - proxy-release-notes
