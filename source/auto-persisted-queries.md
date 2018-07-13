@@ -3,7 +3,7 @@ title: Automatic Persisted Queries
 description: Reduce the size of your GraphQL requests just by flipping a switch.
 ---
 
-We continue to hear feedback in the GraphQL community that the size of individual queries is a major pain point. That’s why we've developed [Automatic Persisted Queries](https://dev-blog.apollodata.com/improve-graphql-performance-with-automatic-persisted-queries-c31d27b8e6ea) (APQ), a tool to greatly improve network performance for GraphQL, now shipping with support in Apollo Engine and Apollo Client.
+We continue to hear feedback in the GraphQL community that the size of individual queries is a major pain point. That’s why we've developed [Automatic Persisted Queries](https://blog.apollographql.com/improve-graphql-performance-with-automatic-persisted-queries-c31d27b8e6ea) (APQ), a tool to greatly improve network performance for GraphQL, now shipping with support in Apollo Engine and Apollo Client.
  
 The concept is simple: by sending a query ID or hash instead of an entire GraphQL query string, bandwidth utilization can be reduced, thus speeding up loading times for end-users. Previously, you would have needed some fairly sophisticated build steps in place in order to make this work. Now there is a solution that requires zero build-time configuration and is supported by Apollo Client + Apollo Engine.
 

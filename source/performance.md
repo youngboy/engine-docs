@@ -28,7 +28,7 @@ This chart shows every GraphQL operation from your clients in your selected time
 
 ![Heat map](./img/heatmap.png)
 
-To read more about the ideas behind this chart, check out [the blog post where it was originally introduced](https://dev-blog.apollodata.com/new-in-optics-trends-over-time-3665692de2c7).
+To read more about the ideas behind this chart, check out [the blog post where it was originally introduced](https://blog.apollographql.com/new-in-optics-trends-over-time-3665692de2c7).
 
 <h3 id="histogram">Histogram</h3>
 
@@ -46,7 +46,7 @@ The full query associated with the trace can be viewed by clicking on the "opera
 
 ![Operation view](./img/operation.png)
 
-If you want to read about the design decisions behind the Trace view in Engine in depth, check out the [excellent blog post from Danielle Man](https://dev-blog.apollodata.com/the-new-trace-view-in-apollo-engine-566b25bdfdb0), one of the engineers that built it.
+If you want to read about the design decisions behind the Trace view in Engine in depth, check out the [excellent blog post from Danielle Man](https://blog.apollographql.com/the-new-trace-view-in-apollo-engine-566b25bdfdb0), one of the engineers that built it.
 
 <h3 id="available-traces">Available traces</h3>
 
