@@ -4,7 +4,7 @@ sidebar_title: Proactive Alerts
 description: Setting up and using proactive alerts
 ---
 
-Engine alerts allow you to set thresholds on the perfomance data provided by
+Engine alerts allow you to set thresholds on the performance data provided by
 Engine and send notifications to Slack or PagerDuty when problems arise. They
 are often useful for detecting anomalies, especially around releases or during
 issues with an upstream provider. Alerts can be configured to monitor the

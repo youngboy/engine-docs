@@ -25,7 +25,7 @@ Engine is designed to be your one-stop-shop for GraphQL-specific infrastructure.
 1. [Schema analytics](./schema-analytics.html)
 1. [Error tracking](./error-tracking.html)
 
-<h3 id="performance">Perfomance</h3>
+<h3 id="performance">Performance</h3>
 
 1. [Response caching](./caching.html)
 1. [Automatic persisted queries](./auto-persisted-queries.html)
