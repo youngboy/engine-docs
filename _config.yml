@@ -5,38 +5,34 @@ versions:
 sidebar_categories:
   null:
     - index
+  Features:
+    - features/schema-explorer
+    - features/schema-history
+    - features/performance
+    - features/query-tracking
+    - features/error-tracking
+    - features/alerts
+  Integrations:
+    - integrations/slack
+    - integrations/datadog
+  Engine Proxy:
     - apollo-tracing
-    - data-privacy
-  Setup:
     - setup-node
     - setup-standalone
     - setup-heroku
     - setup-lambda
     - setup-virtual
-  Features:
-    - schema-history
-    - query-tracking
-    - performance
-    - schema-analytics
-    - error-tracking
-    - caching
-    - auto-persisted-queries
-    - cdn
-    - query-batching
-    - alerts
-    - reports
-    - datadog
-  Guides:
-    - accounts
-    - pricing
-    - deployment
-    - 1.0-migration
-    - troubleshooting
-    - upgrade-optics
+    - proxy/guides
+    - proxy/release-notes
+    - proxy/troubleshooting
   Reference:
+    - accounts
+    - data-privacy
+    - pricing
     - proxy-config
-    - proxy-release-notes
     - gdpr
+    - upgrade-optics
+    - 1.0-migration
 github_repo: apollographql/engine-docs
 
 apis:

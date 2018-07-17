@@ -1,10 +1,10 @@
 ---
-title: Error Tracking
+title: Error tracking
 ---
 
 The Engine proxy service is designed to accept traces, or resolver execution timings, from your application anytime there is an error, along with various samples of total requests, and bucket these by service time percentile. While the total number of requests are sampled and shown as a percentage of total incoming requests, all errors will be included and shown in the final collection.
 
-![Errors](./img/error.png)
+![Errors](../img/error.png)
 
 Errors from your application include the **error type**, **class**, and **message. Service time** represents the time it takes from when a query is received on the server until the time that it sends the response back, also known as processing time. 
 
@@ -16,7 +16,7 @@ Each operation can have multiple requests that return errors over the timeframe 
 
 Each trace is assigned a unique id and each trace represents one request. Click on the trace id to show when the trace occurred, the timeline, variables, errors, response time, and response time percentile.
 
-![Traces](./img/traceWaterfall.png)
+![Traces](../img/traceWaterfall.png)
 
 Each trace will show the service time, and can expand to show the resolvers that were processed during the server's handling of the response. The query created by your schema shown by the trace expands as a tree. You can see, collapsed, the first resolver asked to query the data. Expanded, you can see the children resolvers called by the initial resolver, and so on, until all fields are returned.
 

@@ -1,5 +1,5 @@
 ---
-title: GDPR Readiness FAQ
+title: GDPR
 ---
 
 Effective May 25, 2018, the General Data Protection Regulation (GDPR) expands European Union (EU) residents’ (Data Subjects) rights concerning their personal data. Meteor Development Group Inc. (“MDG” also dba Apollo) stands ready to assist our customers to become or remain compliant with GDPR after this crucial transition.

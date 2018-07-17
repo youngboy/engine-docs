@@ -3,7 +3,7 @@ title: Data Privacy
 description: Learn about what data Engine collects and how you can configure Engine to ignore PII and other sensitive information.
 ---
 
-This page will walk you through what information Engine sees about your GraphQL service's request, what Engine's default behaviour to handle request data is, and how you can configure Engine to the level of data privacy your team needs.
+This page will walk you through what information Engine sees about your GraphQL service's request, what Engine's default behavior to handle request data is, and how you can configure Engine to the level of data privacy your team needs.
 
 <h2 id="architecture">Engine Architecture</h2>
 
@@ -16,7 +16,7 @@ Setting up Engine in your app is all about getting the proxy set up in front of 
 
 <h2 id="data-collection">Data collection</h2>
 
-While the Engine proxy sees your client request data and service response data, it only collects and forwards data that goes into the reports you see in the Engine dashboards. All information that is sent from your on-prem proxy to the out-of-band Engine cloud service is configurable and can be turned off through config options. Data is aggregated and sent approximately every 5 seconds.
+While the Engine proxy sees your client request data and service response data, it only collects and forwards data that goes into the reports you see in the Engine dashboards. All information that is sent from your on-premise proxy to the out-of-band Engine cloud service is configurable and can be turned off through configuration options. Data is aggregated and sent approximately every 5 seconds.
 
 <h3 id="request">Request</h3>
 
@@ -56,7 +56,7 @@ Let's walk through Engine's default behavior for reporting on fields in a typica
 
 The Engine proxy will never send the contents of this to the Engine cloud service; the responses from your GraphQL service stay on-prem.
 
-If you've configured Engine caching and Engine determines that a response it sees is cacheable, then the response will be stored in your [Engine cache](./caching.html#config.stores) (either in memory or as an external memcache you configure).
+If you've configured Engine caching and Engine determines that a response it sees is cacheable, then the response will be stored in your [Engine cache](./caching.html#config.stores) (either in-memory or as an external memcached you configure).
 
 #### `response.errors`
 
