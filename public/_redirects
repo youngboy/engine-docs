@@ -1,12 +1,36 @@
+# This is for an early version the Engine documentation.
 http://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com/docs/engine/:splat 301!
 https://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.com/docs/engine/:splat 301!
 
-/ /docs/engine/
-
+# Old setup instructions.  Certainly candidates for deprecation.
 /docs/engine/setup-ruby.html /docs/engine/setup-standalone.html
 /docs/engine/setup-java.html /docs/engine/setup-standalone.html
 /docs/engine/setup-scala.html /docs/engine/setup-standalone.html
 /docs/engine/setup-elixir.html /docs/engine/setup-standalone.html
 /docs/engine/setup-heroku.html /docs/engine/deploy-heroku.html
 
+# The Proxy configuration page.
 /docs/engine/proto-doc.html /docs/engine/proxy-config.html
+
+# Features, from before 2018-07-17 launch.
+/docs/engine/schema-history.html /docs/engine/features/schema-history.html
+/docs/engine/query-tracking.html /docs/engine/features/query-tracking.html
+/docs/engine/performance.html /docs/engine/features/performance.html
+/docs/engine/schema-analytics.html /docs/engine/features/performance.html
+/docs/engine/error-tracking.html /docs/engine/features/error-tracking.html
+/docs/engine/auto-persisted-queries.html /docs/engine/proxy/guides.html#automatic-persisted-queries
+/docs/engine/caching.html /docs/engine/proxy/guides.html#caching
+/docs/engine/cdn.html /docs/engine/proxy/guides.html#cdn
+/docs/engine/query-batching.html /docs/engine/proxy/guides.html#query-batching
+
+# Integrations, previously features before 2018-07-17 launch.
+/docs/engine/reports.html /docs/engine/integrations/slack.html
+/docs/engine/datadog.html /docs/engine/integrations/datadog.htmL
+
+#/docs/engine/deployment.html
+
+
+/docs/engine/pricing.html /docs/engine/billing.html
+
+# This is for Netlify
+/ /docs/engine/
