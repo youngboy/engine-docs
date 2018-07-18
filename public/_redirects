@@ -29,7 +29,7 @@ https://engine-docs.apollographql.com/docs/engine/* https://www.apollographql.co
 
 #/docs/engine/deployment.html
 
-
+# The "Billing and pricing" page lived briefly as pricing.html.
 /docs/engine/pricing.html /docs/engine/billing.html
 
 # This is for Netlify
