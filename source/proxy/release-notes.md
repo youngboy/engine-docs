@@ -29,13 +29,13 @@ Because this is a minor release, if you are using Engine via the Docker containe
 <h2 id="v1.0.6" title="v1.0.6">1.0.6 - 2018-04-06</h2>
 
 * New `reporting.noTraceErrors` option to disable sending error traces to Apollo servers. Use this if your error messages may contain [PII](https://en.wikipedia.org/wiki/Personally_identifiable_information). If you are interested in a more fine-grained way to configure this, contact <a href="javascript:void(0);" onclick="Intercom('showNewMessage')">Apollo support</a>.
-* Fix problems running `ApolloEngine` when a corporate HTTP proxy is configured with an environment variable such as `$HTTP_PROXY`. (Specifically, make the default [`innerHost` option to `engine.listen`](./setup-node.html#api-engine.listen) actually be `127.0.0.1` as documented rather than the unspecified interface; the previously implemented default was unintentional as well as the cause of the corporate proxy bug.)
+* Fix problems running `ApolloEngine` when a corporate HTTP proxy is configured with an environment variable such as `$HTTP_PROXY`. (Specifically, make the default [`innerHost` option to `engine.listen`](../setup-node.html#api-engine.listen) actually be `127.0.0.1` as documented rather than the unspecified interface; the previously implemented default was unintentional as well as the cause of the corporate proxy bug.)
 
 <h2 id="v1.0.5" title="v1.0.5">1.0.5 - 2018-04-05</h2>
 
 This release include a variety of changes related to caching.
 
-* The Engine Proxy now observes the `Vary` header in HTTP responses. See the new [documentation of cache header support](./caching.html#http-headers) for more details.
+* The Engine Proxy now observes the `Vary` header in HTTP responses. See the new [documentation of cache header support](../proxy/guides.html#caching) for more details.
 * The Engine Proxy now explicitly requests that "persisted query not found" responses are not cached by CDNs or browsers. (Typically these responses are followed by the client informing Engine of the full matching query, so caching the not-found response was effectively cache poisoning.)
 * The Engine Proxy now includes `Cache-Control` headers on responses served from its cache, not just on responses it stores to its cache.
 * The Engine Proxy no longer uses a generic HTTP heuristic to generate a max age limit for responses with the HTTP header `Last-Modified` but no other HTTP-level max age specification. This was added accidentally in v1.0.4 and is not necessary given that we only cache data that explicitly requests it in the GraphQL extension.
@@ -139,7 +139,7 @@ Release notes for older versions are listed by an internal version number.
 
 * Fixed a bug where the `Host` header was not forwarded to origin servers. If the `Host` header is present, it will also be sent in the `X-Forwarded-Host` header. Both of these header values can be overridden via the field mentioned below.
 * Added the ability for users to override which headers are sent to their GraphQL origin. Users can do this by specifying the `overrideRequestHeaders` field in `origin.http` in the Engine config object. By default Engine will forward all header values it receives to the origin server. This field is only for users that want to override the default behavior.
-  * For example, to override the `Host` header which may need to be done when deploying Engine inside of a PaaS (such as Heroku) follow instructions [here](setup-virtual.html).
+  * For example, to override the `Host` header which may need to be done when deploying Engine inside of a PaaS (such as Heroku) follow instructions [here](../setup-virtual.html).
 
 **2018.01-43-g1747440e6 - 2018-01-29**
 <a name="v2018.01-43-g1747440e6"></a>

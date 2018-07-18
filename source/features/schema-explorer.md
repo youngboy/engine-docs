@@ -13,4 +13,4 @@ Most schemas are complex webs of concepts, making it easy for even experienced d
 
 <h2 id="schema-content">Field Usage</h2>
 
-When you [send usage metrics](./setup-apollo-server.html), you will also see usage stats on each field in your schema. _Total Requests_ gives you a sense of how in demand a field was in the past hour, while _Total Duration_ (requests multiplied by service time) lets you know how expensive the field is. Sort by either one of these fields to focus on the types/fields that matter most to the performance of your application.
+When you [send usage metrics](/docs/apollo-server/features/metrics.html), you will also see usage stats on each field in your schema. _Total Requests_ gives you a sense of how in demand a field was in the past hour, while _Total Duration_ (requests multiplied by service time) lets you know how expensive the field is. Sort by either one of these fields to focus on the types/fields that matter most to the performance of your application.

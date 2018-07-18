@@ -60,6 +60,6 @@ from the same triggers.
 </div>
 <br></br>
 Now that you have set up alerting, you can add [daily Slack
-reports](./reports.html) or enable the [Datadog
-integration](./datadog.html) to view the Engine data directly in your Datadog dashboard. If you
+reports](../integrations/slack.html) or enable the [Datadog
+integration](../integrations/datadog.html) to view the Engine data directly in your Datadog dashboard. If you
 would like to suggest further features or integrations, please <a href="javascript:void(0);" onclick="Intercom('showNewMessage')">let us know</a>!

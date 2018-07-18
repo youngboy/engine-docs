@@ -86,7 +86,7 @@ The signature algorithm is primarily designed to make it possible to treat opera
 
 Future versions of Engine are likely to change this default algorithm to leave string literals alone, though it will still be easy to configure your server to remove string literals like in the current implementation. We also intend to stop sending the full raw query in future versions of Engine, so that the signature algorithm really can be used to avoid sending sensitive data in queries to Engine.
 
-But where possible, we strongly advise that you keep sensitive data in GraphQL variables instead of in literal arguments in the query body, as you can more easily control which variables should be stripped out of the Engine reporting pathway for privacy purposes. See [data privacy](data-privacy.html) for further detail on how this works.
+But where possible, we strongly advise that you keep sensitive data in GraphQL variables instead of in literal arguments in the query body, as you can more easily control which variables should be stripped out of the Engine reporting pathway for privacy purposes. See [data privacy](../data-privacy.html) for further detail on how this works.
 
 <h2 id="tracking-subs">A note on GraphQL subscriptions</h2>
 

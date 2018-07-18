@@ -318,7 +318,7 @@ If you configure `sessionAuth` but leave `queryCache.privateFullQueryStore` blan
 
 <h3 id="visualizing">Visualizing caching</h3>
 
-One of the best parts about caching with Engine is that you can easily see how it's working once you set it up. It deeply integrates into the [performance tracing](./performance.html) views, so that you can understand how caching is helping you decrease your server response times. Here are what the charts in the performance view look like when you've successfully enabled caching:
+One of the best parts about caching with Engine is that you can easily see how it's working once you set it up. It deeply integrates into the [performance tracing](../features/performance.html) views, so that you can understand how caching is helping you decrease your server response times. Here are what the charts in the performance view look like when you've successfully enabled caching:
 
 ![Cache rate on volume chart](../img/cache-rate.png)
 
@@ -350,7 +350,7 @@ When returning a GraphQL response which is eligible for the full-query cache (ie
 
 Many high-traffic web services use content delivery networks (CDNs) such as [Cloudflare](https://www.cloudflare.com/), [Akamai](https://www.akamai.com/) or [Fastly](https://www.fastly.com/) to cache their content as close to their clients as possible.
 
-> Apollo Server 2 supports CDN integration out of the box and doesn't require the Engine Proxy. To learn how, read through the [CDN Integration section](/docs/apollo-server/v2/features/cdn.html). For other server implementations, the Engine Proxy makes it straightforward to use CDNs with GraphQL queries whose responses can be cached while still passing more dynamic queries through to your GraphQL server.
+> Apollo Server 2 supports CDN integration out of the box and doesn't require the Engine Proxy. To learn how, read through the [guide on CDN integration](/docs/guides/performance.html#cdn). For other server implementations, the Engine Proxy makes it straightforward to use CDNs with GraphQL queries whose responses can be cached while still passing more dynamic queries through to your GraphQL server.
 
 To use Engine Proxy behind a CDN, you need to be able to tell the CDN which GraphQL responses it's allowed to cache, and you need to make sure that your GraphQL requests arrive in a format that CDNs cache. Engine Proxy supports this via its [caching](./caching.html) and [automatic persisted queries](./auto-persisted-queries.html) features. This page explains the basic steps for setting up these features to work with CDNs; for more details on how to configure these features, see their respective pages.
 
