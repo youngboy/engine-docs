@@ -10,7 +10,15 @@ Engine's performance features are focused around two main concepts:
 1.  GraphQL operations (queries and mutations)
 2.  Fields and resolvers
 
-Make sure you have performance metrics set up for your GraphQL server (check out our set up [guide](/docs/engine/setup-apollo-server.html) if you haven't set them up yet). Then visit the _Metrics_ tab in your Engine service to view in-depth performance data.
+Performance analytics can be found on the _Metrics_ section of an [Apollo Engine](https://engine.apollographql.com/) service.
+
+<h2 id="configuration">Configuration</h2>
+
+To configure Apollo Server to send performance metrics to Apollo Engine, follow the steps in the [Apollo Server metrics guide](/docs/apollo-server/features/metrics.html).
+
+For non-Node.js GraphQL servers, Apollo offers the Apollo Engine Proxy which relays performance tracing data to the Apollo Engine service.  For more information on this technique, see the [non-Node.js server setup guide](/docs/engine/setup-standalone.html).
+
+Once performance metrics are enabled on a GraphQL server, visit the _Metrics_ tab of the appropriate Apollo Engine service to view in-depth performance data.
 
 <h2 id="charts">Charts</h2>
 
