@@ -94,7 +94,7 @@ const server = new ApolloServer({
 const app = express();
 
 // All of your GraphQL middleware goes here
-server.applyMiddlware({ app });
+server.applyMiddleware({ app });
 
 // Initialize engine with your API key. Alternatively,
 // set the ENGINE_API_KEY environment variable when you
