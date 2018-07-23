@@ -8,7 +8,7 @@ description: Get Engine Proxy running with your Node.js GraphQL server.
 
 We encourage you to <a href="javascript:void(0);" onclick="Intercom('showNewMessage')">contact us</a> with feedback or help if you encounter problems using Engine with your application. You can also join us in the public [#engine Slack Channel](https://www.apollographql.com/slack).
 
-<h2 id="setup-guide">Setup guide for Apollo Server</h2>
+<h2 id="setup-guide">Setup guide for Engine Proxy with Apollo Server 2</h2>
 
 To get Engine running with Apollo Server and Express, just follow these three quick steps. This guide assumes you're running your GraphQL server with the `express` web server package for Node. If you're using a different framework, all of the steps are the same except step 3, for which you should check out the [other servers](#not-express) section of this page.
 
