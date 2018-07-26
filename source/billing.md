@@ -9,7 +9,7 @@ Engine is free for up to 1 million requests per month on the **Community** plan.
 
 ### Trial Engine Pro
 
-Every Engine account is elligle for a free 2 week trial of Engine Pro, our most advanced plan, at any time, no credit card required. At the end of your Pro trial, you will be able to select which version of Engine you'd like to continue with.
+Every Engine account is eligible for a free 2 week trial of Engine Pro, our most advanced plan, at any time, no credit card required. At the end of your Pro trial, you will be able to select which version of Engine you'd like to continue with.
 
 ### Subscription interval options
 
